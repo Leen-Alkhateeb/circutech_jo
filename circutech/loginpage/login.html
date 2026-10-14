@@ -2,6 +2,7 @@
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Sign in | CircuTech Jo</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../cookie-consent.css">
 <style>
 :root{--g:#0d3b2e;--acc:#1b9a6c;--acc2:#0d3b2e;--ink:#06251a;--mut:#5b6b63;--line:#dbe7e0;--soft:#f1f7f3;--warn:#b42318;--ok:#157a3c}
 body.admin{--acc:#0f766e;--acc2:#06251a}
@@ -53,7 +54,10 @@ body.admin .go{background:linear-gradient(135deg,#0f766e,#06251a);box-shadow:0 1
 [hidden]{display:none!important}
 .shake{animation:sh .4s}@keyframes sh{20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
 @media(max-width:900px){body{grid-template-columns:1fr}.art{display:none}}
-</style></head><body>
+</style><script src="../cookie-consent.js" defer></script></head><body>
+<aside class="cookie-banner" id="cookieBanner" role="region" aria-label="Cookie and storage choices" hidden><div class="cookie-copy"><h2>Cookies and browser storage</h2><p>Necessary storage supports sign-in and saved preferences. Optional analytics and marketing stay off unless you choose them. <a href="../privacypage/privacy.html">Privacy information</a>.</p><p class="cookie-feedback" id="cookieBannerFeedback" role="status" hidden></p></div><div class="cookie-actions"><button type="button" data-cookie-action="accept">Accept all cookies</button><button type="button" data-cookie-action="reject">Reject non-essential</button><button type="button" data-cookie-action="settings">Cookie settings</button></div></aside>
+<dialog class="cookie-dialog" id="cookieDialog" aria-labelledby="cookieTitle"><h2 id="cookieTitle">Cookie settings</h2><p>Necessary browser storage is always on. No analytics or advertising integration is currently loaded.</p><form><label class="cookie-choice"><input id="cookieNecessary" type="checkbox" checked disabled><span><strong>Strictly necessary</strong>Required for sign-in, saved app data, and your consent choice.</span></label><label class="cookie-choice"><input id="cookieAnalytics" type="checkbox"><span><strong>Analytics</strong>Optional measurement; no service is connected.</span></label><label class="cookie-choice"><input id="cookieMarketing" type="checkbox"><span><strong>Marketing</strong>Optional advertising; no service is connected.</span></label></form><p class="cookie-feedback" id="cookieDialogFeedback" role="status" aria-live="polite" hidden></p><div class="cookie-dialog-actions"><button type="button" data-cookie-close>Close</button><button type="button" data-cookie-action="reject">Reject non-essential</button><button type="button" data-cookie-save>Save preferences</button></div></dialog>
+<button class="cookie-settings-link cookie-reopen" type="button" data-cookie-settings>Cookie settings</button>
 <section class="art">
   <div class="brand"><svg viewBox="0 0 48 48"><path class="arc" d="M28.4 7.6A17 17 0 0 1 39.97 29.8"/><polygon class="head" points="38.3,34.5 43.26,31 36.68,28.6"/><path class="arc" d="M33.75 37.9A17 17 0 0 1 10.98 34.93"/><polygon class="head" points="7.77,31.1 8.3,37.18 13.66,32.68"/><path class="arc" d="M7.26 26.95A17 17 0 0 1 19.6 7.58"/><polygon class="head" points="24.43,6.28 18.69,4.2 20.5,10.96"/><rect class="chipm" x="17" y="17" width="14" height="14" rx="4"/><circle cx="24" cy="24" r="2.6" fill="#fff" stroke="none"/></svg>CircuTech Jo</div>
   <div><h2>Give old devices a <span>second life.</span></h2><p>Scan, trade in and recycle your electronics. Earn points, cut CO₂ and track your impact in one place.</p></div>
@@ -81,7 +85,7 @@ body.admin .go{background:linear-gradient(135deg,#0f766e,#06251a);box-shadow:0 1
 
 <script>
 const APP_URL = '../apppage/app.html';      // غيّر المسار حسب مكان app.html عندك
-const ADMIN_URL = '../adminpage/admin.html';
+const ADMIN_URL = '../apppage/app.html#adminOverview';
 const MAX_TRIES = 5, LOCK_MS = 60000, SESSION_MS = 8 * 3600000;
 const L = localStorage, S = sessionStorage, $ = id => document.getElementById(id);
 const rd = (k, f) => { try { return JSON.parse(L.getItem(k)) ?? f; } catch { return f; } };
@@ -110,12 +114,44 @@ async function check(u, pass) {                      // يدعم الحسابا�
   return false;
 }
 
-/* ---- default admin (غيّر الإيميل والباسورد من هون) ---- */
-const ADMIN_EMAIL = 'admin@circutech.jo', ADMIN_PASS = 'Admin@12345';
+/* ---- default demo admin; password is stored as a salted PBKDF2 hash ---- */
+const ADMIN_EMAIL = 'admin@circutech.com';
+const ADMIN_SALT = 'IW/cKjjwdeAfJkirX8weiw==';
+const ADMIN_HASH = 'wYIvT746Nr9pPA9ID6cRvX2B0h8z1D7VKo/QuaC/1/w=';
+const LEGACY_ADMIN_EMAIL = 'admin@circutech.jo';
 const ready = (async () => {
   const list = rd('circutech_users', []);
-  if (!list.some(u => u.role === 'admin')) { list.unshift(await makeUser('Admin', ADMIN_EMAIL, ADMIN_PASS, 'admin')); wr('circutech_users', list); }
+  if (!Array.isArray(list)) return;
+  let changed = false;
+  const canonical = list.find(user => String(user.email).toLowerCase() === ADMIN_EMAIL);
+  const legacyIndex = list.findIndex(user => String(user.email).toLowerCase() === LEGACY_ADMIN_EMAIL && user.role === 'admin');
+  if (!canonical && legacyIndex >= 0) {
+    const legacy = list[legacyIndex];
+    legacy.name = 'CircuTech Admin';
+    legacy.email = ADMIN_EMAIL;
+    legacy.salt = ADMIN_SALT;
+    legacy.hash = ADMIN_HASH;
+    delete legacy.pass;
+    changed = true;
+  } else if (!canonical) {
+    list.unshift({ name: 'CircuTech Admin', email: ADMIN_EMAIL, salt: ADMIN_SALT, hash: ADMIN_HASH, role: 'admin', created: Date.now() });
+    changed = true;
+  }
+  if (canonical && legacyIndex >= 0) {
+    list.splice(legacyIndex, 1);
+    changed = true;
+  }
+  if (changed) wr('circutech_users', list);
 })();
+
+async function validateCredentials(email, password, requiredRole) {
+  const users = rd('circutech_users', []);
+  if (!Array.isArray(users)) return null;
+  const user = users.find(account => String(account.email).toLowerCase() === email);
+  const roleMatches = user && !user.suspended && (requiredRole === 'admin' ? user.role === 'admin' : user.role !== 'admin');
+  if (!roleMatches || !(await check(user, password))) return null;
+  return { user, users };
+}
 
 /* ---- UI ---- */
 let mode = 'in';
@@ -192,14 +228,12 @@ $('f').onsubmit = async e => {
     } else {
       const wait = lockLeft(email);
       if (wait) { done(); return say('Too many attempts. Try again in ' + Math.ceil(wait / 1000) + 's.'); }
-      const found = list.find(x => x.email === email);
-      const roleOk = found && (mode === 'ad' ? found.role === 'admin' : found.role !== 'admin');
-      const passOk = found ? await check(found, pass) : false;
-      if (!found || !roleOk || !passOk) {                // رسالة عامة وحدة: ما نكشف إذا الإيميل موجود
+      const validated = await validateCredentials(email, pass, mode === 'ad' ? 'admin' : 'user');
+      if (!validated) {                                  // رسالة عامة واحدة لكلمة المرور أو الدور
         fail(email); done();
         return bad($('pass'), 'Wrong email or password.');
       }
-      clearFails(email); wr('circutech_users', list); u = found;
+      clearFails(email); wr('circutech_users', validated.users); u = validated.user;
     }
 
     S.setItem('circutech_session', JSON.stringify({ name: u.name, email: u.email, role: u.role, exp: Date.now() + SESSION_MS }));

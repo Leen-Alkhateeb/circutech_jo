@@ -1,0 +1,6 @@
+.privacy-copy { max-width: 760px; }
+.privacy-copy h2 { margin: 30px 0 8px; font-size: 1.3rem; }
+.privacy-copy p { margin: 0 0 14px; color: var(--mut); line-height: 1.8; }
+.privacy-copy a { color: var(--g); font-weight: 700; text-decoration: underline; }
+.privacy-review { padding: 14px 16px; border: 1px solid var(--line); border-left: 3px solid var(--coral); border-radius: 0 10px 10px 0; background: var(--soft); }
+[data-theme="dark"] .privacy-copy a { color: var(--mint); }

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" role="img" aria-labelledby="title desc">
+  <title id="title">Circuit board components</title>
+  <desc id="desc">A green circuit board with copper-colored traces and components.</desc>
+  <rect width="1200" height="700" fill="#eaf7f2"/>
+  <rect x="170" y="90" width="860" height="520" rx="34" fill="#0d3b2e"/>
+  <path d="M230 195h190v100h155m-345 86h240v-80m340-105H665v125m295 48H810v93H640m-280 48h130v-70" fill="none" stroke="#00a875" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M240 440h180m410-210h160m-255 250h210" fill="none" stroke="#ff6b4a" stroke-width="10" stroke-linecap="round"/>
+  <rect x="490" y="248" width="210" height="190" rx="18" fill="#f4f9f5"/>
+  <rect x="520" y="278" width="150" height="130" rx="10" fill="#d4f1e5"/>
+  <path d="M545 298v92m38-92v92m38-92v92M505 310h-25m25 42h-25m25 42h-25m205-84h25m-25 42h25m-25 42h25" stroke="#0d3b2e" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="270" cy="195" r="22" fill="#ff6b4a"/>
+  <circle cx="950" cy="195" r="22" fill="#00e699"/>
+  <circle cx="305" cy="468" r="18" fill="#00e699"/>
+  <circle cx="930" cy="478" r="18" fill="#ff6b4a"/>
+  <rect x="776" y="128" width="88" height="54" rx="8" fill="#536961"/>
+  <rect x="310" y="128" width="72" height="48" rx="8" fill="#536961"/>
+</svg>

@@ -11,21 +11,25 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../LandingPage/style.css">
+    <link rel="stylesheet" href="../cookie-consent.css">
     <style>
         /* Editorial journal layout */
-        .cv { border-radius: 28px; overflow: hidden; background: var(--soft); }
-        .cv svg { width: 100%; height: 100%; display: block; transition: transform .7s cubic-bezier(.16,1,.3,1); }
+        .cv { border-radius: 20px; overflow: hidden; background: var(--soft); }
+        .cv img { width: 100%; height: 100%; display: block; object-fit: cover; transition: transform .45s ease; }
+        .cv img[hidden] { display: none; }
+        .cv.image-missing { display: grid; place-items: center; color: var(--mut); }
+        .cv.image-missing::after { content: "Image unavailable"; font-size: .88rem; }
         .jr-tag { font-weight: 800; font-size: .9rem; color: var(--coral-d); }
         .jr-date { color: var(--mut); font-size: .9rem; font-weight: 600; }
         .jr-head { padding: 72px 0 48px; }
         .jr-head .wrap { display: grid; grid-template-columns: 1.6fr .7fr; gap: 56px; align-items: end; }
-        .jr-head h1 { font-size: clamp(2.8rem, 6.6vw, 5.6rem); font-weight: 900; letter-spacing: -.045em; line-height: 1.02; }
+        .jr-head h1 { font-size: 3.6rem; font-weight: 900; line-height: 1.08; }
         .jr-head p { color: var(--mut); font-size: 1.1rem; line-height: 1.8; padding-bottom: 10px; }
 
         .jr-feat { display: grid; grid-template-columns: 1.15fr .85fr; gap: 44px; align-items: center; padding-bottom: 60px; border-bottom: 1px solid var(--line); }
         .jr-feat .cv { aspect-ratio: 4 / 3; }
-        .jr-feat:hover .cv svg, .jr-row:hover .cv svg { transform: scale(1.05); }
-        .jr-feat h2 { font-size: clamp(1.9rem, 3.4vw, 2.9rem); letter-spacing: -.03em; line-height: 1.12; margin: 14px 0; }
+        .jr-feat:hover .cv img, .jr-row:hover .cv img { transform: scale(1.04); }
+        .jr-feat h2 { font-size: 2.25rem; line-height: 1.2; margin: 14px 0; }
         .jr-feat p { color: var(--mut); font-size: 1.08rem; line-height: 1.8; margin-bottom: 24px; max-width: 46ch; }
         .jr-more { font-weight: 800; border-bottom: 2px solid var(--coral); padding-bottom: 3px; }
 
@@ -42,12 +46,15 @@
             .jr-head .wrap, .jr-feat { grid-template-columns: 1fr; gap: 24px; }
             .jr-row { grid-template-columns: 1fr 200px; gap: 8px 24px; }
             .jr-row .meta { grid-column: 1 / -1; display: flex; gap: 14px; }
+            .jr-head h1 { font-size: 3rem; }
         }
         @media (max-width: 600px) {
             .jr-row { grid-template-columns: 1fr; }
             .jr-row .cv { order: -1; }
+            .jr-head h1 { font-size: 2.25rem; }
+            .jr-row .cv { aspect-ratio: 16 / 9; }
         }
-        @media (prefers-reduced-motion: reduce) { .cv svg { transition: none; } .jr-feat:hover .cv svg, .jr-row:hover .cv svg { transform: none; } }
+        @media (prefers-reduced-motion: reduce) { .cv img { transition: none; } .jr-feat:hover .cv img, .jr-row:hover .cv img { transform: none; } }
     </style>
 </head>
 
@@ -72,7 +79,6 @@
             </a>
             <ul id="menu">
                 <li><a href="../index.html">Home</a></li>
-                <li><a href="../aboutpage/about.html">About Us</a></li>
                 <li><a href="../servicespage/services.html">Services</a></li>
                 <li><a href="../businesspage/business.html">Business</a></li>
                 <li><a href="../newspage/news.html" class="active" aria-current="page">News</a></li>
@@ -103,40 +109,30 @@
 
         <section class="s" style="padding-top:0">
             <div class="wrap">
-                <a class="jr-feat sr" href="article.html?id=phones-in-your-drawer">
-                    <div class="cv" data-cover="phones-in-your-drawer"></div>
-                    <div>
-                        <span class="jr-tag">E-waste</span> <span class="jr-date">· <time datetime="2026-09-14">14 Sept 2026</time></span>
-                        <h2>Why the phones in your drawer matter</h2>
-                        <p>Unused phones contain valuable materials and can still be reused. Responsible collection helps keep electronic waste out of landfills and brings those materials back into use.</p>
-                        <span class="jr-more">Read article</span>
-                    </div>
-                </a>
+                <div id="newsFeatured"></div>
             </div>
         </section>
 
         <section class="jr-list">
             <div class="wrap">
-
-                <a class="jr-row sr" href="article.html?id=collection-points-daily-life">
-                    <div class="meta"><span class="jr-tag">Community</span><time class="jr-date" datetime="2026-08-28">28 Aug 2026</time></div>
-                    <div><h3>Making collection points part of daily life</h3><p>Convenient collection points make responsible disposal easier and help communities participate in recycling.</p></div>
-                    <div class="cv" data-cover="collection-points-daily-life"></div>
-                </a>
-
-                <a class="jr-row sr" href="article.html?id=inside-a-circuit-board">
-                    <div class="meta"><span class="jr-tag">Technology</span><time class="jr-date" datetime="2026-08-03">3 Aug 2026</time></div>
-                    <div><h3>What is inside a circuit board?</h3><p>Circuit boards contain a range of useful materials. Learning about them helps us understand why safe electronic recycling matters.</p></div>
-                    <div class="cv" data-cover="inside-a-circuit-board"></div>
-                </a>
-
-                <a class="jr-row sr" href="article.html?id=esg-reporting-basics">
-                    <div class="meta"><span class="jr-tag">Business</span><time class="jr-date" datetime="2026-07-19">19 Jul 2026</time></div>
-                    <div><h3>ESG reporting basics for e-waste</h3><p>Explore how businesses can track electronic device recovery and report measurable environmental progress.</p></div>
-                    <div class="cv" data-cover="esg-reporting-basics"></div>
-                </a>
+                <div id="newsList"></div>
+                <p class="news-empty" id="newsEmpty" hidden>No published articles are available yet.</p>
             </div>
         </section>
+
+        <template id="newsFeaturedTemplate">
+            <a class="jr-feat">
+                <div class="cv"><img alt="" loading="lazy"></div>
+                <div><span class="jr-tag"></span> <span class="jr-date">· <time></time></span><h2></h2><p></p><span class="jr-more">Read article</span></div>
+            </a>
+        </template>
+        <template id="newsRowTemplate">
+            <a class="jr-row">
+                <div class="meta"><span class="jr-tag"></span><time class="jr-date"></time></div>
+                <div><h3></h3><p></p></div>
+                <div class="cv"><img alt="" loading="lazy"></div>
+            </a>
+        </template>
 
         <section class="band">
             <div class="wrap">
@@ -170,7 +166,6 @@
                 <h4>Pages</h4>
                 <ul>
                     <li><a href="../index.html">Home</a></li>
-                    <li><a href="../aboutpage/about.html">About Us</a></li>
                     <li><a href="../servicespage/services.html">Services</a></li>
                     <li><a href="../businesspage/business.html">Business</a></li>
                     <li><a href="../newspage/news.html">News</a></li>
@@ -189,7 +184,7 @@
         </div>
         <div class="wrap f-bottom">
             <p>© <span id="year">2026</span> CircuTech Jo. All rights reserved.</p>
-            <div class="f-legal"><a href="#">Privacy</a><a href="#">Terms</a></div>
+            <div class="f-legal"><a href="../privacypage/privacy.html">Privacy information</a><button class="cookie-settings-link" type="button" data-cookie-settings>Cookie settings</button></div>
         </div>
     </footer>
 
@@ -198,8 +193,10 @@
     </a>
 
     <script src="../LandingPage/script.js"></script>
-    <script src="../LandingPage/fx.js"></script>
-    <script src="covers.js"></script>
+    <script src="articles.js"></script>
 
+    <aside class="cookie-banner" id="cookieBanner" role="region" aria-label="Cookie and storage choices" hidden><div class="cookie-copy"><h2>Cookies and browser storage</h2><p>Necessary storage supports sign-in and saved preferences. Optional analytics and marketing stay off unless you choose them. <a href="../privacypage/privacy.html">Privacy information</a>.</p><p class="cookie-feedback" id="cookieBannerFeedback" role="status" hidden></p></div><div class="cookie-actions"><button type="button" data-cookie-action="accept">Accept all cookies</button><button type="button" data-cookie-action="reject">Reject non-essential</button><button type="button" data-cookie-action="settings">Cookie settings</button></div></aside>
+    <dialog class="cookie-dialog" id="cookieDialog" aria-labelledby="cookieTitle"><h2 id="cookieTitle">Cookie settings</h2><p>Necessary browser storage is always on. No analytics or advertising integration is currently loaded.</p><form><label class="cookie-choice"><input id="cookieNecessary" type="checkbox" checked disabled><span><strong>Strictly necessary</strong>Required for sign-in, saved app data, and your consent choice.</span></label><label class="cookie-choice"><input id="cookieAnalytics" type="checkbox"><span><strong>Analytics</strong>Optional measurement; no service is connected.</span></label><label class="cookie-choice"><input id="cookieMarketing" type="checkbox"><span><strong>Marketing</strong>Optional advertising; no service is connected.</span></label></form><p class="cookie-feedback" id="cookieDialogFeedback" role="status" aria-live="polite" hidden></p><div class="cookie-dialog-actions"><button type="button" data-cookie-close>Close</button><button type="button" data-cookie-action="reject">Reject non-essential</button><button type="button" data-cookie-save>Save preferences</button></div></dialog>
+    <script src="../cookie-consent.js"></script>
 </body>
 </html>

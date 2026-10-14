@@ -11,23 +11,26 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../LandingPage/style.css">
+    <link rel="stylesheet" href="../cookie-consent.css">
     <style>
         /* Editorial journal layout */
-        .cv { border-radius: 28px; overflow: hidden; background: var(--soft); }
-        .cv svg { width: 100%; height: 100%; display: block; transition: transform .7s cubic-bezier(.16,1,.3,1); }
+        .cv { border-radius: 20px; overflow: hidden; background: var(--soft); }
+        .cv img { width: 100%; height: 100%; display: block; object-fit: cover; }
+        .cv img[hidden] { display: none; }
+        .cv.image-missing { display: grid; place-items: center; color: var(--mut); }
+        .cv.image-missing::after { content: "Image unavailable"; font-size: .88rem; }
         .jr-tag { font-weight: 800; font-size: .9rem; color: var(--coral-d); }
         .jr-date { color: var(--mut); font-size: .9rem; font-weight: 600; }
         .jr-art { padding: 56px 0 36px; }
         .jr-art .back { display: inline-flex; gap: 8px; font-weight: 700; color: var(--mut); margin-bottom: 26px; }
         .jr-art .back:hover { color: var(--coral-d); }
-        .jr-art h1 { font-size: clamp(2.4rem, 5.4vw, 4.4rem); font-weight: 900; letter-spacing: -.04em; line-height: 1.05; max-width: 20ch; margin: 14px 0 20px; }
+        .jr-art h1 { font-size: 3.5rem; font-weight: 900; line-height: 1.1; max-width: 20ch; margin: 14px 0 20px; }
         .jr-art .lead { max-width: 58ch; line-height: 1.8; }
         .jr-cover { aspect-ratio: 21 / 8; margin-bottom: 48px; }
-        .jr-cover svg { transition: none; }
         .art-hero-empty { padding: 60px 0; text-align: center; }
         .art-cta { background: var(--g); color: #fff; border-color: var(--g); }
         .art-cta p { color: #b5d5ca; margin: 6px 0 14px; font-size: .95rem; }
-        @media (max-width: 700px) { .jr-cover { aspect-ratio: 4 / 3; border-radius: 20px; } }
+        @media (max-width: 700px) { .jr-cover { aspect-ratio: 4 / 3; border-radius: 20px; } .jr-art h1 { font-size: 2.35rem; } }
     </style>
 </head>
 
@@ -52,7 +55,6 @@
             </a>
             <ul id="menu">
                 <li><a href="../index.html">Home</a></li>
-                <li><a href="../aboutpage/about.html">About Us</a></li>
                 <li><a href="../servicespage/services.html">Services</a></li>
                 <li><a href="../businesspage/business.html">Business</a></li>
                 <li><a href="../newspage/news.html" class="active" aria-current="page">News</a></li>
@@ -85,7 +87,7 @@
 
         <section class="page-body" style="padding-top:0">
             <div class="wrap">
-                <div class="cv jr-cover" id="aCover"></div>
+                <div class="cv jr-cover" id="aCover"><img alt="" loading="lazy"></div>
 
                 <div class="art-layout" id="layout">
                     <article>
@@ -141,7 +143,6 @@
                 <h4>Pages</h4>
                 <ul>
                     <li><a href="../index.html">Home</a></li>
-                    <li><a href="../aboutpage/about.html">About Us</a></li>
                     <li><a href="../servicespage/services.html">Services</a></li>
                     <li><a href="../businesspage/business.html">Business</a></li>
                     <li><a href="../newspage/news.html">News</a></li>
@@ -160,7 +161,7 @@
         </div>
         <div class="wrap f-bottom">
             <p>© <span id="year">2026</span> CircuTech Jo. All rights reserved.</p>
-            <div class="f-legal"><a href="#">Privacy</a><a href="#">Terms</a></div>
+            <div class="f-legal"><a href="../privacypage/privacy.html">Privacy information</a><button class="cookie-settings-link" type="button" data-cookie-settings>Cookie settings</button></div>
         </div>
     </footer>
 
@@ -169,56 +170,9 @@
     </a>
 
     <script src="../LandingPage/script.js"></script>
-    <script src="../LandingPage/fx.js"></script>
     <script src="articles.js"></script>
-    <script src="covers.js"></script>
-    <script>
-        (function () {
-            var list = window.ARTICLES || [];
-            var id = new URLSearchParams(location.search).get('id');
-            var idx = list.findIndex(function (a) { return a.id === id; });
-            var $ = function (s) { return document.getElementById(s); };
-            if (idx < 0) {
-                $('layout').hidden = true; $('aCover').hidden = true; $('aEmpty').hidden = false;
-                $('aTitle').textContent = 'Article not found';
-                return;
-            }
-            var a = list[idx];
-            document.title = a.title + ' | CircuTech Jo';
-            $('aCat').textContent = a.cat.charAt(0) + a.cat.slice(1).toLowerCase();
-            $('aMeta').textContent = '· ' + new Date(a.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) + ' · ' + a.read + ' min read';
-            $('aTitle').textContent = a.title;
-            $('aLead').textContent = a.lead;
-            $('aBody').innerHTML = a.body;
-            if (window.COVERS && window.COVERS[a.id]) $('aCover').innerHTML = window.COVERS[a.id]; else $('aCover').hidden = true;
-
-            var rel = $('aRel');
-            list.forEach(function (o) {
-                if (o.id === a.id) return;
-                var l = document.createElement('a');
-                l.href = 'article.html?id=' + encodeURIComponent(o.id);
-                l.textContent = o.title;
-                var s = document.createElement('small');
-                s.textContent = o.cat + ' · ' + o.read + ' min read';
-                l.appendChild(s); rel.appendChild(l);
-            });
-            var nav = $('aNav');
-            [[idx + 1, '← Older'], [idx - 1, 'Newer →']].forEach(function (p) {
-                var o = list[p[0]];
-                if (!o) { nav.appendChild(document.createElement('span')); return; }
-                var l = document.createElement('a');
-                l.className = 'btn soft sm';
-                l.href = 'article.html?id=' + encodeURIComponent(o.id);
-                l.textContent = p[1]; nav.appendChild(l);
-            });
-            $('mailBtn').href = 'mailto:?subject=' + encodeURIComponent(a.title) + '&body=' + encodeURIComponent(location.href);
-            $('copyBtn').addEventListener('click', function () {
-                var b = this;
-                (navigator.clipboard ? navigator.clipboard.writeText(location.href) : Promise.reject()).then(function () { b.textContent = 'Link copied'; }, function () { b.textContent = 'Copy failed'; });
-                setTimeout(function () { b.textContent = 'Copy link'; }, 2000);
-            });
-        })();
-    </script>
-
+    <aside class="cookie-banner" id="cookieBanner" role="region" aria-label="Cookie and storage choices" hidden><div class="cookie-copy"><h2>Cookies and browser storage</h2><p>Necessary storage supports sign-in and saved preferences. Optional analytics and marketing stay off unless you choose them. <a href="../privacypage/privacy.html">Privacy information</a>.</p><p class="cookie-feedback" id="cookieBannerFeedback" role="status" hidden></p></div><div class="cookie-actions"><button type="button" data-cookie-action="accept">Accept all cookies</button><button type="button" data-cookie-action="reject">Reject non-essential</button><button type="button" data-cookie-action="settings">Cookie settings</button></div></aside>
+    <dialog class="cookie-dialog" id="cookieDialog" aria-labelledby="cookieTitle"><h2 id="cookieTitle">Cookie settings</h2><p>Necessary browser storage is always on. No analytics or advertising integration is currently loaded.</p><form><label class="cookie-choice"><input id="cookieNecessary" type="checkbox" checked disabled><span><strong>Strictly necessary</strong>Required for sign-in, saved app data, and your consent choice.</span></label><label class="cookie-choice"><input id="cookieAnalytics" type="checkbox"><span><strong>Analytics</strong>Optional measurement; no service is connected.</span></label><label class="cookie-choice"><input id="cookieMarketing" type="checkbox"><span><strong>Marketing</strong>Optional advertising; no service is connected.</span></label></form><p class="cookie-feedback" id="cookieDialogFeedback" role="status" aria-live="polite" hidden></p><div class="cookie-dialog-actions"><button type="button" data-cookie-close>Close</button><button type="button" data-cookie-action="reject">Reject non-essential</button><button type="button" data-cookie-save>Save preferences</button></div></dialog>
+    <script src="../cookie-consent.js"></script>
 </body>
 </html>

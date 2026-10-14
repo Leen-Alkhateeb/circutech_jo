@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" role="img" aria-labelledby="title desc">
+  <title id="title">Electronics recovery report</title>
+  <desc id="desc">A sustainability report with a simple bar chart and device record.</desc>
+  <rect width="1200" height="700" fill="#eaf7f2"/>
+  <rect x="230" y="80" width="740" height="540" rx="24" fill="#fff" stroke="#dbe7e0" stroke-width="8"/>
+  <rect x="290" y="132" width="118" height="118" rx="20" fill="#0d3b2e"/>
+  <path d="M326 210c0-38 25-66 63-66 0 39-25 66-63 66m0 0c13-18 25-29 43-38" fill="none" stroke="#00e699" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="450" y="177" fill="#0d3b2e" font-family="sans-serif" font-size="34" font-weight="700">Recovery report</text>
+  <text x="450" y="218" fill="#536961" font-family="sans-serif" font-size="22">Device activity summary</text>
+  <path d="M315 520h560M340 486V353m115 133V315m115 171V390m115 96V275m115 211V340" stroke="#dbe7e0" stroke-width="42" stroke-linecap="round"/>
+  <path d="M340 486V390m115 96V338m115 133V420m115 66V302m115 184V368" stroke="#00a875" stroke-width="30" stroke-linecap="round"/>
+  <rect x="314" y="278" width="186" height="12" rx="6" fill="#dbe7e0"/>
+  <rect x="314" y="304" width="120" height="10" rx="5" fill="#dbe7e0"/>
+  <circle cx="837" cy="180" r="23" fill="#ff6b4a"/>
+</svg>

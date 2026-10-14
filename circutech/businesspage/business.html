@@ -11,6 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../LandingPage/style.css">
+  <link rel="stylesheet" href="../cookie-consent.css">
 
   <style>
     /* Only what's needed to put an image on top of a card */
@@ -184,7 +185,6 @@
       <h4>Explore</h4>
       <ul>
         <li><a href="../index.html">Home</a></li>
-        <li><a href="../aboutpage/about.html">About Us</a></li>
         <li><a href="../servicespage/services.html">Services</a></li>
         <li><a href="business.html">Business</a></li>
         <li><a href="../newspage/news.html">News</a></li>
@@ -202,7 +202,7 @@
   </div>
   <div class="wrap f-bottom">
     <p>&copy; <span id="year">2026</span> CircuTech Jo. All rights reserved.</p>
-    <div class="f-legal"><a href="#">Privacy</a><a href="#">Terms</a></div>
+    <div class="f-legal"><a href="../privacypage/privacy.html">Privacy information</a><button class="cookie-settings-link" type="button" data-cookie-settings>Cookie settings</button></div>
   </div>
 </footer>
 
@@ -211,6 +211,8 @@
 </a>
 
 <script src="../LandingPage/script.js"></script>
-<script src="../LandingPage/fx.js"></script>
+  <aside class="cookie-banner" id="cookieBanner" role="region" aria-label="Cookie and storage choices" hidden><div class="cookie-copy"><h2>Cookies and browser storage</h2><p>Necessary storage supports sign-in and saved preferences. Optional analytics and marketing stay off unless you choose them. <a href="../privacypage/privacy.html">Privacy information</a>.</p><p class="cookie-feedback" id="cookieBannerFeedback" role="status" hidden></p></div><div class="cookie-actions"><button type="button" data-cookie-action="accept">Accept all cookies</button><button type="button" data-cookie-action="reject">Reject non-essential</button><button type="button" data-cookie-action="settings">Cookie settings</button></div></aside>
+  <dialog class="cookie-dialog" id="cookieDialog" aria-labelledby="cookieTitle"><h2 id="cookieTitle">Cookie settings</h2><p>Necessary browser storage is always on. No analytics or advertising integration is currently loaded.</p><form><label class="cookie-choice"><input id="cookieNecessary" type="checkbox" checked disabled><span><strong>Strictly necessary</strong>Required for sign-in, saved app data, and your consent choice.</span></label><label class="cookie-choice"><input id="cookieAnalytics" type="checkbox"><span><strong>Analytics</strong>Optional measurement; no service is connected.</span></label><label class="cookie-choice"><input id="cookieMarketing" type="checkbox"><span><strong>Marketing</strong>Optional advertising; no service is connected.</span></label></form><p class="cookie-feedback" id="cookieDialogFeedback" role="status" aria-live="polite" hidden></p><div class="cookie-dialog-actions"><button type="button" data-cookie-close>Close</button><button type="button" data-cookie-action="reject">Reject non-essential</button><button type="button" data-cookie-save>Save preferences</button></div></dialog>
+  <script src="../cookie-consent.js"></script>
 </body>
 </html>

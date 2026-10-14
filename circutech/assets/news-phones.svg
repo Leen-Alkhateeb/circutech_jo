@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" role="img" aria-labelledby="title desc">
+  <title id="title">Phones ready for reuse</title>
+  <desc id="desc">Two mobile phones arranged on a soft green surface.</desc>
+  <rect width="1200" height="700" fill="#eaf7f2"/>
+  <path d="M0 520h1200v180H0z" fill="#dbe7e0"/>
+  <circle cx="900" cy="170" r="84" fill="#d4f1e5"/>
+  <rect x="350" y="105" width="255" height="485" rx="34" fill="#0d3b2e"/>
+  <rect x="370" y="130" width="215" height="420" rx="20" fill="#fff"/>
+  <rect x="430" y="165" width="95" height="9" rx="4" fill="#dbe7e0"/>
+  <rect x="397" y="225" width="160" height="190" rx="15" fill="#eaf7f2"/>
+  <path d="M416 371l39-55 31 34 22-24 30 40z" fill="#00a875"/>
+  <circle cx="489" cy="270" r="18" fill="#ff6b4a"/>
+  <circle cx="478" cy="570" r="9" fill="#00e699"/>
+  <rect x="650" y="180" width="205" height="390" rx="30" fill="#536961"/>
+  <rect x="667" y="203" width="171" height="335" rx="18" fill="#f4f9f5"/>
+  <rect x="700" y="237" width="105" height="8" rx="4" fill="#dbe7e0"/>
+  <rect x="694" y="277" width="117" height="148" rx="12" fill="#d4f1e5"/>
+  <path d="M708 395l29-47 21 24 20-31 22 54z" fill="#0d3b2e"/>
+  <circle cx="752" cy="548" r="8" fill="#00e699"/>
+</svg>

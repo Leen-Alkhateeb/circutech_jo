@@ -8,10 +8,10 @@
 <link rel="icon" href="../assets/circutech-jo-concept-02.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>[data-logo]{display:block;width:40px;height:40px}</style>
 <link rel="stylesheet" href="app.css">
-<link rel="stylesheet" href="app-extra.css">
+<link rel="stylesheet" href="../cookie-consent.css">
 </head>
 <body>
 
@@ -45,12 +45,96 @@
     <div class="t-act">
       <a class="ib" href="../index.html" title="Public site" aria-label="Public site"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.2 3 14.8 0 18M12 3c-3 3.2-3 14.8 0 18"/></svg></a>
       <button class="ib" id="theme" type="button" aria-label="Toggle theme"><svg viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></button>
+      <button class="ib" type="button" data-cookie-settings title="Cookie settings" aria-label="Cookie settings"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c-5 0-9-4-9-9z"/><circle cx="8" cy="12" r=".8"/><circle cx="12" cy="16" r=".8"/><circle cx="15" cy="10" r=".8"/></svg></button>
       <button class="ib" id="logout" type="button" aria-label="Log out" title="Log out"><svg viewBox="0 0 24 24"><path d="M10 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h4M15 8l4 4-4 4M19 12H9"/></svg></button>
     </div>
   </header>
 
   <main id="main">
     <div class="ann" id="ann" hidden role="status"></div>
+
+    <section class="view admin-view" id="adminOverview" hidden>
+      <div class="admin-intro"><div><h2>Platform overview</h2><p>Current totals from CircuTech data stored in this browser.</p></div><span class="local-badge">Browser data</span></div>
+      <div class="admin-stats" id="adminStats" aria-live="polite"></div>
+      <div class="admin-columns">
+        <section class="card pad"><h3>Recent scans</h3><div class="admin-table-wrap"><table><thead><tr><th>Date</th><th>Device</th><th>Account</th><th>Value</th></tr></thead><tbody id="adminRecentScans"></tbody></table></div></section>
+        <section class="card pad"><h3>Pending actions</h3><div class="admin-pending" id="adminPending"></div></section>
+      </div>
+      <section class="card pad admin-announcement"><div><h3>Site announcement</h3><p class="mut small0">Shown to signed-in users. Changes are stored in this browser only.</p></div>
+        <form id="adminAnnouncementForm" class="admin-inline-form">
+          <label for="adminAnnouncement">Message</label><input id="adminAnnouncement" maxlength="180" autocomplete="off">
+          <label class="admin-check" for="adminAnnouncementOn"><input id="adminAnnouncementOn" type="checkbox"> Show announcement</label>
+          <label for="adminAnnouncementKind">Style</label><select id="adminAnnouncementKind"><option value="info">Information</option><option value="warn">Important</option></select>
+          <button class="btn" type="submit">Save announcement</button>
+        </form>
+      </section>
+    </section>
+
+    <section class="view admin-view" id="adminUsers" hidden>
+      <div class="admin-intro"><div><h2>Users</h2><p>Accounts and their saved activity.</p></div></div>
+      <div class="card pad admin-table-wrap"><table><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Joined</th><th>Scans</th><th>Points</th><th>Actions</th></tr></thead><tbody id="adminUserRows"></tbody></table></div>
+    </section>
+
+    <section class="view admin-view" id="adminScans" hidden>
+      <div class="admin-intro"><div><h2>Device scans</h2><p>Estimates saved by user accounts.</p></div><button class="btn ghost" type="button" id="adminExportScans">Export CSV</button></div>
+      <div class="card pad admin-table-wrap"><table><thead><tr><th>Date</th><th>User</th><th>Device</th><th>Model</th><th>Condition</th><th>Value</th><th>CO₂</th><th>Points</th></tr></thead><tbody id="adminScanRows"></tbody></table></div>
+    </section>
+
+    <section class="view admin-view" id="adminNews" hidden>
+      <div class="admin-intro"><div><h2>News articles</h2><p>Published articles appear on the public News page. Changes are stored in this browser.</p></div></div>
+      <form class="card pad admin-form admin-news-form" id="adminArticleForm">
+        <input id="adminArticleId" type="hidden">
+        <label for="adminArticleTitle">Title</label><input id="adminArticleTitle" required maxlength="140">
+        <label for="adminArticleCategory">Category</label><input id="adminArticleCategory" required maxlength="40" placeholder="Community">
+        <label for="adminArticleDate">Publication date</label><input id="adminArticleDate" type="date" required>
+        <label for="adminArticleRead">Reading time (minutes)</label><input id="adminArticleRead" type="number" min="1" max="60" value="4" required>
+        <label for="adminArticleStatus">Status</label><select id="adminArticleStatus"><option value="published">Published</option><option value="draft">Draft</option></select>
+        <label for="adminArticleImage">Image URL (optional)</label><input id="adminArticleImage" type="url" maxlength="500" placeholder="https://example.com/image.jpg">
+        <label class="full" for="adminArticleLead">Summary</label><textarea class="full" id="adminArticleLead" required maxlength="400" rows="3"></textarea>
+        <label class="full" for="adminArticleBody">Article content</label><textarea class="full" id="adminArticleBody" required rows="10" aria-describedby="adminArticleBodyHelp"></textarea>
+        <small class="full mut" id="adminArticleBodyHelp">Plain text only. Separate paragraphs with a blank line. Content is escaped before publishing.</small>
+        <div class="full row"><button class="btn" id="adminArticleSave" type="submit">Publish article</button><button class="btn ghost" id="adminArticleCancel" type="button" hidden>Cancel edit</button></div>
+        <p class="full msg" id="adminArticleMessage" role="status" aria-live="polite"></p>
+      </form>
+      <div class="admin-filter-row"><label for="adminArticleSearch">Search articles</label><input id="adminArticleSearch" type="search" placeholder="Title, category, or summary"><label for="adminArticleFilter">Status</label><select id="adminArticleFilter"><option value="all">All statuses</option><option value="published">Published</option><option value="draft">Draft</option></select></div>
+      <div class="card pad admin-table-wrap"><table><thead><tr><th>Article</th><th>Category</th><th>Publication date</th><th>Status</th><th>Actions</th></tr></thead><tbody id="adminArticleRows"></tbody></table></div>
+    </section>
+
+    <section class="view admin-view" id="adminListings" hidden>
+      <div class="admin-intro"><div><h2>Marketplace listings</h2><p>Review and manage listings stored in this browser.</p></div></div>
+      <div class="card pad admin-table-wrap"><table><thead><tr><th>Device</th><th>Seller</th><th>Category</th><th>Price</th><th>Status</th><th>Actions</th></tr></thead><tbody id="adminListingRows"></tbody></table></div>
+    </section>
+
+    <section class="view admin-view" id="adminPlaces" hidden>
+      <div class="admin-intro"><div><h2>Collection points</h2><p>Update locations shown in the user dashboard.</p></div></div>
+      <form class="card pad admin-form" id="adminPlaceForm">
+        <label for="adminPlaceName">Name</label><input id="adminPlaceName" required maxlength="80" placeholder="Zarqa Collection Point">
+        <label for="adminPlaceArea">Area</label><input id="adminPlaceArea" required maxlength="80" placeholder="Zarqa, Downtown">
+        <label for="adminPlaceOpen">Opens</label><input id="adminPlaceOpen" required type="number" min="0" max="23" value="9">
+        <label for="adminPlaceClose">Closes</label><input id="adminPlaceClose" required type="number" min="1" max="24" value="17">
+        <label for="adminPlaceDays">Days</label><select id="adminPlaceDays"><option value="weekdays">Sunday to Thursday</option><option value="daily">Daily</option></select>
+        <button class="btn" type="submit">Add location</button>
+      </form>
+      <div class="card pad admin-table-wrap"><table><thead><tr><th>Name</th><th>Area</th><th>Hours</th><th>Actions</th></tr></thead><tbody id="adminPlaceRows"></tbody></table></div>
+    </section>
+
+    <section class="view admin-view" id="adminRewards" hidden>
+      <div class="admin-intro"><div><h2>Rewards</h2><p>Voucher tiers and redeemed codes from browser storage.</p></div></div>
+      <form class="card pad admin-form" id="adminTierForm">
+        <label for="adminTierPoints">Points required</label><input id="adminTierPoints" type="number" min="1" required value="1000">
+        <label for="adminTierValue">Voucher value (JOD)</label><input id="adminTierValue" type="number" min="1" required value="10">
+        <label for="adminTierName">Voucher name</label><input id="adminTierName" required maxlength="60" placeholder="Shopping voucher">
+        <button class="btn" type="submit">Add reward tier</button>
+      </form>
+      <div class="card pad admin-table-wrap"><h3>Voucher tiers</h3><table><thead><tr><th>Name</th><th>Points</th><th>Value</th><th>Actions</th></tr></thead><tbody id="adminTierRows"></tbody></table></div>
+      <div class="card pad admin-table-wrap"><h3>Redeemed vouchers</h3><table><thead><tr><th>Date</th><th>Account</th><th>Voucher</th><th>Code</th></tr></thead><tbody id="adminVoucherRows"></tbody></table></div>
+    </section>
+
+    <section class="view admin-view" id="adminBusiness" hidden>
+      <div class="admin-intro"><div><h2>Businesses and pickups</h2><p>Company workspaces and pickup requests.</p></div></div>
+      <div class="card pad admin-table-wrap"><h3>Businesses</h3><table><thead><tr><th>Company</th><th>Industry</th><th>Employees</th><th>Owner</th></tr></thead><tbody id="adminBusinessRows"></tbody></table></div>
+      <div class="card pad admin-table-wrap"><h3>Pickup requests</h3><table><thead><tr><th>Company</th><th>Devices</th><th>Type</th><th>Preferred date</th><th>Area</th><th>Status</th><th>Actions</th></tr></thead><tbody id="adminPickupRows"></tbody></table></div>
+    </section>
 
     <div class="hero-ban" id="heroBan">
       <div class="hb-in"><small id="hbHi"></small><h2 id="hbTitle"></h2><p id="hbSub"></p><div class="hb-stats" id="hbStats"></div></div>
@@ -120,6 +204,7 @@
         <div class="card pad kpi rv"><span class="ki"><svg viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></span><span>Devices scanned</span><b id="kDevices">0</b></div>
         <div class="card pad kpi rv"><span class="ki"><svg viewBox="0 0 24 24"><path d="M3 12l9-9h8v8l-9 9z"/><circle cx="15.5" cy="8.5" r="1.2"/></svg></span><span>Estimated value (JOD)</span><b id="kValue">0</b></div>
         <div class="card pad kpi rv"><span class="ki"><svg viewBox="0 0 24 24"><path d="M5 19c0-8 5-14 15-14 0 10-6 15-14 15M5 19c3-4 6-6 10-8"/></svg></span><span>kg CO₂ avoided</span><b id="kCo2">0</b><small id="kTrees"></small></div>
+        <div class="card pad kpi rv"><span class="ki"><svg viewBox="0 0 24 24"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3zM5 17a3 3 0 0 1 3-3h11M9 8h6M9 11h6"/></svg></span><span>Articles read</span><b id="kArticles">0</b><small>Unique articles opened</small></div>
         <div class="card pad span2 rv"><h3>Estimated value per scan (JOD)</h3><div class="bars" id="bars"></div></div>
       </div>
       <h3 class="sec rv">Recent scans</h3>
@@ -209,26 +294,26 @@
     <section class="view" id="settings" hidden>
       <div class="set-grid">
         <div class="set-col">
-          <div class="card pad set rv">
+          <form class="card pad set rv" id="profileForm">
             <div class="prof"><span class="avatar big" id="pfAv">U</span><div><h3 id="pfName">-</h3><small class="mut" id="pfMail">-</small><div class="tags"><span class="pill-s" id="pfTier">Standard</span><span class="pill-s" id="pfSince">Member</span></div></div></div>
             <label for="setName">Display name</label>
-            <input class="fld" id="setName" maxlength="40" autocomplete="name">
-            <div class="row"><button class="btn" type="button" id="saveName">Save name</button></div>
-          </div>
-          <div class="card pad set rv">
+            <input class="fld" id="setName" maxlength="40" minlength="2" autocomplete="name" required>
+            <div class="row"><button class="btn" type="submit">Save name</button></div>
+          </form>
+          <form class="card pad set rv" id="securityForm">
             <h3>Security</h3>
             <label for="pwOld">Current password</label>
-            <input class="fld" id="pwOld" type="password" autocomplete="current-password">
+            <input class="fld" id="pwOld" type="password" autocomplete="current-password" required>
             <label for="pwNew">New password <span class="mut">8+ characters, letters and numbers</span></label>
-            <input class="fld" id="pwNew" type="password" autocomplete="new-password">
-            <div class="row"><button class="btn" type="button" id="savePw">Update password</button></div>
-          </div>
+            <input class="fld" id="pwNew" type="password" autocomplete="new-password" minlength="8" pattern="(?=.*[A-Za-z])(?=.*[0-9]).{8,}" title="Use at least 8 characters with letters and numbers." required>
+            <div class="row"><button class="btn" type="submit">Update password</button></div>
+          </form>
         </div>
         <div class="set-col">
-          <div class="card pad rv"><h3>Appearance</h3><div class="chips seg" id="themeSeg"><button type="button" class="chip" data-v="light">Light</button><button type="button" class="chip" data-v="dark">Dark</button></div></div>
-          <div class="card pad rv"><h3>Your data</h3><p class="mut small0">Scans and vouchers are stored in this browser only. Download a copy any time.</p>
-            <div class="row"><button class="btn ghost" type="button" id="exportData">Download my data</button><button class="btn ghost" type="button" id="clearData">Clear scans and vouchers</button></div></div>
-          <div class="card pad rv danger"><h3>Delete account</h3><p class="mut small0">Removes your account and all your data from this browser. This cannot be undone.</p>
+          <div class="card pad rv"><h3>Appearance</h3><div class="chips seg" id="themeSeg" role="group" aria-label="Color theme"><button type="button" class="chip" data-v="light" aria-pressed="false">Light</button><button type="button" class="chip" data-v="dark" aria-pressed="false">Dark</button></div></div>
+          <div class="card pad rv"><h3>Your data</h3><p class="mut small0">Scans, unique article reads, and vouchers are stored in this browser only. Download a copy any time.</p>
+            <div class="row"><button class="btn ghost" type="button" id="exportData">Download my data</button><button class="btn ghost" type="button" id="clearData">Clear activity and vouchers</button></div></div>
+          <div class="card pad rv danger"><h3>Delete account</h3><p class="mut small0">Removes your account, scans, vouchers, business profile, and marketplace listings stored in this browser. This cannot be undone.</p>
             <div class="row"><button class="btn danger-b" type="button" id="delAcc">Delete my account</button></div></div>
         </div>
       </div>
@@ -239,6 +324,10 @@
 
 <nav class="dock" id="dock" aria-label="App sections"></nav>
 <div class="toast" id="toast" role="status"></div>
+<script src="../newspage/articles.js"></script>
 <script src="app.js"></script>
+<aside class="cookie-banner" id="cookieBanner" role="region" aria-label="Cookie and storage choices" hidden><div class="cookie-copy"><h2>Cookies and browser storage</h2><p>Necessary storage supports sign-in and saved preferences. Optional analytics and marketing stay off unless you choose them. <a href="../privacypage/privacy.html">Privacy information</a>.</p><p class="cookie-feedback" id="cookieBannerFeedback" role="status" hidden></p></div><div class="cookie-actions"><button type="button" data-cookie-action="accept">Accept all cookies</button><button type="button" data-cookie-action="reject">Reject non-essential</button><button type="button" data-cookie-action="settings">Cookie settings</button></div></aside>
+<dialog class="cookie-dialog" id="cookieDialog" aria-labelledby="cookieTitle"><h2 id="cookieTitle">Cookie settings</h2><p>Necessary browser storage is always on. No analytics or advertising integration is currently loaded.</p><form><label class="cookie-choice"><input id="cookieNecessary" type="checkbox" checked disabled><span><strong>Strictly necessary</strong>Required for sign-in, saved app data, and your consent choice.</span></label><label class="cookie-choice"><input id="cookieAnalytics" type="checkbox"><span><strong>Analytics</strong>Optional measurement; no service is connected.</span></label><label class="cookie-choice"><input id="cookieMarketing" type="checkbox"><span><strong>Marketing</strong>Optional advertising; no service is connected.</span></label></form><p class="cookie-feedback" id="cookieDialogFeedback" role="status" aria-live="polite" hidden></p><div class="cookie-dialog-actions"><button type="button" data-cookie-close>Close</button><button type="button" data-cookie-action="reject">Reject non-essential</button><button type="button" data-cookie-save>Save preferences</button></div></dialog>
+<script src="../cookie-consent.js"></script>
 </body>
 </html>

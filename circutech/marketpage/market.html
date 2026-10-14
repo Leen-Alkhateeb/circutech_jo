@@ -9,6 +9,7 @@
   <link rel="icon" href="../assets/circutech-jo-concept-02.png">
   <link rel="stylesheet" href="../LandingPage/style.css">
   <link rel="stylesheet" href="market.css">
+  <link rel="stylesheet" href="../cookie-consent.css">
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -30,7 +31,6 @@
       </a>
       <ul id="menu">
         <li><a href="../index.html">Home</a></li>
-        <li><a href="../aboutpage/about.html">About Us</a></li>
         <li><a href="../servicespage/services.html">Services</a></li>
         <li><a href="../businesspage/business.html">Business</a></li>
         <li><a href="../newspage/news.html">News</a></li>
@@ -73,9 +73,9 @@
         </div>
 
         <ul class="trust">
-          <li>Every listing quality checked</li>
-          <li>Pay by card, CliQ or cash on pickup</li>
-          <li>Device passport with every sale</li>
+          <li>Condition and photo required for listings</li>
+          <li>Reserve devices before arranging collection</li>
+          <li>Device passport available for each listing</li>
         </ul>
       </div>
     </section>
@@ -100,7 +100,7 @@
           </div>
           <div class="box sell-box">
             <h2>Have a device to sell?</h2>
-            <p>List it in a few minutes. We only charge a fee when it sells.</p>
+            <p>Listings and reservations are stored in this browser. No payment is processed.</p>
             <button class="btn" id="sellBtn" type="button">+ Sell a device</button>
           </div>
         </aside>
@@ -113,6 +113,10 @@
               <button class="mk-tab" role="tab" data-t="res" aria-selected="false" type="button">Reservations</button>
             </div>
             <span class="mk-chip" id="chip"></span>
+            <button class="btn out cart-open" id="cartOpen" type="button" aria-haspopup="dialog" aria-controls="cartDialog">
+              <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2 12h11l2-8H6M9 20h.01M17 20h.01"/></svg>
+              Cart <span id="cartCount" role="status" aria-live="polite">0</span>
+            </button>
           </div>
           <div class="mk-grid" id="grid" aria-live="polite"></div>
         </div>
@@ -145,44 +149,13 @@
     </div>
   </dialog>
 
-  <!-- Payment dialog -->
-  <dialog id="payDlg">
-    <div class="dialog-heading"><h2>Complete your order</h2><p>Reserve this device and choose how you will pay.</p></div>
-    <div class="pay-item" id="payItem"></div>
-
-    <fieldset class="pm-list">
-      <legend class="vh">Payment method</legend>
-      <label class="pm"><input type="radio" name="pm" value="cash" checked>
-        <span class="pm-ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/></svg></span>
-        <span><b>Cash on pickup</b><small>Pay the seller when you collect the device.</small></span></label>
-      <label class="pm"><input type="radio" name="pm" value="cliq">
-        <span class="pm-ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3L5 14h6l-1 7 8-11h-6z"/></svg></span>
-        <span><b>CliQ transfer</b><small>Instant transfer from your bank app.</small></span></label>
-      <label class="pm"><input type="radio" name="pm" value="card">
-        <span class="pm-ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/></svg></span>
-        <span><b>Credit or debit card</b><small>Visa or Mastercard.</small></span></label>
-    </fieldset>
-
-    <div class="pay-panel" id="panCliq" hidden>
-      <p>Send <b id="cliqAmt"></b> to CliQ alias <b id="cliqAlias"></b> with reference <b id="cliqRef"></b>.</p>
-      <label class="chk"><input type="checkbox" id="cliqDone"> I have sent the transfer</label>
-    </div>
-
-    <div class="pay-panel" id="panCard" hidden>
-      <label for="cName">Name on card</label>
-      <input id="cName" autocomplete="cc-name" placeholder="Full name">
-      <label for="cNum">Card number</label>
-      <input id="cNum" inputmode="numeric" autocomplete="cc-number" maxlength="23" placeholder="1234 5678 9012 3456">
-      <div class="two">
-        <div><label for="cExp">Expiry</label><input id="cExp" inputmode="numeric" autocomplete="cc-exp" maxlength="5" placeholder="MM/YY"></div>
-        <div><label for="cCvc">CVC</label><input id="cCvc" inputmode="numeric" autocomplete="cc-csc" maxlength="4" placeholder="123"></div>
-      </div>
-      <p class="fee">Card details are checked in your browser and are never saved.</p>
-    </div>
-
-    <div class="pay-total"><span>Total</span><b id="payTotal"></b></div>
-    <p class="msg" id="payMsg" role="alert"></p>
-    <div class="dl-row"><button class="btn dialog-primary" id="payGo" type="button">Confirm order</button><button class="btn out" id="payCancel" type="button">Cancel</button></div>
+  <dialog id="cartDialog" class="cart-dialog" aria-labelledby="cartTitle">
+    <div class="dialog-heading"><h2 id="cartTitle">Your cart</h2><p>Each marketplace listing is a unique, one-off device.</p></div>
+    <div id="cartItems" class="cart-items"></div>
+    <p class="cart-empty" id="cartEmpty">Your cart is empty. Add a device from the listings.</p>
+    <div class="cart-total"><span>Subtotal</span><b id="cartSubtotal">JOD 0.00</b></div>
+    <p class="cart-note">Checkout is a demo interface. No payment or order will be submitted.</p>
+    <div class="dl-row"><a class="btn dialog-primary" id="checkoutLink" href="checkout.html" aria-disabled="true">Continue to checkout</a><button class="btn out" id="cartClose" type="button">Close</button></div>
   </dialog>
 
   <!-- Passport dialog -->
@@ -218,7 +191,6 @@
       <nav class="f-col" aria-label="Footer pages">
         <h4>Explore</h4>
         <ul>
-          <li><a href="../aboutpage/about.html">About Us</a></li>
           <li><a href="../servicespage/services.html">Services</a></li>
           <li><a href="../businesspage/business.html">Business</a></li>
           <li><a href="market.html">Marketplace</a></li>
@@ -235,30 +207,17 @@
     </div>
     <div class="wrap f-bottom">
       <p>&copy; <span id="year">2026</span> CircuTech Jo. All rights reserved.</p>
-      <div class="f-legal"><a href="#">Privacy</a><a href="#">Terms</a></div>
+      <div class="f-legal"><a href="../privacypage/privacy.html">Privacy information</a><button class="cookie-settings-link" type="button" data-cookie-settings>Cookie settings</button></div>
     </div>
   </footer>
 
   <a class="to-top" id="toTop" href="#top" aria-label="Back to top"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></a>
 
   <script src="../LandingPage/script.js"></script>
-  <script src="../LandingPage/fx.js"></script>
   <script src="store.js"></script>
   <script src="market.js"></script>
-  <script src="pay.js"></script>
-  <script>
-    // Category chips drive the (hidden) category select that market.js already reads.
-    (function () {
-      var chips = document.querySelectorAll('#cats button'), sel = document.getElementById('cat');
-      chips.forEach(function (b) {
-        b.addEventListener('click', function () {
-          chips.forEach(function (c) { c.setAttribute('aria-pressed', c === b ? 'true' : 'false'); });
-          sel.value = b.getAttribute('data-c');
-          sel.dispatchEvent(new Event('input', { bubbles: true }));
-          document.getElementById('products').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
-      });
-    })();
-  </script>
+  <aside class="cookie-banner" id="cookieBanner" role="region" aria-label="Cookie and storage choices" hidden><div class="cookie-copy"><h2>Cookies and browser storage</h2><p>Necessary storage supports sign-in and saved preferences. Optional analytics and marketing stay off unless you choose them. <a href="../privacypage/privacy.html">Privacy information</a>.</p><p class="cookie-feedback" id="cookieBannerFeedback" role="status" hidden></p></div><div class="cookie-actions"><button type="button" data-cookie-action="accept">Accept all cookies</button><button type="button" data-cookie-action="reject">Reject non-essential</button><button type="button" data-cookie-action="settings">Cookie settings</button></div></aside>
+  <dialog class="cookie-dialog" id="cookieDialog" aria-labelledby="cookieTitle"><h2 id="cookieTitle">Cookie settings</h2><p>Necessary browser storage is always on. No analytics or advertising integration is currently loaded.</p><form><label class="cookie-choice"><input id="cookieNecessary" type="checkbox" checked disabled><span><strong>Strictly necessary</strong>Required for sign-in, saved app data, and your consent choice.</span></label><label class="cookie-choice"><input id="cookieAnalytics" type="checkbox"><span><strong>Analytics</strong>Optional measurement; no service is connected.</span></label><label class="cookie-choice"><input id="cookieMarketing" type="checkbox"><span><strong>Marketing</strong>Optional advertising; no service is connected.</span></label></form><p class="cookie-feedback" id="cookieDialogFeedback" role="status" aria-live="polite" hidden></p><div class="cookie-dialog-actions"><button type="button" data-cookie-close>Close</button><button type="button" data-cookie-action="reject">Reject non-essential</button><button type="button" data-cookie-save>Save preferences</button></div></dialog>
+  <script src="../cookie-consent.js"></script>
 </body>
 </html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Privacy information | CircuTech Jo</title>
+  <meta name="description" content="How the CircuTech Jo demo website uses browser storage and external map links.">
+  <meta name="theme-color" content="#0d3b2e">
+  <link rel="stylesheet" href="../LandingPage/style.css">
+  <link rel="stylesheet" href="privacy.css">
+  <link rel="stylesheet" href="../cookie-consent.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="nav" id="top">
+    <div class="wrap">
+      <a class="logo" href="../index.html" aria-label="CircuTech Jo home">
+        <svg class="logo-mark" viewBox="0 0 48 48" aria-hidden="true">
+          <path class="arc" d="M28.4 7.6A17 17 0 0 1 39.97 29.8"/><polygon class="head" points="38.3,34.5 43.26,31 36.68,28.6"/>
+          <path class="arc" d="M33.75 37.9A17 17 0 0 1 10.98 34.93"/><polygon class="head" points="7.77,31.1 8.3,37.18 13.66,32.68"/>
+          <path class="arc" d="M7.26 26.95A17 17 0 0 1 19.6 7.58"/><polygon class="head" points="24.43,6.28 18.69,4.2 20.5,10.96"/>
+          <rect class="chip" x="17" y="17" width="14" height="14" rx="4"/><circle cx="24" cy="24" r="2.6" fill="#fff"/>
+        </svg>
+        <span class="logo-text">CircuTech <i>Jo</i></span>
+      </a>
+      <nav aria-label="Main navigation">
+        <ul id="menu">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../servicespage/services.html">Services</a></li>
+          <li><a href="../businesspage/business.html">Business</a></li>
+          <li><a href="../newspage/news.html">News</a></li>
+          <li><a href="../contactpage/contact.html">Contact</a></li>
+          <li><a href="../marketpage/market.html">Marketplace</a></li>
+        </ul>
+      </nav>
+      <div class="actions">
+        <button class="btn-sm" type="button" id="theme" aria-label="Toggle dark mode"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></button>
+        <a class="btn-sm login" href="../loginpage/login.html">Login</a>
+        <button class="menu-btn" type="button" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="page-hero"><div class="wrap"><h1>Privacy information</h1><p>What this browser-based CircuTech demo stores and what it does not send.</p></div></section>
+    <section class="page-body"><div class="wrap privacy-copy">
+      <p class="privacy-review">This notice describes behavior found in the current project. It is a basic project notice, not legal advice or a final company policy; it must be reviewed before production use.</p>
+      <h2>Browser storage</h2>
+      <p>Account records, marketplace listings, cart contents, scans, unique article reads, rewards, preferences, and some dashboard data are stored in this browser using local storage. Sign-in session information is kept in session storage. This project has no connected application server or shared database, so this information does not automatically sync to another device.</p>
+      <p>Cookie consent choices are saved in local storage. The website currently does not include analytics or advertising integrations; selecting those optional categories does not activate a tracking service.</p>
+      <h2>Account roles and security</h2>
+      <p>Role checks in this prototype read browser storage and control the visible routes. Browser storage can be changed by its user, so these client-side checks do not provide production security. A deployed service must verify sessions and permissions on a trusted backend before protecting accounts or administrative data.</p>
+      <h2>Forms and payments</h2>
+      <p>The contact form is in demo mode and does not send messages to a server. Marketplace listings and reservations are local demo interactions. No payment provider is configured, and the site does not collect card numbers or CVVs or confirm paid orders.</p>
+      <h2>External maps</h2>
+      <p>The dashboard can display an embedded Google Maps location and directions links. Opening those features sends a request to Google Maps, which is governed by Google's own privacy terms.</p>
+      <h2>Your controls</h2>
+      <p>Dashboard Settings lets signed-in users download their locally stored account data, clear scans, unique article reads, and vouchers, or delete their account and associated browser records. You can also remove browser-stored marketplace listings and cart items. Clearing this website's browser storage removes remaining local data.</p>
+      <h2>Contact and review</h2>
+      <p>For questions about this project notice, use the <a href="../contactpage/contact.html">contact page</a>. Before launch, the site owner should confirm retention periods, processors, jurisdiction-specific disclosures, and the final privacy policy.</p>
+    </div></section>
+  </main>
+
+  <footer><div class="wrap f-bottom"><p>© <span id="year">2026</span> CircuTech Jo.</p><div class="f-legal"><button class="cookie-settings-link" type="button" data-cookie-settings>Cookie settings</button></div></div></footer>
+  <script src="../LandingPage/script.js"></script>
+  <script src="../cookie-consent.js"></script>
+  <aside class="cookie-banner" id="cookieBanner" role="region" aria-label="Cookie and storage choices" hidden><div class="cookie-copy"><h2>Cookies and browser storage</h2><p>Necessary storage supports sign-in and saved preferences. Optional analytics and marketing stay off unless you choose them. <a href="privacy.html">Privacy information</a>.</p><p class="cookie-feedback" id="cookieBannerFeedback" role="status" hidden></p></div><div class="cookie-actions"><button type="button" data-cookie-action="accept">Accept all cookies</button><button type="button" data-cookie-action="reject">Reject non-essential</button><button type="button" data-cookie-action="settings">Cookie settings</button></div></aside>
+  <dialog class="cookie-dialog" id="cookieDialog" aria-labelledby="cookieTitle"><h2 id="cookieTitle">Cookie settings</h2><p>Necessary browser storage is always on. No analytics or advertising integration is currently loaded.</p><form><label class="cookie-choice"><input id="cookieNecessary" type="checkbox" checked disabled><span><strong>Strictly necessary</strong>Required for sign-in, saved app data, and your consent choice.</span></label><label class="cookie-choice"><input id="cookieAnalytics" type="checkbox"><span><strong>Analytics</strong>Optional measurement; no service is connected.</span></label><label class="cookie-choice"><input id="cookieMarketing" type="checkbox"><span><strong>Marketing</strong>Optional advertising; no service is connected.</span></label></form><p class="cookie-feedback" id="cookieDialogFeedback" role="status" aria-live="polite" hidden></p><div class="cookie-dialog-actions"><button type="button" data-cookie-close>Close</button><button type="button" data-cookie-action="reject">Reject non-essential</button><button type="button" data-cookie-save>Save preferences</button></div></dialog>
+  <script src="../cookie-consent.js"></script>
+</body>
+</html>

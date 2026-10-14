@@ -6,7 +6,6 @@
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const LOGIN_URL = '../loginpage/login.html';
-  const ADMIN_URL = '../adminpage/admin.html';
 
   const load = (storage, key, fallback) => { try { return JSON.parse(storage.getItem(key)) ?? fallback; } catch { return fallback; } };
   const save = (key, value) => { try { localStorage.setItem(key, JSON.stringify(value)); } catch {} };
@@ -54,18 +53,21 @@
   // The session must exist, be unexpired, and still match an active account in the users database
   const session = load(sessionStorage, 'circutech_session', null);
   const account = session && load(localStorage, 'circutech_users', []).find(u => u.email === session.email);
-  if (!session || session.exp < Date.now() || !account || account.suspended) {
+  if (!session || !Number.isFinite(Number(session.exp)) || Number(session.exp) <= Date.now() || !account || account.suspended) {
     try { sessionStorage.removeItem('circutech_session'); } catch {}
     location.replace(LOGIN_URL);
     return;
   }
-  const user = { ...session, name: account.name, role: account.role };
+  const user = { ...session, name: account.name, role: account.role === 'admin' ? 'admin' : account.role === 'business' ? 'business' : 'user' };
+  const isAdminUser = user.role === 'admin';
+  const isBusinessUser = user.role === 'business';
 
   /* ========== 2. Storage (localStorage, one namespace per user) ========== */
   const EMAIL = user.email;
   const SCANS_KEY = 'circutech_scans:' + EMAIL;
   const SPENT_KEY = 'circutech_spent:' + EMAIL;
   const VOUCH_KEY = 'circutech_vouchers:' + EMAIL;
+  const READS_KEY = 'circutech_article_reads:' + EMAIL;
   const BIZ_KEY = 'circutech_biz:' + EMAIL;
   const store = {
     scans: () => load(localStorage, SCANS_KEY, []),
@@ -73,42 +75,67 @@
     spent: () => Number(load(localStorage, SPENT_KEY, 0)) || 0,
     spend: n => save(SPENT_KEY, store.spent() + n),
     vouchers: () => load(localStorage, VOUCH_KEY, []),
+    articleReads: () => {
+      const reads = load(localStorage, READS_KEY, []);
+      return Array.isArray(reads) ? reads : [];
+    },
     addVoucher: v => save(VOUCH_KEY, [v, ...store.vouchers()]),
-    clear: () => [SCANS_KEY, SPENT_KEY, VOUCH_KEY].forEach(k => { try { localStorage.removeItem(k); } catch {} }),
+    clear: () => [SCANS_KEY, SPENT_KEY, VOUCH_KEY, READS_KEY].forEach(k => { try { localStorage.removeItem(k); } catch {} }),
     users: () => load(localStorage, 'circutech_users', []),
-    saveUsers: l => save('circutech_users', l)
+    saveUsers: l => {
+      try { localStorage.setItem('circutech_users', JSON.stringify(l)); return true; } catch { return false; }
+    }
   };
 
   /* ========== 3. Logo and navigation ========== */
   const LOGO = '<svg viewBox="0 0 48 48" aria-hidden="true"><path class="arc" d="M28.4 7.6A17 17 0 0 1 39.97 29.8"/><polygon class="head" points="38.3,34.5 43.26,31 36.68,28.6"/><path class="arc" d="M33.75 37.9A17 17 0 0 1 10.98 34.93"/><polygon class="head" points="7.77,31.1 8.3,37.18 13.66,32.68"/><path class="arc" d="M7.26 26.95A17 17 0 0 1 19.6 7.58"/><polygon class="head" points="24.43,6.28 18.69,4.2 20.5,10.96"/><rect class="chip-m" x="17" y="17" width="14" height="14" rx="4"/><circle cx="24" cy="24" r="2.6" fill="#fff" stroke="none"/></svg>';
   $$('[data-logo]').forEach(e => { e.innerHTML = LOGO; });
 
-  const VIEWS = [
+  const USER_VIEWS = [
     ['scanner',   'AI Scanner', 'M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3M8 12h8'],
     ['dashboard', 'Dashboard',  'M4 4h7v7H4zM13 4h7v4h-7zM13 11h7v9h-7zM4 14h7v6H4z'],
     ['dropoff',   'Drop-off',   'M12 21s7-6 7-12a7 7 0 0 0-14 0c0 6 7 12 7 12zM12 9m-2.5 0a2.5 2.5 0 1 0 5 0a2.5 2.5 0 1 0-5 0'],
     ['rewards',   'Rewards',    'M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2a2 2 0 0 0 0-4zM9 10h6M9 14h6'],
     ['ecobot',    'EcoBot',     'M5 8h14v11H5zM12 4v4M9 13h.01M15 13h.01'],
-    ['business',  'Business',   'M3 21h18M5 21V7l7-4 7 4v14M9 9h2M9 13h2M13 9h2M13 13h2M10 21v-4h4v4'],
     ['settings',  'Settings',   'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1']
   ];
+  const BUSINESS_VIEWS = USER_VIEWS.slice();
+  BUSINESS_VIEWS.splice(BUSINESS_VIEWS.length - 1, 0, ['business', 'Business', 'M3 21h18M5 21V7l7-4 7 4v14M9 9h2M9 13h2M13 9h2M13 13h2M10 21v-4h4v4']);
+  const ADMIN_VIEWS = [
+    ['adminOverview', 'Overview', 'M4 4h7v7H4zM13 4h7v4h-7zM13 11h7v9h-7zM4 14h7v6H4z'],
+    ['adminUsers', 'Users', 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8M20 8v6M23 11h-6'],
+    ['adminScans', 'Device scans', 'M4 4h16v16H4zM8 8h8M8 12h8M8 16h4'],
+    ['adminNews', 'News', 'M4 5h16v14H4zM8 9h8M8 13h8M8 16h5'],
+    ['adminListings', 'Marketplace', 'M4 9l1-5h14l1 5M4 9v11h16V9M4 9h16M9 14h6'],
+    ['adminPlaces', 'Collection points', 'M12 21s7-6 7-12a7 7 0 0 0-14 0c0 6 7 12 7 12zM12 9m-2.5 0a2.5 2.5 0 1 0 5 0a2.5 2.5 0 1 0-5 0'],
+    ['adminRewards', 'Rewards', 'M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2a2 2 0 0 0 0-4zM9 10h6M9 14h6'],
+    ['adminBusiness', 'Businesses', 'M3 21h18M5 21V7l7-4 7 4v14M9 9h2M9 13h2M13 9h2M13 13h2M10 21v-4h4v4'],
+    ['settings', 'Settings', 'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l2.1 2.1']
+  ];
+  const VIEWS = isAdminUser ? ADMIN_VIEWS : isBusinessUser ? BUSINESS_VIEWS : USER_VIEWS;
+  if (isAdminUser) $('.side .brand').href = '#adminOverview';
   const navHtml = VIEWS.map(([id, title, icon]) =>
     `<a class="nv" href="#${id}"><svg viewBox="0 0 24 24"><path d="${icon}"/></svg>${title}</a>`).join('');
-  const extra = '<a class="nv" href="../marketpage/market.html"><svg viewBox="0 0 24 24"><path d="M4 9l1-5h14l1 5M4 9v11h16V9M4 9h16M9 14h6"/></svg>Marketplace</a>'
-    + (user.role === 'admin' ? `<a class="nv" href="${ADMIN_URL}"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg>Admin</a>` : '');
+  const extra = '<a class="nv" href="../marketpage/market.html"><svg viewBox="0 0 24 24"><path d="M4 9l1-5h14l1 5M4 9v11h16V9M4 9h16M9 14h6"/></svg>Marketplace</a>';
   $('#nav').innerHTML = navHtml + extra;
   $('#dock').innerHTML = navHtml + extra;
 
   function route() {
-    const id = VIEWS.some(v => v[0] === location.hash.slice(1)) ? location.hash.slice(1) : 'scanner';
+    const fallback = isAdminUser ? 'adminOverview' : 'scanner';
+    const requested = location.hash.slice(1);
+    const id = VIEWS.some(v => v[0] === requested) ? requested : fallback;
+    if (requested !== id) history.replaceState(null, '', '#' + id);
     $$('.view').forEach(v => { v.hidden = v.id !== id; });
     $$('.nv').forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + id));
     $('#pageTitle').textContent = VIEWS.find(v => v[0] === id)[1];
-    if (id === 'dashboard') renderDashboard();
-    if (id === 'dropoff') renderPoints();
-    if (id === 'rewards') renderRewards();
+    if (isAdminUser && id !== 'settings') renderAdmin(id);
+    else {
+      if (id === 'dashboard') renderDashboard();
+      if (id === 'dropoff') renderPoints();
+      if (id === 'rewards') renderRewards();
+      if (id === 'business') renderBusiness();
+    }
     if (id === 'settings') loadSettings();
-    if (id === 'business') renderBusiness();
     renderBanner(id);
     replay($('.top'), 're');
     stagger();
@@ -125,7 +152,11 @@
     themeBtn.innerHTML = mode === 'dark'
       ? '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg>'
       : '<svg viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>';
-    $$('#themeSeg .chip').forEach(c => c.classList.toggle('on', c.dataset.v === mode));
+    $$('#themeSeg .chip').forEach(c => {
+      const selected = c.dataset.v === mode;
+      c.classList.toggle('on', selected);
+      c.setAttribute('aria-pressed', selected);
+    });
   }
   setTheme(localStorage.getItem('theme') === 'dark' ? 'dark' : 'light');
   themeBtn.onclick = () => {
@@ -174,6 +205,11 @@
     return { scans, n: scans.length, value: Math.round(sum('mid')), co2: Math.round(sum('co2') * 10) / 10, points, avail: Math.max(0, points - store.spent()) };
   }
   function updateSideLevel() {
+    if (isAdminUser) {
+      $('#lvName').textContent = 'Administrator';
+      $('#lvBar').style.width = '100%';
+      return;
+    }
     const l = level(totals().points);
     $('#lvName').textContent = l.name;
     $('#lvBar').style.width = l.pct + '%';
@@ -183,7 +219,7 @@
   const welcome = $('#welcome');
   let showWelcome = false;
   try {
-    showWelcome = sessionStorage.getItem('circutech_welcome') === '1';
+    showWelcome = !isAdminUser && sessionStorage.getItem('circutech_welcome') === '1';
     sessionStorage.removeItem('circutech_welcome');
   } catch {}
 
@@ -371,6 +407,7 @@
     count($('#kDevices'), t.n);
     count($('#kValue'), t.value);
     count($('#kCo2'), t.co2, 1);
+    $('#kArticles').textContent = store.articleReads().length;
     $('#lvTitle').textContent = l.name;
     $('#lvNext').textContent = l.left ? l.left + ' points to ' + l.next : 'Top tier reached';
     setRing($('#pf'), l.pct);
@@ -647,34 +684,40 @@
     $('#setName').value = fullName;
   }
 
-  $('#saveName').onclick = () => {
+  $('#profileForm').addEventListener('submit', e => {
+    e.preventDefault();
     const name = $('#setName').value.trim().replace(/\s+/g, ' ');
     if (name.length < 2) return toast('Enter your name.');
     const list = store.users();
     const rec = list.find(u => u.email === EMAIL);
-    if (!rec) return;
+    if (!rec) return toast('Account not found in this browser.');
     rec.name = name;
-    store.saveUsers(list);
+    if (!store.saveUsers(list)) return toast('Could not save your name in this browser.');
     try { sessionStorage.setItem('circutech_session', JSON.stringify({ ...session, name })); } catch {}
-    toast('Name updated');
+    toast('Name saved in this browser.');
     setTimeout(() => location.reload(), 600);
-  };
+  });
 
-  $('#savePw').onclick = async () => {
+  $('#securityForm').addEventListener('submit', async e => {
+    e.preventDefault();
     const oldP = $('#pwOld').value, newP = $('#pwNew').value;
     const list = store.users();
     const rec = list.find(u => u.email === EMAIL);
-    if (!rec) return;
-    const ok = rec.salt ? (await hashPass(oldP, rec.salt)) === rec.hash : rec.pass === legacy(oldP);
-    if (!ok) return toast('Current password is wrong.');
-    if (newP.length < 8 || !/[A-Za-z]/.test(newP) || !/\d/.test(newP)) return toast('New password needs 8+ characters with letters and numbers.');
-    rec.salt = newSalt();
-    rec.hash = await hashPass(newP, rec.salt);
-    delete rec.pass;
-    store.saveUsers(list);
-    $('#pwOld').value = $('#pwNew').value = '';
-    toast('Password updated');
-  };
+    if (!rec) return toast('Account not found in this browser.');
+    try {
+      const ok = rec.salt ? (await hashPass(oldP, rec.salt)) === rec.hash : rec.pass === legacy(oldP);
+      if (!ok) return toast('Current password is wrong.');
+      if (newP.length < 8 || !/[A-Za-z]/.test(newP) || !/\d/.test(newP)) return toast('New password needs 8+ characters with letters and numbers.');
+      rec.salt = newSalt();
+      rec.hash = await hashPass(newP, rec.salt);
+      delete rec.pass;
+      if (!store.saveUsers(list)) return toast('Could not save your password in this browser.');
+      $('#pwOld').value = $('#pwNew').value = '';
+      toast('Password saved in this browser.');
+    } catch {
+      toast('Password update failed. Check browser storage and try again.');
+    }
+  });
 
   $('#themeSeg').addEventListener('click', e => {
     const btn = e.target.closest('.chip');
@@ -684,21 +727,25 @@
   });
 
   $('#exportData').onclick = () => {
-    const data = { account: { name: fullName, email: EMAIL, created: account.created }, scans: store.scans().map(({ thumb, ...s }) => s), vouchers: store.vouchers(), spentPoints: store.spent(), business: load(localStorage, BIZ_KEY, null) };
+    const data = { account: { name: fullName, email: EMAIL, created: account.created }, scans: store.scans().map(({ thumb, ...s }) => s), articlesRead: store.articleReads(), vouchers: store.vouchers(), spentPoints: store.spent(), business: load(localStorage, BIZ_KEY, null) };
     download('circutech-my-data.json', 'application/json', JSON.stringify(data, null, 2));
     toast('Your data was downloaded');
   };
   $('#clearData').onclick = () => {
-    if (!confirm('Delete all your scans and vouchers from this browser?')) return;
+    if (!confirm('Delete your scans, article reading activity, and vouchers from this browser?')) return;
     store.clear();
     updateSideLevel();
-    toast('Your scans and vouchers were cleared');
+    toast('Your scans, article reads, and vouchers were cleared');
   };
   $('#delAcc').onclick = () => {
     if (!confirm('Delete your account and all your data? This cannot be undone.')) return;
-    store.saveUsers(store.users().filter(u => u.email !== EMAIL));
+    if (!store.saveUsers(store.users().filter(u => u.email !== EMAIL))) return toast('Could not delete your account from this browser.');
     store.clear();
     try { localStorage.removeItem(BIZ_KEY); } catch {}
+    const listings = load(localStorage, 'circutech_listings', []);
+    if (Array.isArray(listings)) save('circutech_listings', listings.filter(listing => listing.owner !== EMAIL && listing.buyer !== EMAIL));
+    const reports = load(localStorage, 'circutech_reports', []);
+    if (Array.isArray(reports)) save('circutech_reports', reports.filter(report => report.reporter !== EMAIL));
     signOut();
   };
 
@@ -722,7 +769,7 @@
   };
   function renderBanner(id) {
     const ban = $('#heroBan');
-    ban.hidden = id === 'ecobot' || !BANNER[id];
+    ban.hidden = isAdminUser || id === 'ecobot' || !BANNER[id];
     if (ban.hidden) return;
     const t = totals();
     $('#hbHi').textContent = hello + ', ' + first;
@@ -823,6 +870,332 @@
     w.document.write(`<!doctype html><title>Impact certificate</title><style>body{font-family:system-ui,sans-serif;margin:0;padding:40px;color:#0d3b2e}.c{border:6px double #0d3b2e;border-radius:18px;padding:48px;text-align:center;max-width:760px;margin:auto}h1{font-size:34px;margin:6px 0}h2{font-size:30px;margin:18px 0;color:#157a3c}.g{display:flex;justify-content:center;gap:40px;margin:28px 0}.g b{display:block;font-size:34px}.g span{font-size:13px;color:#536961}small{color:#536961}</style><div class="c"><small>CIRCUTECH JO</small><h1>Certificate of Environmental Impact</h1><p>This certifies that</p><h2>${esc(b.company)}</h2><p>has responsibly recovered electronic devices through the CircuTech Jo platform.</p><div class="g"><div><b>${d.dev}</b><span>devices recovered</span></div><div><b>${d.co2} kg</b><span>CO₂ avoided</span></div><div><b>${d.score}</b><span>ESG score</span></div></div><small>${id} · Issued ${new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })} · Demo figures</small></div><script>onload=()=>print()<\/script>`);
     w.document.close();
   };
+
+  /* ========== 15. Admin dashboard (browser-stored project data) ========== */
+  const ADMIN_LISTINGS_KEY = 'circutech_listings';
+  const ADMIN_REPORTS_KEY = 'circutech_reports';
+  const adminRows = (rows, colspan, message) => rows || `<tr><td colspan="${colspan}">${message}</td></tr>`;
+  const adminDate = value => value ? new Date(value).toLocaleDateString() : '—';
+  const adminScans = () => Object.keys(localStorage).filter(key => key.startsWith('circutech_scans:'))
+    .flatMap(key => {
+      const email = key.slice('circutech_scans:'.length);
+      const scans = load(localStorage, key, []);
+      return Array.isArray(scans) ? scans.map(scan => ({ ...scan, email })) : [];
+    }).sort((a, b) => (+b.date || 0) - (+a.date || 0));
+  const adminVouchers = () => Object.keys(localStorage).filter(key => key.startsWith('circutech_vouchers:'))
+    .flatMap(key => {
+      const email = key.slice('circutech_vouchers:'.length);
+      const vouchers = load(localStorage, key, []);
+      return Array.isArray(vouchers) ? vouchers.map(voucher => ({ ...voucher, email })) : [];
+    });
+  const adminBusinesses = () => Object.keys(localStorage).filter(key => key.startsWith('circutech_biz:'))
+    .map(key => ({ key, ...load(localStorage, key, {}) })).filter(business => business.company);
+  const adminListings = () => {
+    const listings = load(localStorage, ADMIN_LISTINGS_KEY, []);
+    return Array.isArray(listings) ? listings : [];
+  };
+  const adminPlaces = () => {
+    const places = load(localStorage, 'circutech_places', PLACES);
+    return Array.isArray(places) ? places : PLACES;
+  };
+  const adminTiers = () => {
+    const tiers = load(localStorage, 'circutech_tiers', TIERS);
+    return Array.isArray(tiers) ? tiers : TIERS;
+  };
+  const adminSet = (key, value) => {
+    try { localStorage.setItem(key, JSON.stringify(value)); return true; } catch { return false; }
+  };
+  const adminArticles = () => window.CircuTechNews ? window.CircuTechNews.list() : [];
+  const slugifyArticle = title => title.toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 80);
+  const articleBodyText = body => {
+    const parsed = new DOMParser().parseFromString(String(body || ''), 'text/html');
+    return parsed.body.textContent.replace(/\n{3,}/g, '\n\n').trim();
+  };
+  const articleBodyHtml = text => text.split(/\r?\n\s*\r?\n/).map(paragraph => paragraph.trim()).filter(Boolean)
+    .map(paragraph => '<p>' + esc(paragraph).replace(/\r?\n/g, '<br>') + '</p>').join('');
+
+  function resetArticleForm() {
+    $('#adminArticleForm').reset();
+    $('#adminArticleId').value = '';
+    $('#adminArticleRead').value = '4';
+    $('#adminArticleStatus').value = 'published';
+    $('#adminArticleDate').value = new Date().toISOString().slice(0, 10);
+    $('#adminArticleSave').textContent = 'Publish article';
+    $('#adminArticleCancel').hidden = true;
+    $('#adminArticleMessage').textContent = '';
+  }
+
+  function editAdminArticle(id) {
+    const article = adminArticles().find(item => item.id === id);
+    if (!article) return toast('Article no longer exists.');
+    $('#adminArticleId').value = article.id;
+    $('#adminArticleTitle').value = article.title || '';
+    $('#adminArticleCategory').value = article.cat || '';
+    $('#adminArticleDate').value = article.date || '';
+    $('#adminArticleRead').value = article.read || 4;
+    $('#adminArticleStatus').value = article.status === 'draft' ? 'draft' : 'published';
+    $('#adminArticleImage').value = article.img || '';
+    $('#adminArticleLead').value = article.lead || '';
+    $('#adminArticleBody').value = articleBodyText(article.body);
+    $('#adminArticleSave').textContent = 'Save changes';
+    $('#adminArticleCancel').hidden = false;
+    $('#adminArticleTitle').focus();
+  }
+
+  function renderAdminNews() {
+    const articles = adminArticles().slice().sort((a, b) => String(b.date).localeCompare(String(a.date)));
+    const query = $('#adminArticleSearch').value.trim().toLowerCase();
+    const status = $('#adminArticleFilter').value;
+    const filtered = articles.filter(article => {
+      const matchesStatus = status === 'all' || (article.status === 'draft' ? 'draft' : 'published') === status;
+      const searchable = [article.title, article.cat, article.lead].join(' ').toLowerCase();
+      return matchesStatus && (!query || searchable.includes(query));
+    });
+    $('#adminArticleRows').innerHTML = adminRows(filtered.map(article => `<tr><td>${esc(article.title)}</td><td>${esc(article.cat)}</td><td>${adminDate(article.date)}</td><td>${article.status === 'draft' ? 'Draft' : 'Published'}</td><td class="admin-actions"><button class="btn out sm" type="button" data-admin-action="edit-article" data-id="${esc(article.id)}">Edit</button> <button class="btn out sm" type="button" data-admin-action="delete-article" data-id="${esc(article.id)}">Delete</button></td></tr>`).join(''), 5, articles.length ? 'No articles match these filters.' : 'No articles yet.');
+  }
+
+  function renderAdmin(id) {
+    const scans = adminScans();
+    const users = store.users().filter(item => item.role !== 'admin');
+    const publishedArticles = adminArticles().filter(article => article.status !== 'draft').length;
+    const listings = adminListings();
+    const vouchers = adminVouchers();
+    const businesses = adminBusinesses();
+    const pickupCount = businesses.reduce((count, business) => count + (business.pickups || []).filter(item => !item.status).length, 0);
+    const pendingListings = listings.filter(item => item.status === 'pending').length;
+
+    if (id === 'adminOverview') {
+      const sum = key => scans.reduce((total, scan) => total + (+scan[key] || 0), 0);
+      $('#adminStats').innerHTML = [
+        ['User accounts', users.length], ['Device scans', scans.length],
+        ['Estimated value', 'JOD ' + Math.round(sum('mid'))],
+        ['CO₂ avoided', Math.round(sum('co2')) + ' kg'],
+        ['Voucher redemptions', vouchers.length], ['Businesses', businesses.length], ['Published news', publishedArticles]
+      ].map(([label, value]) => `<div class="card admin-stat"><span>${label}</span><b>${value}</b></div>`).join('');
+      $('#adminRecentScans').innerHTML = adminRows(scans.slice(0, 6).map(scan => `<tr><td>${adminDate(scan.date)}</td><td>${esc(scan.device || 'Device')}</td><td>${esc(scan.email)}</td><td>JOD ${esc(scan.mid || 0)}</td></tr>`).join(''), 4, 'No saved scans yet.');
+      $('#adminPending').innerHTML = `<a href="#adminListings"><span>Marketplace listings awaiting review</span><b>${pendingListings}</b></a><a href="#adminBusiness"><span>Business pickups awaiting action</span><b>${pickupCount}</b></a><a href="#adminPlaces"><span>Collection points</span><b>${adminPlaces().filter(place => !place.off).length}</b></a>`;
+      const announcement = load(localStorage, 'circutech_announce', null) || {};
+      $('#adminAnnouncement').value = announcement.text || '';
+      $('#adminAnnouncementOn').checked = !!announcement.on;
+      $('#adminAnnouncementKind').value = announcement.kind === 'warn' ? 'warn' : 'info';
+    }
+
+    if (id === 'adminUsers') {
+      $('#adminUserRows').innerHTML = adminRows(users.map(account => {
+        const ownScans = load(localStorage, 'circutech_scans:' + account.email, []);
+        const points = Array.isArray(ownScans) ? ownScans.reduce((total, scan) => total + (+scan.points || 0), 0) : 0;
+        const role = account.role === 'business' ? 'business' : 'user';
+        return `<tr><td>${esc(account.name || 'User')}</td><td>${esc(account.email)}</td><td><select class="admin-role" aria-label="Role for ${esc(account.email)}" data-admin-role="${esc(account.email)}"><option value="user"${role === 'user' ? ' selected' : ''}>User</option><option value="business"${role === 'business' ? ' selected' : ''}>Business</option></select></td><td>${adminDate(account.created)}</td><td>${Array.isArray(ownScans) ? ownScans.length : 0}</td><td>${Math.round(points)}</td><td><button class="btn out sm" type="button" data-admin-action="delete-user" data-id="${esc(account.email)}">Delete</button></td></tr>`;
+      }).join(''), 7, 'No user accounts yet.');
+    }
+
+    if (id === 'adminNews') renderAdminNews();
+
+    if (id === 'adminScans') {
+      $('#adminScanRows').innerHTML = adminRows(scans.map(scan => `<tr><td>${adminDate(scan.date)}</td><td>${esc(scan.email)}</td><td>${esc(scan.device || 'Device')}</td><td>${esc(scan.brand || '—')}</td><td>${esc(scan.cond || '—')}</td><td>JOD ${esc(scan.lo || 0)}–${esc(scan.hi || 0)}</td><td>${esc(scan.co2 || 0)} kg</td><td>${esc(scan.points || 0)}</td></tr>`).join(''), 8, 'No saved scans yet.');
+    }
+
+    if (id === 'adminListings') {
+      $('#adminListingRows').innerHTML = adminRows(listings.map(listing => {
+        const actions = listing.status === 'pending'
+          ? `<button class="btn sm" type="button" data-admin-action="approve-listing" data-id="${esc(listing.id)}">Approve</button> <button class="btn out sm" type="button" data-admin-action="reject-listing" data-id="${esc(listing.id)}">Reject</button>`
+          : ['live', 'reserved'].includes(listing.status)
+            ? `<button class="btn out sm" type="button" data-admin-action="remove-listing" data-id="${esc(listing.id)}">Remove</button>` : '—';
+        return `<tr><td>${esc(listing.title || 'Untitled')}</td><td>${esc(listing.ownerName || listing.owner || '—')}</td><td>${esc(listing.cat || '—')}</td><td>JOD ${esc(listing.price || 0)}</td><td>${esc(listing.status || '—')}</td><td class="admin-actions">${actions}</td></tr>`;
+      }).join(''), 6, 'No marketplace listings yet.');
+    }
+
+    if (id === 'adminPlaces') {
+      $('#adminPlaceRows').innerHTML = adminRows(adminPlaces().map((place, index) => `<tr><td>${esc(place.name)}</td><td>${esc(place.area)}</td><td>${esc(place.hours || 'Hours not set')}</td><td><button class="btn out sm" type="button" data-admin-action="delete-place" data-id="${index}">Remove</button></td></tr>`).join(''), 4, 'No collection points configured.');
+    }
+
+    if (id === 'adminRewards') {
+      $('#adminTierRows').innerHTML = adminRows(adminTiers().map((tier, index) => `<tr><td>${esc(tier[2])}</td><td>${esc(tier[0])}</td><td>JOD ${esc(tier[1])}</td><td><button class="btn out sm" type="button" data-admin-action="delete-tier" data-id="${index}">Remove</button></td></tr>`).join(''), 4, 'No reward tiers configured.');
+      $('#adminVoucherRows').innerHTML = adminRows(vouchers.map(voucher => `<tr><td>${adminDate(voucher.date)}</td><td>${esc(voucher.email)}</td><td>${esc(voucher.name)} · JOD ${esc(voucher.jod)}</td><td>${esc(voucher.code)}</td></tr>`).join(''), 4, 'No redeemed vouchers yet.');
+    }
+
+    if (id === 'adminBusiness') {
+      $('#adminBusinessRows').innerHTML = adminRows(businesses.map(business => `<tr><td>${esc(business.company)}</td><td>${esc(business.industry || '—')}</td><td>${esc(business.staff || 0)}</td><td>${esc(business.email)}</td></tr>`).join(''), 4, 'No business workspaces yet.');
+      const pickups = businesses.flatMap(business => (business.pickups || []).map((pickup, index) => ({ business, pickup, index })));
+      $('#adminPickupRows').innerHTML = adminRows(pickups.map(({ business, pickup, index }) => {
+        const actions = pickup.status ? '—' : `<button class="btn sm" type="button" data-admin-action="pickup-confirm" data-id="${esc(business.key)}" data-index="${index}">Confirm</button> <button class="btn out sm" type="button" data-admin-action="pickup-decline" data-id="${esc(business.key)}" data-index="${index}">Decline</button>`;
+        return `<tr><td>${esc(business.company)}</td><td>${esc(pickup.n || 0)}</td><td>${esc(pickup.type || '—')}</td><td>${esc(pickup.date || 'To confirm')}</td><td>${esc(pickup.area || '—')}</td><td>${esc(pickup.status || 'Requested')}</td><td class="admin-actions">${actions}</td></tr>`;
+      }).join(''), 7, 'No pickup requests yet.');
+    }
+  }
+
+  document.addEventListener('click', e => {
+    const button = e.target.closest('[data-admin-action]');
+    if (!button || !isAdminUser) return;
+    const action = button.dataset.adminAction;
+    const id = button.dataset.id;
+    if (action === 'delete-user') {
+      if (!confirm('Delete this user and their browser-stored data?')) return;
+      store.saveUsers(store.users().filter(account => account.email !== id));
+      ['circutech_scans:', 'circutech_spent:', 'circutech_vouchers:', 'circutech_article_reads:', 'circutech_biz:'].forEach(prefix => localStorage.removeItem(prefix + id));
+      adminSet(ADMIN_LISTINGS_KEY, adminListings().filter(listing => listing.owner !== id && listing.buyer !== id));
+      adminSet(ADMIN_REPORTS_KEY, load(localStorage, ADMIN_REPORTS_KEY, []).filter(report => report.reporter !== id));
+    }
+    if (action === 'approve-listing' || action === 'reject-listing' || action === 'remove-listing') {
+      const listings = adminListings();
+      const listing = listings.find(item => item.id === id);
+      if (listing) {
+        listing.status = action === 'approve-listing' ? 'live' : action === 'reject-listing' ? 'rejected' : 'removed';
+        listing.reason = action === 'reject-listing' ? 'Not approved by an administrator.' : '';
+        listing.history = Array.isArray(listing.history) ? listing.history : [];
+        listing.history.push({ ev: action === 'approve-listing' ? 'Approved' : action === 'reject-listing' ? 'Rejected' : 'Removed', at: Date.now() });
+        adminSet(ADMIN_LISTINGS_KEY, listings);
+      }
+    }
+    if (action === 'delete-place') {
+      const places = adminPlaces();
+      places.splice(+id, 1);
+      adminSet('circutech_places', places);
+    }
+    if (action === 'delete-tier') {
+      const tiers = adminTiers();
+      if (tiers.length <= 1) return toast('Keep at least one reward tier.');
+      tiers.splice(+id, 1);
+      adminSet('circutech_tiers', tiers);
+    }
+    if (action === 'pickup-confirm' || action === 'pickup-decline') {
+      const business = load(localStorage, id, null);
+      if (business && business.pickups && business.pickups[+button.dataset.index]) {
+        business.pickups[+button.dataset.index].status = action === 'pickup-confirm' ? 'Confirmed' : 'Declined';
+        adminSet(id, business);
+      }
+    }
+    if (action === 'edit-article') {
+      editAdminArticle(id);
+    }
+    if (action === 'delete-article') {
+      if (!confirm('Delete this article from this browser?')) return;
+      const remaining = adminArticles().filter(article => article.id !== id);
+      if (!window.CircuTechNews.save(remaining)) return toast('Could not save changes in this browser.');
+      if ($('#adminArticleId').value === id) resetArticleForm();
+      toast('Article deleted from this browser.');
+    }
+    renderAdmin(location.hash.slice(1) || 'adminOverview');
+  });
+
+  document.addEventListener('change', e => {
+    const select = e.target.closest('[data-admin-role]');
+    if (!select || !isAdminUser) return;
+    const nextRole = select.value === 'business' ? 'business' : 'user';
+    const accounts = store.users();
+    const target = accounts.find(account => account.email === select.dataset.adminRole && account.role !== 'admin');
+    if (!target) return renderAdmin('adminUsers');
+    target.role = nextRole;
+    if (!store.saveUsers(accounts)) {
+      toast('Could not save this role in the browser.');
+      return renderAdmin('adminUsers');
+    }
+    renderAdmin('adminUsers');
+    toast(nextRole === 'business' ? 'Business workspace access granted in this browser.' : 'Business workspace access removed in this browser.');
+  });
+
+  $('#adminArticleForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const idField = $('#adminArticleId');
+    const title = $('#adminArticleTitle').value.trim();
+    const category = $('#adminArticleCategory').value.trim();
+    const date = $('#adminArticleDate').value;
+    const lead = $('#adminArticleLead').value.trim();
+    const bodyText = $('#adminArticleBody').value.trim();
+    const image = $('#adminArticleImage').value.trim();
+    const message = $('#adminArticleMessage');
+    message.textContent = '';
+    if (!title || !category || !date || !lead || !bodyText) {
+      message.textContent = 'Complete the title, category, date, summary, and article content.';
+      return;
+    }
+    if (image && !/^https?:\/\//i.test(image)) {
+      message.textContent = 'Use an HTTPS or HTTP image URL, or leave it blank.';
+      return;
+    }
+    const articles = adminArticles();
+    const oldId = idField.value;
+    const existingIndex = oldId ? articles.findIndex(article => article.id === oldId) : -1;
+    if (oldId && existingIndex < 0) {
+      message.textContent = 'This article no longer exists. Refresh the list and try again.';
+      return;
+    }
+    let id = oldId || slugifyArticle(title) || 'article';
+    if (!oldId) {
+      const base = id;
+      let suffix = 2;
+      while (articles.some(article => article.id === id)) id = base + '-' + suffix++;
+    }
+    const article = {
+      ...(existingIndex >= 0 ? articles[existingIndex] : {}),
+      id,
+      cat: category.toUpperCase(),
+      tag: category,
+      date,
+      read: Math.max(1, Math.min(60, Number($('#adminArticleRead').value) || 4)),
+      img: image,
+      title,
+      lead,
+      body: articleBodyHtml(bodyText),
+      status: $('#adminArticleStatus').value === 'draft' ? 'draft' : 'published'
+    };
+    if (existingIndex >= 0) articles[existingIndex] = article;
+    else articles.push(article);
+    if (!window.CircuTechNews.save(articles)) {
+      message.textContent = 'Could not save this article in browser storage.';
+      return;
+    }
+    resetArticleForm();
+    renderAdminNews();
+    toast(oldId ? 'Article changes saved in this browser.' : 'Article saved in this browser.');
+  });
+  $('#adminArticleCancel').addEventListener('click', resetArticleForm);
+  $('#adminArticleSearch').addEventListener('input', renderAdminNews);
+  $('#adminArticleFilter').addEventListener('change', renderAdminNews);
+
+  $('#adminExportScans').onclick = () => {
+    const scans = adminScans();
+    if (!scans.length) return toast('No scans to export yet.');
+    const header = ['Date', 'User', 'Device', 'Model', 'Condition', 'Grade', 'Value min (JOD)', 'Value max (JOD)', 'CO2 avoided (kg)', 'Points'];
+    const rows = scans.map(scan => [adminDate(scan.date), scan.email, scan.device, scan.brand, scan.cond, scan.grade, scan.lo, scan.hi, scan.co2, scan.points]);
+    download('circutech-admin-scans.csv', 'text/csv;charset=utf-8', '\ufeff' + csvOf([header, ...rows]));
+  };
+
+  $('#adminAnnouncementForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const text = $('#adminAnnouncement').value.trim();
+    if ($('#adminAnnouncementOn').checked && !text) return toast('Enter an announcement before showing it.');
+    if (!adminSet('circutech_announce', { text, on: $('#adminAnnouncementOn').checked, kind: $('#adminAnnouncementKind').value })) return toast('Could not save in this browser.');
+    toast('Announcement saved in this browser.');
+  });
+
+  $('#adminPlaceForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const open = +$('#adminPlaceOpen').value, close = +$('#adminPlaceClose').value;
+    if (close <= open) { $('#adminPlaceClose').setCustomValidity('Closing time must be after opening time.'); $('#adminPlaceClose').reportValidity(); return; }
+    $('#adminPlaceClose').setCustomValidity('');
+    const daily = $('#adminPlaceDays').value === 'daily';
+    const place = {
+      name: $('#adminPlaceName').value.trim(), area: $('#adminPlaceArea').value.trim(), open, close,
+      days: daily ? [0, 1, 2, 3, 4, 5, 6] : [0, 1, 2, 3, 4],
+      hours: `${daily ? 'Daily' : 'Sun to Thu'} ${open}:00 to ${close}:00`,
+      q: $('#adminPlaceArea').value.trim().replace('·', ',') + ', Jordan'
+    };
+    if (!adminSet('circutech_places', [...adminPlaces(), place])) return toast('Could not save in this browser.');
+    e.target.reset();
+    renderAdmin('adminPlaces');
+    toast('Collection point saved in this browser.');
+  });
+
+  $('#adminTierForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const tiers = [...adminTiers(), [+$('#adminTierPoints').value, +$('#adminTierValue').value, $('#adminTierName').value.trim()]]
+      .sort((a, b) => a[0] - b[0]);
+    if (!adminSet('circutech_tiers', tiers)) return toast('Could not save in this browser.');
+    e.target.reset();
+    renderAdmin('adminRewards');
+    toast('Reward tier saved in this browser.');
+  });
 
   /* ========== Start ========== */
   updateSideLevel();

@@ -25,7 +25,10 @@ button.b.g{background:#fff;color:#06251a;border:1px solid var(--line)}button.d{b
 .tag{padding:3px 9px;border-radius:99px;background:var(--soft);font-size:11px;font-weight:700;color:var(--t)}.tag.w{background:#fef3c7;color:#92400e}
 .note{font-size:12px;color:var(--mut);margin-top:10px}
 @media(max-width:800px){body{flex-direction:column}aside{width:auto;height:auto;position:static}nav{display:flex;overflow-x:auto}main{padding:18px}}
-</style></head><body>
+</style><link rel="stylesheet" href="../cookie-consent.css"><script src="../cookie-consent.js" defer></script></head><body style="visibility:hidden">
+<aside class="cookie-banner" id="cookieBanner" role="region" aria-label="Cookie and storage choices" hidden><div class="cookie-copy"><h2>Cookies and browser storage</h2><p>Necessary storage supports sign-in and saved preferences. Optional analytics and marketing stay off unless you choose them. <a href="../privacypage/privacy.html">Privacy information</a>.</p><p class="cookie-feedback" id="cookieBannerFeedback" role="status" hidden></p></div><div class="cookie-actions"><button type="button" data-cookie-action="accept">Accept all cookies</button><button type="button" data-cookie-action="reject">Reject non-essential</button><button type="button" data-cookie-action="settings">Cookie settings</button></div></aside>
+<dialog class="cookie-dialog" id="cookieDialog" aria-labelledby="cookieTitle"><h2 id="cookieTitle">Cookie settings</h2><p>Necessary browser storage is always on. No analytics or advertising integration is currently loaded.</p><form><label class="cookie-choice"><input id="cookieNecessary" type="checkbox" checked disabled><span><strong>Strictly necessary</strong>Required for sign-in, saved app data, and your consent choice.</span></label><label class="cookie-choice"><input id="cookieAnalytics" type="checkbox"><span><strong>Analytics</strong>Optional measurement; no service is connected.</span></label><label class="cookie-choice"><input id="cookieMarketing" type="checkbox"><span><strong>Marketing</strong>Optional advertising; no service is connected.</span></label></form><p class="cookie-feedback" id="cookieDialogFeedback" role="status" aria-live="polite" hidden></p><div class="cookie-dialog-actions"><button type="button" data-cookie-close>Close</button><button type="button" data-cookie-action="reject">Reject non-essential</button><button type="button" data-cookie-save>Save preferences</button></div></dialog>
+<button class="cookie-settings-link cookie-reopen" type="button" data-cookie-settings>Cookie settings</button>
 <aside><b>CircuTech Jo <em>Admin</em></b><nav id="nav"></nav><button id="out">Log out</button></aside>
 <main><h1 id="t"></h1><div id="v"></div></main>
 <script>
@@ -34,7 +37,9 @@ const J = (s, k, f) => { try { return JSON.parse(s.getItem(k)) ?? f; } catch { r
 const W = (k, v) => L.setItem(k, JSON.stringify(v));
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const me = J(S, 'circutech_session', null);
-if (!me || me.role !== 'admin') location.replace(LOGIN);
+const account = me && me.exp > Date.now() && J(L, 'circutech_users', []).find(user => user.email === me.email && user.role === 'admin' && !user.suspended);
+if (!account) { S.removeItem('circutech_session'); location.replace(LOGIN); }
+else location.replace('../apppage/app.html#adminOverview');
 
 /* ---- data ---- */
 const DEF_PLACES = [

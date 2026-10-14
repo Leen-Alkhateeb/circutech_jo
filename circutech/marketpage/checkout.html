@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Checkout | CircuTech Jo</title>
+  <meta name="description" content="Review your CircuTech marketplace cart.">
+  <meta name="theme-color" content="#0d3b2e">
+  <link rel="icon" href="../assets/circutech-jo-concept-02.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../LandingPage/style.css">
+  <link rel="stylesheet" href="market.css">
+  <link rel="stylesheet" href="checkout.css">
+  <link rel="stylesheet" href="../cookie-consent.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="nav" id="top">
+    <div class="wrap">
+      <a class="logo" href="../index.html" aria-label="CircuTech Jo home">
+        <svg class="logo-mark" viewBox="0 0 48 48" aria-hidden="true">
+          <path class="arc" d="M28.4 7.6A17 17 0 0 1 39.97 29.8"/><polygon class="head" points="38.3,34.5 43.26,31 36.68,28.6"/>
+          <path class="arc" d="M33.75 37.9A17 17 0 0 1 10.98 34.93"/><polygon class="head" points="7.77,31.1 8.3,37.18 13.66,32.68"/>
+          <path class="arc" d="M7.26 26.95A17 17 0 0 1 19.6 7.58"/><polygon class="head" points="24.43,6.28 18.69,4.2 20.5,10.96"/>
+          <rect class="chip" x="17" y="17" width="14" height="14" rx="4"/><circle cx="24" cy="24" r="2.6" fill="#fff"/>
+        </svg>
+        <span class="logo-text">CircuTech <i>Jo</i></span>
+      </a>
+      <ul id="menu">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../servicespage/services.html">Services</a></li>
+        <li><a href="../businesspage/business.html">Business</a></li>
+        <li><a href="../newspage/news.html">News</a></li>
+        <li><a href="../contactpage/contact.html">Contact</a></li>
+        <li><a href="market.html" class="active" aria-current="page">Marketplace</a></li>
+      </ul>
+      <div class="actions">
+        <button class="btn-sm" type="button" id="theme" aria-label="Toggle dark mode"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></button>
+        <a class="btn-sm login" href="../loginpage/login.html">Login</a>
+        <button class="menu-btn" type="button" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="checkout-page">
+    <section class="checkout-heading">
+      <div class="wrap">
+        <a class="checkout-back" href="market.html">← Back to marketplace</a>
+        <h1>Checkout</h1>
+        <p>Review your selected devices and contact details.</p>
+      </div>
+    </section>
+
+    <section class="wrap checkout-layout">
+      <form class="card pad checkout-form" id="checkoutForm">
+        <h2>Contact details</h2>
+        <p class="mut">These details are used only for this browser session and are not submitted to a server.</p>
+        <label for="customerName">Name</label>
+        <input id="customerName" name="name" autocomplete="name" maxlength="80" required>
+        <label for="customerEmail">Email</label>
+        <input id="customerEmail" name="email" type="email" autocomplete="email" maxlength="254" required>
+        <fieldset class="payment-options" disabled>
+          <legend>Payment</legend>
+          <p>No payment provider is configured. Payment methods are unavailable.</p>
+        </fieldset>
+        <p class="payment-disclaimer">This project has no secure payment backend. No card information is requested, no order is submitted, and no payment can be taken.</p>
+        <p class="checkout-message" id="checkoutMessage" role="alert" aria-live="assertive"></p>
+        <button class="btn" id="checkoutSubmit" type="submit">Check checkout details</button>
+      </form>
+
+      <aside class="card pad checkout-summary" aria-labelledby="summaryTitle">
+        <h2 id="summaryTitle">Order summary</h2>
+        <div id="checkoutItems" class="checkout-items"></div>
+        <p id="checkoutEmpty" class="checkout-empty" hidden>Your cart is empty.</p>
+        <div class="checkout-total"><span>Subtotal</span><b id="checkoutSubtotal">JOD 0.00</b></div>
+        <p class="mut checkout-unique">Each listing is a single, unique used device. Collection and payment arrangements are not handled by this demo.</p>
+        <a class="btn ghost checkout-return" href="market.html">Return to marketplace</a>
+      </aside>
+    </section>
+  </main>
+
+  <script src="../LandingPage/script.js"></script>
+  <script src="store.js"></script>
+  <script src="checkout.js"></script>
+  <aside class="cookie-banner" id="cookieBanner" role="region" aria-label="Cookie and storage choices" hidden><div class="cookie-copy"><h2>Cookies and browser storage</h2><p>Necessary storage supports sign-in and saved preferences. Optional analytics and marketing stay off unless you choose them. <a href="../privacypage/privacy.html">Privacy information</a>.</p><p class="cookie-feedback" id="cookieBannerFeedback" role="status" hidden></p></div><div class="cookie-actions"><button type="button" data-cookie-action="accept">Accept all cookies</button><button type="button" data-cookie-action="reject">Reject non-essential</button><button type="button" data-cookie-action="settings">Cookie settings</button></div></aside>
+  <dialog class="cookie-dialog" id="cookieDialog" aria-labelledby="cookieTitle"><h2 id="cookieTitle">Cookie settings</h2><p>Necessary browser storage is always on. No analytics or advertising integration is currently loaded.</p><form><label class="cookie-choice"><input id="cookieNecessary" type="checkbox" checked disabled><span><strong>Strictly necessary</strong>Required for sign-in, saved app data, and your consent choice.</span></label><label class="cookie-choice"><input id="cookieAnalytics" type="checkbox"><span><strong>Analytics</strong>Optional measurement; no service is connected.</span></label><label class="cookie-choice"><input id="cookieMarketing" type="checkbox"><span><strong>Marketing</strong>Optional advertising; no service is connected.</span></label></form><p class="cookie-feedback" id="cookieDialogFeedback" role="status" aria-live="polite" hidden></p><div class="cookie-dialog-actions"><button type="button" data-cookie-close>Close</button><button type="button" data-cookie-action="reject">Reject non-essential</button><button type="button" data-cookie-save>Save preferences</button></div></dialog>
+  <footer><div class="wrap f-bottom"><p>CircuTech Jo Marketplace</p><div class="f-legal"><a href="../privacypage/privacy.html">Privacy information</a><button class="cookie-settings-link" type="button" data-cookie-settings>Cookie settings</button></div></div></footer>
+  <script src="../cookie-consent.js"></script>
+</body>
+</html>

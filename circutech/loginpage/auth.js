@@ -13,7 +13,7 @@
     },
 
     REDIRECT_AFTER_LOGIN: '../apppage/app.html',
-    REDIRECT_AFTER_ADMIN_LOGIN: '../adminpage/admin.html',
+    REDIRECT_AFTER_ADMIN_LOGIN: '../apppage/app.html#adminOverview',
 
     MAX_ATTEMPTS: 5,
     LOCK_SECONDS: 30

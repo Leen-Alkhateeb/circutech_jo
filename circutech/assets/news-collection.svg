@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" role="img" aria-labelledby="title desc">
+  <title id="title">Electronics collection point</title>
+  <desc id="desc">A labeled collection station with a phone and small electronics.</desc>
+  <rect width="1200" height="700" fill="#eaf7f2"/>
+  <rect y="520" width="1200" height="180" fill="#dbe7e0"/>
+  <rect x="300" y="145" width="600" height="420" rx="24" fill="#0d3b2e"/>
+  <rect x="330" y="175" width="540" height="68" rx="12" fill="#fff"/>
+  <text x="600" y="221" text-anchor="middle" fill="#0d3b2e" font-family="sans-serif" font-size="30" font-weight="700">DEVICE RETURN</text>
+  <rect x="355" y="278" width="490" height="240" rx="16" fill="#f4f9f5"/>
+  <rect x="390" y="320" width="148" height="154" rx="16" fill="#d4f1e5"/>
+  <path d="M422 356a43 43 0 0 1 73-23l13 13m-1-29v30h-30" fill="none" stroke="#00a875" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="576" y="324" width="88" height="150" rx="15" fill="#0d3b2e"/>
+  <rect x="585" y="336" width="70" height="118" rx="8" fill="#fff"/>
+  <circle cx="620" cy="464" r="4" fill="#00a875"/>
+  <rect x="700" y="354" width="108" height="88" rx="12" fill="#ff6b4a"/>
+  <path d="M721 374h66M721 393h48M721 412h58" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
+</svg>
