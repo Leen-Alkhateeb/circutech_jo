@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>News | CircuTech Jo</title>
+    <meta name="description" content="Insights on e-waste, recycling and sustainability.">
+    <meta name="theme-color" content="#0d3b2e">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../LandingPage/style.css">
+    <style>
+        /* Editorial journal layout */
+        .cv { border-radius: 28px; overflow: hidden; background: var(--soft); }
+        .cv svg { width: 100%; height: 100%; display: block; transition: transform .7s cubic-bezier(.16,1,.3,1); }
+        .jr-tag { font-weight: 800; font-size: .9rem; color: var(--coral-d); }
+        .jr-date { color: var(--mut); font-size: .9rem; font-weight: 600; }
+        .jr-head { padding: 72px 0 48px; }
+        .jr-head .wrap { display: grid; grid-template-columns: 1.6fr .7fr; gap: 56px; align-items: end; }
+        .jr-head h1 { font-size: clamp(2.8rem, 6.6vw, 5.6rem); font-weight: 900; letter-spacing: -.045em; line-height: 1.02; }
+        .jr-head p { color: var(--mut); font-size: 1.1rem; line-height: 1.8; padding-bottom: 10px; }
+
+        .jr-feat { display: grid; grid-template-columns: 1.15fr .85fr; gap: 44px; align-items: center; padding-bottom: 60px; border-bottom: 1px solid var(--line); }
+        .jr-feat .cv { aspect-ratio: 4 / 3; }
+        .jr-feat:hover .cv svg, .jr-row:hover .cv svg { transform: scale(1.05); }
+        .jr-feat h2 { font-size: clamp(1.9rem, 3.4vw, 2.9rem); letter-spacing: -.03em; line-height: 1.12; margin: 14px 0; }
+        .jr-feat p { color: var(--mut); font-size: 1.08rem; line-height: 1.8; margin-bottom: 24px; max-width: 46ch; }
+        .jr-more { font-weight: 800; border-bottom: 2px solid var(--coral); padding-bottom: 3px; }
+
+        .jr-row { display: grid; grid-template-columns: 170px 1fr 250px; gap: 36px; align-items: center; padding: 36px 0; border-bottom: 1px solid var(--line); }
+        .jr-row .meta { display: grid; gap: 4px; }
+        .jr-row h3 { font-size: 1.65rem; letter-spacing: -.02em; line-height: 1.2; margin-bottom: 10px; transition: color .2s; }
+        .jr-row:hover h3 { color: var(--coral-d); }
+        .jr-row p { color: var(--mut); line-height: 1.75; max-width: 52ch; }
+        .jr-row .cv { aspect-ratio: 3 / 2; border-radius: 20px; }
+        .jr-list { padding-bottom: 70px; }
+
+        @media (max-width: 960px) {
+            .jr-head { padding: 48px 0 32px; }
+            .jr-head .wrap, .jr-feat { grid-template-columns: 1fr; gap: 24px; }
+            .jr-row { grid-template-columns: 1fr 200px; gap: 8px 24px; }
+            .jr-row .meta { grid-column: 1 / -1; display: flex; gap: 14px; }
+        }
+        @media (max-width: 600px) {
+            .jr-row { grid-template-columns: 1fr; }
+            .jr-row .cv { order: -1; }
+        }
+        @media (prefers-reduced-motion: reduce) { .cv svg { transition: none; } .jr-feat:hover .cv svg, .jr-row:hover .cv svg { transform: none; } }
+    </style>
+</head>
+
+<body>
+
+    <a class="skip" href="#main">Skip to content</a>
+
+    <header class="nav" id="top">
+        <div class="wrap">
+            <a class="logo" href="../index.html" aria-label="CircuTech Jo home">
+                <svg class="logo-mark" viewBox="0 0 48 48" aria-hidden="true">
+                    <path class="arc" d="M28.4 7.6A17 17 0 0 1 39.97 29.8"/>
+                    <polygon class="head" points="38.3,34.5 43.26,31 36.68,28.6"/>
+                    <path class="arc" d="M33.75 37.9A17 17 0 0 1 10.98 34.93"/>
+                    <polygon class="head" points="7.77,31.1 8.3,37.18 13.66,32.68"/>
+                    <path class="arc" d="M7.26 26.95A17 17 0 0 1 19.6 7.58"/>
+                    <polygon class="head" points="24.43,6.28 18.69,4.2 20.5,10.96"/>
+                    <rect class="chip" x="17" y="17" width="14" height="14" rx="4"/>
+                    <circle cx="24" cy="24" r="2.6" fill="#fff"/>
+                </svg>
+                <span class="logo-text">CircuTech <i>Jo</i></span>
+            </a>
+            <ul id="menu">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../aboutpage/about.html">About Us</a></li>
+                <li><a href="../servicespage/services.html">Services</a></li>
+                <li><a href="../businesspage/business.html">Business</a></li>
+                <li><a href="../newspage/news.html" class="active" aria-current="page">News</a></li>
+                <li><a href="../contactpage/contact.html">Contact</a></li>
+                <li><a href="../marketpage/market.html">Marketplace</a></li>
+            </ul>
+            <div class="actions">
+                <button class="btn-sm" type="button">العربية</button>
+                <button class="btn-sm" type="button" id="theme" aria-label="Toggle dark mode">
+                    <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+                </button>
+                <a class="btn-sm login" href="../loginpage/login.html">Login</a>
+                <button class="menu-btn" type="button" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main id="main">
+
+        <section class="jr-head">
+            <div class="wrap">
+                <h1 class="fade">Ideas for a greener future.</h1>
+                <p class="fade" style="--d:.15">Insights on electronic waste, responsible recycling and sustainable technology from the CircuTech team.</p>
+            </div>
+        </section>
+
+        <section class="s" style="padding-top:0">
+            <div class="wrap">
+                <a class="jr-feat sr" href="article.html?id=phones-in-your-drawer">
+                    <div class="cv" data-cover="phones-in-your-drawer"></div>
+                    <div>
+                        <span class="jr-tag">E-waste</span> <span class="jr-date">· <time datetime="2026-09-14">14 Sept 2026</time></span>
+                        <h2>Why the phones in your drawer matter</h2>
+                        <p>Unused phones contain valuable materials and can still be reused. Responsible collection helps keep electronic waste out of landfills and brings those materials back into use.</p>
+                        <span class="jr-more">Read article</span>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section class="jr-list">
+            <div class="wrap">
+
+                <a class="jr-row sr" href="article.html?id=collection-points-daily-life">
+                    <div class="meta"><span class="jr-tag">Community</span><time class="jr-date" datetime="2026-08-28">28 Aug 2026</time></div>
+                    <div><h3>Making collection points part of daily life</h3><p>Convenient collection points make responsible disposal easier and help communities participate in recycling.</p></div>
+                    <div class="cv" data-cover="collection-points-daily-life"></div>
+                </a>
+
+                <a class="jr-row sr" href="article.html?id=inside-a-circuit-board">
+                    <div class="meta"><span class="jr-tag">Technology</span><time class="jr-date" datetime="2026-08-03">3 Aug 2026</time></div>
+                    <div><h3>What is inside a circuit board?</h3><p>Circuit boards contain a range of useful materials. Learning about them helps us understand why safe electronic recycling matters.</p></div>
+                    <div class="cv" data-cover="inside-a-circuit-board"></div>
+                </a>
+
+                <a class="jr-row sr" href="article.html?id=esg-reporting-basics">
+                    <div class="meta"><span class="jr-tag">Business</span><time class="jr-date" datetime="2026-07-19">19 Jul 2026</time></div>
+                    <div><h3>ESG reporting basics for e-waste</h3><p>Explore how businesses can track electronic device recovery and report measurable environmental progress.</p></div>
+                    <div class="cv" data-cover="esg-reporting-basics"></div>
+                </a>
+            </div>
+        </section>
+
+        <section class="band">
+            <div class="wrap">
+                <h2>Every device has another possibility.</h2>
+                <p>Give your unused electronics a chance to become part of a more sustainable future.</p>
+                <div class="cta"><a class="btn" href="../marketpage/market.html">Explore Marketplace</a></div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="wrap f-top">
+            <div class="f-brand">
+                <a class="logo" href="../index.html">
+                    <svg class="logo-mark" viewBox="0 0 48 48" aria-hidden="true">
+                        <path class="arc" d="M28.4 7.6A17 17 0 0 1 39.97 29.8"/>
+                        <polygon class="head" points="38.3,34.5 43.26,31 36.68,28.6"/>
+                        <path class="arc" d="M33.75 37.9A17 17 0 0 1 10.98 34.93"/>
+                        <polygon class="head" points="7.77,31.1 8.3,37.18 13.66,32.68"/>
+                        <path class="arc" d="M7.26 26.95A17 17 0 0 1 19.6 7.58"/>
+                        <polygon class="head" points="24.43,6.28 18.69,4.2 20.5,10.96"/>
+                        <rect class="chip" x="17" y="17" width="14" height="14" rx="4"/>
+                        <circle cx="24" cy="24" r="2.6" fill="#fff"/>
+                    </svg>
+                    <span class="logo-text">CircuTech <i>Jo</i></span>
+                </a>
+                <p>Jordan's platform for e-waste trade-in, resale and ESG reporting.</p>
+            </div>
+            <nav class="f-col" aria-label="Pages">
+                <h4>Pages</h4>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../aboutpage/about.html">About Us</a></li>
+                    <li><a href="../servicespage/services.html">Services</a></li>
+                    <li><a href="../businesspage/business.html">Business</a></li>
+                    <li><a href="../newspage/news.html">News</a></li>
+                    <li><a href="../contactpage/contact.html">Contact</a></li>
+                    <li><a href="../marketpage/market.html">Marketplace</a></li>
+                    <li><a href="../loginpage/login.html">Login</a></li>
+                </ul>
+            </nav>
+            <div class="f-col">
+                <h4>Contact</h4>
+                <ul>
+                    <li>Amman, Jordan</li>
+                    <li><a href="mailto:hello@circutech.example">hello@circutech.example</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="wrap f-bottom">
+            <p>© <span id="year">2026</span> CircuTech Jo. All rights reserved.</p>
+            <div class="f-legal"><a href="#">Privacy</a><a href="#">Terms</a></div>
+        </div>
+    </footer>
+
+    <a class="to-top" id="toTop" href="#top" aria-label="Back to top">
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+    </a>
+
+    <script src="../LandingPage/script.js"></script>
+    <script src="../LandingPage/fx.js"></script>
+    <script src="covers.js"></script>
+
+</body>
+</html>

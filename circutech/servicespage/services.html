@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Elite Services &amp; Infrastructure | CircuTech Jo</title>
+  <meta name="description" content="Explore CircuTech Jo's elite e-waste management pathways, corporate ESG integration, and certified green tech services in Jordan.">
+  <meta name="theme-color" content="#0d3b2e">
+
+  <link rel="icon" href="../assets/circutech-jo-concept-02.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../LandingPage/style.css">
+
+  <style>
+    /* تصميم هندسي فخم جداً ومستقر للصور */
+    .elite-hero-card {
+      background: var(--g);
+      color: #fff;
+      border-radius: 32px;
+      padding: 60px 40px;
+      margin-bottom: 50px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 30px 60px rgba(13, 59, 46, 0.25);
+      border: 1px solid rgba(0, 230, 153, 0.2);
+    }
+    .elite-hero-card h1 {
+      font-size: clamp(2.3rem, 4.5vw, 3.8rem);
+      margin: 14px 0 18px;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+    }
+    .elite-hero-card p {
+      color: #b5d5ca;
+      font-size: 1.15rem;
+      max-width: 65ch;
+      line-height: 1.85;
+    }
+
+    .elite-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 30px;
+      margin-bottom: 60px;
+    }
+
+    .elite-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 35px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 10px 30px rgba(13, 59, 46, 0.04);
+    }
+
+    .elite-card.featured-full {
+      grid-column: span 2;
+      background: linear-gradient(135deg, var(--card), var(--soft));
+      border-color: var(--mint);
+    }
+
+    .elite-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--mint);
+      box-shadow: 0 24px 50px rgba(13, 59, 46, 0.12);
+    }
+
+    .elite-img-box {
+      width: 100%;
+      height: 200px;
+      border-radius: 18px;
+      overflow: hidden;
+      margin-bottom: 24px;
+      background: var(--soft);
+    }
+
+    .elite-img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .elite-card:hover .elite-img-box img {
+      transform: scale(1.04);
+    }
+
+    .elite-card h3 {
+      font-size: 1.6rem;
+      margin: 0 0 14px;
+      color: var(--ink);
+    }
+
+    .elite-card p {
+      color: var(--mut);
+      font-size: 1.02rem;
+      line-height: 1.85;
+      margin-bottom: 28px;
+    }
+
+    .elite-tag {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 50px;
+      background: var(--soft);
+      color: var(--g);
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      margin-bottom: 16px;
+    }
+
+    [data-theme="dark"] .elite-tag {
+      color: var(--mint);
+    }
+
+    @media (max-width: 900px) {
+      .elite-grid {
+        grid-template-columns: 1fr;
+      }
+      .elite-card.featured-full {
+        grid-column: span 1;
+      }
+      .elite-hero-card {
+        padding: 35px 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<div class="prog" id="prog"></div>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" id="top">
+  <div class="wrap">
+    <a class="logo" href="../index.html" aria-label="CircuTech Jo home">
+      <svg class="logo-mark" viewBox="0 0 48 48" aria-hidden="true">
+        <path class="arc" d="M28.4 7.6A17 17 0 0 1 39.97 29.8"/>
+        <polygon class="head" points="38.3,34.5 43.26,31 36.68,28.6"/>
+        <path class="arc" d="M33.75 37.9A17 17 0 0 1 10.98 34.93"/>
+        <polygon class="head" points="7.77,31.1 8.3,37.18 13.66,32.68"/>
+        <path class="arc" d="M7.26 26.95A17 17 0 0 1 19.6 7.58"/>
+        <polygon class="head" points="24.43,6.28 18.69,4.2 20.5,10.96"/>
+        <rect class="chip" x="17" y="17" width="14" height="14" rx="4"/>
+        <circle cx="24" cy="24" r="2.6" fill="#fff"/>
+      </svg>
+      <span class="logo-text">CircuTech <i>Jo</i></span>
+    </a>
+
+    <ul id="menu">
+      <li><a href="../index.html">Home</a></li>
+      
+      <li><a href="services.html" class="active" aria-current="page">Services</a></li>
+      <li><a href="../businesspage/business.html">Business</a></li>
+      <li><a href="../newspage/news.html">News</a></li>
+      <li><a href="../contactpage/contact.html">Contact</a></li>
+      <li><a href="../marketpage/market.html">Marketplace</a></li>
+    </ul>
+
+    <div class="actions">
+      <button class="btn-sm" type="button">العربية</button>
+
+      <button class="btn-sm" type="button" id="theme" aria-label="Toggle dark mode">
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/>
+        </svg>
+      </button>
+
+      <a class="btn-sm login" href="../loginpage/login.html">Login</a>
+
+      <button class="menu-btn" type="button" id="menuBtn"
+        aria-label="Open menu" aria-expanded="false" aria-controls="menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <div class="page-body">
+    <div class="wrap">
+
+      <!-- Elite Hero Card -->
+      <section class="elite-hero-card sr">
+        <span class="pill" style="background: rgba(0, 230, 153, 0.2); color: var(--mint);">Elite Infrastructure Framework</span>
+        <h1>Advanced E-Waste Ecosystem &amp; Solutions</h1>
+        <p>Engineered for maximum national impact across Jordan. We unite intelligent device valuation, military-grade data sanitization, corporate carbon accounting, and zero-landfill material recovery into a seamless digital infrastructure.</p>
+      </section>
+
+      <!-- Elite Grid Services with Images -->
+      <div class="elite-grid">
+
+        <!-- Card 01 -->
+        <article class="elite-card sr">
+          <div>
+            <span class="elite-tag">01 / Consumer &amp; Fleet</span>
+            <div class="elite-img-box">
+              <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80" alt="AI Valuation">
+            </div>
+            <h3>AI-Powered Valuation &amp; Trade-In</h3>
+            <p>Instantly appraise obsolete mobile fleets, personal gadgets, and enterprise laptops through our intelligent automated algorithm. Schedule secure doorstep pickups or drop off items easily across authorized hubs in Amman.</p>
+          </div>
+          <a class="btn ghost sm" href="../loginpage/login.html#register" style="color: var(--g); border-color: var(--g); align-self: flex-start;">Launch Valuator →</a>
+        </article>
+
+        <!-- Card 02 -->
+        <article class="elite-card sr">
+          <div>
+            <span class="elite-tag">02 / Corporate Security</span>
+            <div class="elite-img-box">
+              <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=800&q=80" alt="Data Sanitization">
+            </div>
+            <h3>Secure Data Sanitization &amp; ITAD</h3>
+            <p>Protect corporate reputation with military-grade data destruction. We execute physical shredding and NIST 800-88 compliant digital wiping, issuing tamper-proof compliance certificates for complete regulatory peace of mind.</p>
+          </div>
+          <a class="btn ghost sm" href="../businesspage/business.html" style="color: var(--g); border-color: var(--g); align-self: flex-start;">Explore ITAD Protocols →</a>
+        </article>
+
+        <!-- Card 03 -->
+        <article class="elite-card sr">
+          <div>
+            <span class="elite-tag">03 / Sustainability Analytics</span>
+            <div class="elite-img-box">
+              <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" alt="ESG Analytics">
+            </div>
+            <h3>Enterprise ESG &amp; Carbon Accounting</h3>
+            <p>Real-time telemetry and auditing for corporate sustainability targets. Track exact carbon offsets, Scope 3 emissions reductions, and detailed material recovery metrics directly from your executive dashboard.</p>
+          </div>
+          <a class="btn ghost sm" href="../businesspage/business.html" style="color: var(--g); border-color: var(--g); align-self: flex-start;">View ESG Suite →</a>
+        </article>
+
+        <!-- Card 04 -->
+        <article class="elite-card sr">
+          <div>
+            <span class="elite-tag">04 / Secondary Economy</span>
+            <div class="elite-img-box">
+              <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80" alt="Circular Marketplace">
+            </div>
+            <h3>Verified Circular Marketplace</h3>
+            <p>Jordan's premier B2B and B2C secondary exchange platform. Purchase rigorous hardware-tested refurbished electronics backed by performance warranties, or safely liquidate surplus organizational inventory.</p>
+          </div>
+          <a class="btn ghost sm" href="../marketpage/market.html" style="color: var(--g); border-color: var(--g); align-self: flex-start;">Open Marketplace →</a>
+        </article>
+
+        <!-- Card 05 (Full Width Featured) -->
+        <article class="elite-card featured-full sr">
+          <div>
+            <span class="elite-tag" style="background: var(--g); color: var(--mint);">05 / National Scale Recovery</span>
+            <div class="elite-img-box" style="height: 240px;">
+              <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80" alt="Municipal Recovery">
+            </div>
+            <h3>Municipal Smart Kiosks &amp; Zero-Landfill Extraction</h3>
+            <p>Collaborating with local municipalities and public entities across Jordan to deploy smart neighborhood drop-off kiosks[cite: 1, 2]. Hazardous electronic components are routed directly to certified recycling plants, guaranteeing safe extraction of precious metals, lithium, and copper without environmental leakage[cite: 1, 2].</p>
+          </div>
+          <a class="btn ghost sm" href="../contactpage/contact.html" style="color: var(--g); border-color: var(--g); align-self: flex-start; margin-top: 15px;">Partner With Us →</a>
+        </article>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- High-Impact Callout Band -->
+  <section class="band">
+    <div class="wrap">
+      <h2>Ready to champion sustainable technology?</h2>
+      <p>Consult with our environmental engineering team to design custom circular reverse-logistics pipelines for your organization.</p>
+      <div class="cta">
+        <a class="btn" href="../contactpage/contact.html">Schedule an Executive Consultation</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap f-top">
+    <div class="f-brand">
+      <a class="logo" href="../index.html">
+        <svg class="logo-mark" viewBox="0 0 48 48" aria-hidden="true">
+          <path class="arc" d="M28.4 7.6A17 17 0 0 1 39.97 29.8"/>
+          <polygon class="head" points="38.3,34.5 43.26,31 36.68,28.6"/>
+          <path class="arc" d="M33.75 37.9A17 17 0 0 1 10.98 34.93"/>
+          <polygon class="head" points="7.77,31.1 8.3,37.18 13.66,32.68"/>
+          <path class="arc" d="M7.26 26.95A17 17 0 0 1 19.6 7.58"/>
+          <polygon class="head" points="24.43,6.28 18.69,4.2 20.5,10.96"/>
+          <rect class="chip" x="17" y="17" width="14" height="14" rx="4"/>
+          <circle cx="24" cy="24" r="2.6" fill="#fff"/>
+        </svg>
+        <span class="logo-text">CircuTech <i>Jo</i></span>
+      </a>
+      <p>Giving electronics a second life in Jordan.</p>
+    </div>
+
+    <nav class="f-col" aria-label="Pages">
+      <h4>Explore</h4>
+      <ul>
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../aboutpage/about.html">About Us</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="../businesspage/business.html">Business</a></li>
+        <li><a href="../newspage/news.html">News</a></li>
+        <li><a href="../marketpage/market.html">Marketplace</a></li>
+      </ul>
+    </nav>
+
+    <div class="f-col">
+      <h4>Contact</h4>
+      <ul>
+        <li>Amman, Jordan</li>
+        <li>
+          <a href="mailto:hello@circutech.example">
+            hello@circutech.example
+          </a>
+        </li>
+        <li><a href="../contactpage/contact.html">Contact us</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="wrap f-bottom">
+    <p>&copy; <span id="year">2026</span> CircuTech Jo. All rights reserved.</p>
+    <div class="f-legal">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+    </div>
+  </div>
+</footer>
+
+<a class="to-top" id="toTop" href="#top" aria-label="Back to top">
+  <svg class="i" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M12 19V5M6 11l6-6 6 6"/>
+  </svg>
+</a>
+
+<script src="../LandingPage/script.js"></script>
+<script src="../LandingPage/fx.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>CircuTech Jo | Give Electronics a Second Life</title>
+  <meta name="description" content="Trade in, resell, and recycle electronic devices in Jordan with CircuTech Jo. Discover device valuation, rewards, and sustainable electronics.">
+  <meta name="theme-color" content="#0d3b2e">
+  <meta name="robots" content="index, follow">
+
+  <meta property="og:title" content="CircuTech Jo | Give Electronics a Second Life">
+  <meta property="og:description" content="A smarter way to trade in, resell, and recycle electronics in Jordan.">
+  <meta property="og:type" content="website">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="LandingPage/style.css">
+
+  <script src="LandingPage/script.js" defer></script>
+  <script src="LandingPage/fx.js" defer></script>
+
+  <style>
+    /* لمسات بصرية إضافية فاخرة وخارقة للرئيسية دون الخروج عن ستايل الـ CSS الأصلي */
+    .hero {
+      padding: 100px 0 80px;
+    }
+    .card.stat {
+      position: relative;
+      overflow: hidden;
+    }
+    .card.stat::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 60px;
+      height: 60px;
+      background: rgba(0, 230, 153, 0.08);
+      border-radius: 0 0 0 50px;
+      transition: var(--transition);
+    }
+    .card.stat:hover::after {
+      background: rgba(0, 230, 153, 0.2);
+      transform: scale(1.1);
+    }
+    .calc {
+      box-shadow: 0 30px 60px rgba(13, 59, 46, 0.2);
+    }
+    .step {
+      border-top: 4px solid var(--mint);
+    }
+    .marq {
+      box-shadow: inset 0 4px 10px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+
+<body>
+
+  <a class="skip" href="#main">Skip to content</a>
+
+  <!-- Announcement -->
+  <div class="ann">
+    🚀 Building Jordan's premier sustainable electronics ecosystem. 
+    <a href="loginpage/login.html#register">Start recycling now →</a>
+  </div>
+
+  <!-- Header -->
+  <header class="nav" id="top">
+    <div class="wrap">
+
+      <a class="logo" href="index.html" aria-label="CircuTech Jo home">
+        <svg class="logo-mark" viewBox="0 0 48 48" aria-hidden="true">
+          <path class="arc" d="M28.4 7.6A17 17 0 0 1 39.97 29.8"/>
+          <polygon class="head" points="38.3,34.5 43.26,31 36.68,28.6"/>
+          <path class="arc" d="M33.75 37.9A17 17 0 0 1 10.98 34.93"/>
+          <polygon class="head" points="7.77,31.1 8.3,37.18 13.66,32.68"/>
+          <path class="arc" d="M7.26 26.95A17 17 0 0 1 19.6 7.58"/>
+          <polygon class="head" points="24.43,6.28 18.69,4.2 20.5,10.96"/>
+          <rect class="chip" x="17" y="17" width="14" height="14" rx="4"/>
+          <circle cx="24" cy="24" r="2.6" fill="#fff"/>
+        </svg>
+        <span class="logo-text">CircuTech <i>Jo</i></span>
+      </a>
+
+      <nav aria-label="Main navigation">
+        <ul id="menu">
+          <li><a href="index.html" class="active" aria-current="page">Home</a></li>
+          <li><a href="servicespage/services.html">Services</a></li>
+          <li><a href="businesspage/business.html">Business</a></li>
+          <li><a href="newspage/news.html">News</a></li>
+          <li><a href="contactpage/contact.html">Contact</a></li>
+          <li><a href="marketpage/market.html">Marketplace</a></li>
+        </ul>
+      </nav>
+
+      <div class="actions">
+        <button class="btn-sm" type="button" id="languageBtn" aria-label="Switch language to Arabic">
+          العربية
+        </button>
+
+        <button class="btn-sm" type="button" id="theme" aria-label="Toggle dark mode" aria-pressed="false">
+          <svg class="i" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/>
+          </svg>
+        </button>
+
+        <a class="btn-sm login" href="loginpage/login.html">Login</a>
+
+        <button
+          class="menu-btn"
+          type="button"
+          id="menuBtn"
+          aria-label="Open menu"
+          aria-expanded="false"
+          aria-controls="menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- Hero -->
+    <section class="hero">
+      <canvas id="net" aria-hidden="true"></canvas>
+
+      <div class="wrap">
+
+        <div class="hero-content">
+          <span class="badge">✨ Jordan's Elite Circular Electronics Network</span>
+
+          <h1>Every device deserves a second life.</h1>
+
+          <p class="lead">
+            Give your electronics a new purpose. Trade in, resell, or recycle
+            devices through one advanced platform while supporting a sustainable future across the Kingdom.
+          </p>
+
+          <div class="cta">
+            <a class="btn" href="loginpage/login.html#register">
+              Trade in a device
+            </a>
+
+            <a class="btn ghost" href="marketpage/market.html">
+              Explore marketplace
+            </a>
+          </div>
+
+          <div class="live" aria-label="Demonstration counter">
+            <span class="dotp" aria-hidden="true"></span>
+            <b id="liveN">0</b>
+            <small>
+              devices rescued today
+              <br>
+              live telemetry stream
+            </small>
+          </div>
+        </div>
+
+        <div class="orbit" aria-hidden="true">
+          <svg viewBox="0 0 400 400">
+            <circle class="ring r1" cx="200" cy="200" r="180"/>
+            <circle class="ring r2" cx="200" cy="200" r="125"/>
+
+            <g class="spin1">
+              <circle class="dot" cx="200" cy="20" r="7"/>
+            </g>
+
+            <g class="spin2">
+              <circle class="dot c" cx="325" cy="200" r="6"/>
+            </g>
+
+            <g class="spin3">
+              <circle class="dot" cx="200" cy="325" r="5"/>
+            </g>
+          </svg>
+
+          <div class="core">
+            <svg viewBox="0 0 48 48">
+              <path d="M28.4 7.6A17 17 0 0 1 39.97 29.8" fill="none" stroke="#00e699" stroke-width="3" stroke-linecap="round"/>
+              <path d="M33.75 37.9A17 17 0 0 1 10.98 34.93" fill="none" stroke="#ff6b4a" stroke-width="3" stroke-linecap="round"/>
+              <path d="M7.26 26.95A17 17 0 0 1 19.6 7.58" fill="none" stroke="#00e699" stroke-width="3" stroke-linecap="round"/>
+              <rect x="17" y="17" width="14" height="14" rx="4" fill="#0a2a20"/>
+              <circle cx="24" cy="24" r="2.6" fill="#fff"/>
+            </svg>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Recovered Materials -->
+    <div class="marq" aria-label="Examples of materials recovered from electronics">
+      <div class="marq-t" aria-hidden="true">
+        <span>♻ High-Purity Gold</span>
+        <span>♻ Recycled Copper</span>
+        <span>♻ Recovered Silver</span>
+        <span>♻ Certified Cobalt</span>
+        <span>♻ Sustainable Lithium</span>
+        <span>♻ Palladium</span>
+        <span>♻ Aluminium</span>
+        <span>♻ Rare Earth Elements</span>
+      </div>
+    </div>
+
+    <!-- Impact -->
+    <section class="s" id="impact">
+      <div class="wrap">
+
+        <div class="head2">
+          <span class="badge" style="background: rgba(0,230,153,0.1); color: var(--g); display: inline-block; margin-bottom: 8px;">Verified Metrics</span>
+          <h2>Making a difference, one device at a time</h2>
+          <p>
+            Responsible electronics recovery helps conserve valuable materials
+            and drastically reduce national electronic waste.
+          </p>
+        </div>
+
+        <div class="grid4">
+          <div class="card stat sr">
+            <span>Devices rescued</span>
+            <b data-n="25000" data-s="+">0</b>
+          </div>
+
+          <div class="card stat dark sr">
+            <span>CO₂ avoided</span>
+            <b data-n="610000" data-s=" kg">0</b>
+          </div>
+
+          <div class="card stat sr">
+            <span>Voucher value</span>
+            <b data-n="320000" data-s=" JOD">0</b>
+          </div>
+
+          <div class="card stat sr">
+            <span>Collection points</span>
+            <b data-n="40" data-s="+">0</b>
+          </div>
+        </div>
+
+        <p class="note">
+          The figures above represent high-impact demonstration telemetry across our national network.
+        </p>
+
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="s alt" id="how-it-works">
+      <div class="wrap">
+
+        <div class="head2">
+          <span class="badge" style="background: rgba(0,230,153,0.1); color: var(--g); display: inline-block; margin-bottom: 8px;">Seamless Workflow</span>
+          <h2>From unused electronics to a new purpose</h2>
+          <p>Three streamlined steps to get started with absolute ease.</p>
+        </div>
+
+        <div class="grid3 steps">
+
+          <article class="card step sr">
+            <b class="n">1</b>
+            <div class="ic" aria-hidden="true">01</div>
+            <h3>Check your device</h3>
+            <p>
+              Select your device type, condition, and age to explore an
+              instant indicative value range.
+            </p>
+          </article>
+
+          <article class="card step sr">
+            <b class="n">2</b>
+            <div class="ic" aria-hidden="true">02</div>
+            <h3>Choose its next step</h3>
+            <p>
+              Trade in a suitable device, list eligible electronics for secure resale,
+              or find a certified recycling option.
+            </p>
+          </article>
+
+          <article class="card step sr">
+            <b class="n">3</b>
+            <div class="ic" aria-hidden="true">03</div>
+            <h3>Track your contribution</h3>
+            <p>
+              Explore green reward credits and environmental impact analytics available
+              directly through your dashboard.
+            </p>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Device Calculator -->
+    <section class="s" id="calculator">
+      <div class="wrap">
+
+        <div class="head2">
+          <span class="badge" style="background: rgba(0,230,153,0.1); color: var(--g); display: inline-block; margin-bottom: 8px;">AI Valuation Tool</span>
+          <h2>Estimate your device's value</h2>
+          <p>
+            Choose a device, its condition, and its age to instantly calculate an indicative market estimate.
+          </p>
+        </div>
+
+        <div class="calc" id="calc">
+
+          <div class="calc-options">
+
+            <h3 id="deviceTypeTitle">Device type</h3>
+            <div class="opts" data-k="type" role="group" aria-labelledby="deviceTypeTitle">
+              <button class="opt" data-v="phone" aria-pressed="true" type="button">Phone</button>
+              <button class="opt" data-v="laptop" aria-pressed="false" type="button">Laptop</button>
+              <button class="opt" data-v="tablet" aria-pressed="false" type="button">Tablet</button>
+              <button class="opt" data-v="tv" aria-pressed="false" type="button">TV</button>
+              <button class="opt" data-v="router" aria-pressed="false" type="button">Router</button>
+              <button class="opt" data-v="appliance" aria-pressed="false" type="button">Appliance</button>
+            </div>
+
+            <h3 id="conditionTitle">Condition</h3>
+            <div class="opts" data-k="cond" role="group" aria-labelledby="conditionTitle">
+              <button class="opt" data-v="working" aria-pressed="true" type="button">Working</button>
+              <button class="opt" data-v="screen" aria-pressed="false" type="button">Damaged screen</button>
+              <button class="opt" data-v="power" aria-pressed="false" type="button">No power</button>
+              <button class="opt" data-v="water" aria-pressed="false" type="button">Water damage</button>
+            </div>
+
+            <h3 id="deviceAgeTitle">Device age</h3>
+            <div class="opts" data-k="age" role="group" aria-labelledby="deviceAgeTitle">
+              <button class="opt" data-v="new" aria-pressed="true" type="button">Under 2 years</button>
+              <button class="opt" data-v="mid" aria-pressed="false" type="button">2–4 years</button>
+              <button class="opt" data-v="old" aria-pressed="false" type="button">5 years or more</button>
+            </div>
+
+          </div>
+
+          <div class="res" aria-live="polite" aria-atomic="true">
+            <div>
+              <small>Estimated value</small>
+              <span class="big">
+                <span id="cLo">0</span> to
+                <span id="cHi">0</span> JOD
+              </span>
+            </div>
+
+            <div class="row2">
+              <div>
+                <b id="cCo2">0</b>
+                <small>Estimated kg CO₂ avoided</small>
+              </div>
+
+              <div>
+                <b id="cPts">0</b>
+                <small>Estimated reward points</small>
+              </div>
+            </div>
+
+            <a class="btn" href="loginpage/login.html#register">
+              Continue with your device →
+            </a>
+          </div>
+
+        </div>
+
+        <p class="note">
+          Estimates are for demonstration and guidance only. Actual valuation depends on physical inspection.
+        </p>
+
+      </div>
+    </section>
+
+    <!-- Marketplace -->
+    <section class="s alt" id="marketplace">
+      <div class="wrap">
+
+        <div class="head2">
+          <span class="badge" style="background: rgba(0,230,153,0.1); color: var(--g); display: inline-block; margin-bottom: 8px;">Circular Hub</span>
+          <h2>Give pre-owned electronics another life</h2>
+          <p>
+            Explore verified sample listings and discover how secondary resale extends useful device lifecycles.
+          </p>
+        </div>
+
+        <div class="grid3">
+
+          <article class="card lst sr">
+            <div class="pic" aria-hidden="true">
+              <svg class="i" viewBox="0 0 24 24">
+                <rect x="7" y="2.5" width="10" height="19" rx="2"/>
+                <path d="M11 18h2"/>
+              </svg>
+            </div>
+            <h3>Smartphone, 128 GB</h3>
+            <p>Verified listing · Excellent condition</p>
+            <div class="row">
+              <b>85 JOD</b>
+              <span class="tag2">Sample price</span>
+            </div>
+          </article>
+
+          <article class="card lst sr">
+            <div class="pic" aria-hidden="true">
+              <svg class="i" viewBox="0 0 24 24">
+                <rect x="4" y="5" width="16" height="11" rx="1.5"/>
+                <path d="M2 19h20"/>
+              </svg>
+            </div>
+            <h3>Business Laptop, 16 GB RAM</h3>
+            <p>Verified listing · Mint condition</p>
+            <div class="row">
+              <b>210 JOD</b>
+              <span class="tag2">Sample price</span>
+            </div>
+          </article>
+
+          <article class="card lst sr">
+            <div class="pic" aria-hidden="true">
+              <svg class="i" viewBox="0 0 24 24">
+                <rect x="5" y="3" width="14" height="18" rx="2"/>
+                <path d="M11 18h2"/>
+              </svg>
+            </div>
+            <h3>10-inch Tablet</h3>
+            <p>Verified listing · Good condition</p>
+            <div class="row">
+              <b>60 JOD</b>
+              <span class="tag2">Sample price</span>
+            </div>
+          </article>
+
+        </div>
+
+        <p class="note">
+          These are sample showcase listings. 
+          <a class="read" href="marketpage/market.html">Browse the full marketplace →</a>
+        </p>
+
+      </div>
+    </section>
+
+    <!-- Audience -->
+    <section class="s" id="solutions">
+      <div class="wrap seg">
+
+        <div class="p1 sr">
+          <span class="t">For individuals</span>
+          <h2>Ready to clear out unused gadgets?</h2>
+          <p>
+            Explore secure options for recycling, trading in, or reselling eligible
+            electronics instead of letting them gather dust.
+          </p>
+          <a class="btn" href="loginpage/login.html#register">Create a free account</a>
+        </div>
+
+        <div class="p2 sr">
+          <span class="t">For businesses and telecoms</span>
+          <h2>A more responsible electronics lifecycle</h2>
+          <p>
+            Explore corporate e-waste collection programmes, military-grade data sanitization, and
+            comprehensive sustainability ESG reporting options.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Trust -->
+    <section class="s alt" id="trust">
+      <div class="wrap">
+
+        <div class="head2">
+          <span class="badge" style="background: rgba(0,230,153,0.1); color: var(--g); display: inline-block; margin-bottom: 8px;">Core Standards</span>
+          <h2>Designed around responsible recovery</h2>
+          <p>Explore the elite engineering principles behind our circular framework.</p>
+        </div>
+
+        <div class="grid3">
+
+          <article class="card sr">
+            <div class="ic" aria-hidden="true">01</div>
+            <h3>Convenient collection</h3>
+            <p>
+              Helping citizens and enterprises discover seamless logistics for returning obsolete electronics.
+            </p>
+          </article>
+
+          <article class="card sr">
+            <div class="ic" aria-hidden="true">02</div>
+            <h3>Responsible handling</h3>
+            <p>
+              Guaranteed ecological compliance and advanced data protection throughout the recovery chain.
+            </p>
+          </article>
+
+          <article class="card sr">
+            <div class="ic" aria-hidden="true">03</div>
+            <h3>Transparent reporting</h3>
+            <p>
+              Presenting verified environmental carbon offsets with precise calculation methodologies.
+            </p>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="s" id="faq">
+      <div class="wrap">
+
+        <div class="head2">
+          <span class="badge" style="background: rgba(0,230,153,0.1); color: var(--g); display: inline-block; margin-bottom: 8px;">Got Questions?</span>
+          <h2>Frequently asked questions</h2>
+          <p>Learn more about secure device trade-ins, resale, and certified recycling.</p>
+        </div>
+
+        <div class="faq">
+
+          <details>
+            <summary>How can I prepare my device before recycling?</summary>
+            <p>
+              Back up your personal files, sign out of all cloud accounts, and perform a factory reset.
+              Always remove SIM and memory cards before handing over your device.
+            </p>
+          </details>
+
+          <details>
+            <summary>Which electronic devices can I submit?</summary>
+            <p>
+              Our platform handles smartphones, laptops, tablets, smart TVs,
+              networking routers, and household appliances. Acceptance depends on condition.
+            </p>
+          </details>
+
+          <details>
+            <summary>How is the estimated device value calculated?</summary>
+            <p>
+              Estimates factor in the device category, release year, functional condition, and market resale demand.
+            </p>
+          </details>
+
+          <details>
+            <summary>Can corporate entities request ESG sustainability reports?</summary>
+            <p>
+              Yes! Businesses can partner with our team to obtain verified carbon offset reports and ITAD destruction certificates.
+            </p>
+          </details>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Final Call to Action -->
+    <section class="band">
+      <div class="wrap">
+        <h2>Give your electronics a second life.</h2>
+        <p>
+          Join Jordan's leading green revolution. Start trading in or recycling today.
+        </p>
+
+        <div class="cta">
+          <a class="btn" href="loginpage/login.html#register">Get started now</a>
+          <a class="btn ghost" href="contactpage/contact.html">Contact our team</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="wrap f-top">
+
+      <div class="f-brand">
+        <a class="logo" href="index.html" aria-label="CircuTech Jo home">
+          <svg class="logo-mark" viewBox="0 0 48 48" aria-hidden="true">
+            <path class="arc" d="M28.4 7.6A17 17 0 0 1 39.97 29.8"/>
+            <polygon class="head" points="38.3,34.5 43.26,31 36.68,28.6"/>
+            <path class="arc" d="M33.75 37.9A17 17 0 0 1 10.98 34.93"/>
+            <polygon class="head" points="7.77,31.1 8.3,37.18 13.66,32.68"/>
+            <path class="arc" d="M7.26 26.95A17 17 0 0 1 19.6 7.58"/>
+            <polygon class="head" points="24.43,6.28 18.69,4.2 20.5,10.96"/>
+            <rect class="chip" x="17" y="17" width="14" height="14" rx="4"/>
+            <circle cx="24" cy="24" r="2.6" fill="#fff"/>
+          </svg>
+          <span class="logo-text">CircuTech <i>Jo</i></span>
+        </a>
+
+        <p>
+          An elite platform concept for electronics trade-in, resale, and responsible
+          recycling across Jordan.
+        </p>
+      </div>
+
+      <nav class="f-col" aria-label="Footer navigation">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="aboutpage/about.html">About Us</a></li>
+          <li><a href="servicespage/services.html">Services</a></li>
+          <li><a href="businesspage/business.html">Business</a></li>
+          <li><a href="newspage/news.html">News</a></li>
+          <li><a href="marketpage/market.html">Marketplace</a></li>
+        </ul>
+      </nav>
+
+      <div class="f-col">
+        <h4>Contact</h4>
+        <ul>
+          <li>Amman, Jordan</li>
+          <li>
+            <a href="contactpage/contact.html">Contact our team</a>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="wrap f-bottom">
+      <p>© <span id="year">2026</span> CircuTech Jo. All rights reserved.</p>
+
+      <div class="f-legal">
+        <a href="contactpage/contact.html">Privacy information</a>
+        <a href="contactpage/contact.html">Terms and enquiries</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to Top -->
+  <a class="to-top" id="toTop" href="#top" aria-label="Back to top">
+    <svg class="i" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 19V5M6 11l6-6 6 6"/>
+    </svg>
+  </a>
+
+</body>
+</html>

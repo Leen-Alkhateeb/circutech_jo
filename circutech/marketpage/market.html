@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Marketplace | CircuTech Jo</title>
+  <meta name="description" content="Discover and reuse electronic devices in Jordan.">
+  <meta name="theme-color" content="#0d3b2e">
+  <link rel="icon" href="../assets/circutech-jo-concept-02.png">
+  <link rel="stylesheet" href="../LandingPage/style.css">
+  <link rel="stylesheet" href="market.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="nav" id="top">
+    <div class="wrap">
+      <a class="logo" href="../index.html" aria-label="CircuTech Jo home">
+        <svg class="logo-mark" viewBox="0 0 48 48" aria-hidden="true">
+          <path class="arc" d="M28.4 7.6A17 17 0 0 1 39.97 29.8"/>
+          <polygon class="head" points="38.3,34.5 43.26,31 36.68,28.6"/>
+          <path class="arc" d="M33.75 37.9A17 17 0 0 1 10.98 34.93"/>
+          <polygon class="head" points="7.77,31.1 8.3,37.18 13.66,32.68"/>
+          <path class="arc" d="M7.26 26.95A17 17 0 0 1 19.6 7.58"/>
+          <polygon class="head" points="24.43,6.28 18.69,4.2 20.5,10.96"/>
+          <rect class="chip" x="17" y="17" width="14" height="14" rx="4"/>
+          <circle cx="24" cy="24" r="2.6" fill="#fff"/>
+        </svg>
+        <span class="logo-text">CircuTech <i>Jo</i></span>
+      </a>
+      <ul id="menu">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../aboutpage/about.html">About Us</a></li>
+        <li><a href="../servicespage/services.html">Services</a></li>
+        <li><a href="../businesspage/business.html">Business</a></li>
+        <li><a href="../newspage/news.html">News</a></li>
+        <li><a href="../contactpage/contact.html">Contact</a></li>
+        <li><a href="market.html" class="active" aria-current="page">Marketplace</a></li>
+      </ul>
+      <div class="actions">
+        <button class="btn-sm" type="button">العربية</button>
+        <button class="btn-sm" type="button" id="theme" aria-label="Toggle dark mode">
+          <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+        </button>
+        <a class="btn-sm login" href="../loginpage/login.html">Login</a>
+        <button class="menu-btn" type="button" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- Top: headline + search -->
+    <section class="mk-hero">
+      <div class="wrap">
+        <h1 class="fade">Good tech deserves a second life.</h1>
+        <p class="fade" style="--d:.1">Buy quality-checked used electronics from people across Jordan, or sell what you no longer use.</p>
+
+        <div class="mk-search fade" style="--d:.2" role="search">
+          <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <label class="vh" for="q">Search devices</label>
+          <input id="q" type="search" placeholder="Search iPhone, laptop, router…" autocomplete="off">
+        </div>
+
+        <div class="cats" id="cats" role="group" aria-label="Categories">
+          <button type="button" data-c="" aria-pressed="true">All</button>
+          <button type="button" data-c="phone" aria-pressed="false">Phones</button>
+          <button type="button" data-c="laptop" aria-pressed="false">Laptops</button>
+          <button type="button" data-c="tablet" aria-pressed="false">Tablets</button>
+          <button type="button" data-c="tv" aria-pressed="false">TVs</button>
+          <button type="button" data-c="router" aria-pressed="false">Routers</button>
+          <button type="button" data-c="appliance" aria-pressed="false">Appliances</button>
+        </div>
+
+        <ul class="trust">
+          <li>Every listing quality checked</li>
+          <li>Pay by card, CliQ or cash on pickup</li>
+          <li>Device passport with every sale</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Results -->
+    <section class="mk-body" id="products">
+      <div class="wrap mk-layout">
+
+        <aside class="mk-side" aria-label="Filters">
+          <div class="box">
+            <h2>Filters</h2>
+            <select id="cat" hidden aria-hidden="true">
+              <option value="">All categories</option><option value="phone">Phones</option><option value="laptop">Laptops</option>
+              <option value="tablet">Tablets</option><option value="tv">TVs</option><option value="router">Routers</option><option value="appliance">Appliances</option>
+            </select>
+            <label for="cond">Condition</label>
+            <select id="cond"><option value="">Any condition</option><option value="like-new">Like new</option><option value="good">Good</option></select>
+            <label for="max">Maximum price (JOD)</label>
+            <input id="max" type="number" min="1" placeholder="Any price">
+            <label for="sort">Sort by</label>
+            <select id="sort"><option value="new">Newest first</option><option value="low">Lowest price</option><option value="high">Highest price</option></select>
+          </div>
+          <div class="box sell-box">
+            <h2>Have a device to sell?</h2>
+            <p>List it in a few minutes. We only charge a fee when it sells.</p>
+            <button class="btn" id="sellBtn" type="button">+ Sell a device</button>
+          </div>
+        </aside>
+
+        <div class="mk-main">
+          <div class="mk-bar2">
+            <div class="mk-tabs" role="tablist" aria-label="Marketplace listings">
+              <button class="mk-tab" role="tab" data-t="browse" aria-selected="true" type="button">All devices</button>
+              <button class="mk-tab" role="tab" data-t="mine" aria-selected="false" type="button">My listings</button>
+              <button class="mk-tab" role="tab" data-t="res" aria-selected="false" type="button">Reservations</button>
+            </div>
+            <span class="mk-chip" id="chip"></span>
+          </div>
+          <div class="mk-grid" id="grid" aria-live="polite"></div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- Sell dialog -->
+  <dialog id="dlg">
+    <div id="sellForm">
+      <div class="dialog-heading"><h2>List your device</h2><p>Good photos and an honest description sell faster.</p></div>
+      <label for="fTitle">Device title</label>
+      <input id="fTitle" maxlength="60" placeholder="e.g. iPhone 13, 128 GB">
+      <label for="fCat">Category</label>
+      <select id="fCat"><option value="phone">Phone</option><option value="laptop">Laptop</option><option value="tablet">Tablet</option><option value="tv">TV</option><option value="router">Router</option><option value="appliance">Appliance</option></select>
+      <label for="fCond">Condition</label>
+      <select id="fCond"><option value="like-new">Like new</option><option value="good" selected>Good</option><option value="fair">Fair</option><option value="broken">Damaged or not working</option></select>
+      <label for="fPrice">Price (JOD)</label>
+      <input id="fPrice" type="number" min="1" max="2000" step="0.5" inputmode="decimal" placeholder="Enter price">
+      <p class="fee" id="fee"></p>
+      <label for="fDesc">Description</label>
+      <textarea id="fDesc" rows="3" maxlength="400" placeholder="Describe the device and its condition"></textarea>
+      <label for="fImg">Device photo</label>
+      <input id="fImg" type="file" accept="image/*">
+      <div class="prev" id="prev"></div>
+      <ul class="gate" id="gate" aria-live="polite"></ul>
+      <p class="msg" id="fMsg" role="alert"></p>
+      <div class="dl-row"><button class="btn dialog-primary" id="publish" type="button">Publish</button><button class="btn out" id="cancel" type="button">Cancel</button></div>
+    </div>
+  </dialog>
+
+  <!-- Payment dialog -->
+  <dialog id="payDlg">
+    <div class="dialog-heading"><h2>Complete your order</h2><p>Reserve this device and choose how you will pay.</p></div>
+    <div class="pay-item" id="payItem"></div>
+
+    <fieldset class="pm-list">
+      <legend class="vh">Payment method</legend>
+      <label class="pm"><input type="radio" name="pm" value="cash" checked>
+        <span class="pm-ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/></svg></span>
+        <span><b>Cash on pickup</b><small>Pay the seller when you collect the device.</small></span></label>
+      <label class="pm"><input type="radio" name="pm" value="cliq">
+        <span class="pm-ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3L5 14h6l-1 7 8-11h-6z"/></svg></span>
+        <span><b>CliQ transfer</b><small>Instant transfer from your bank app.</small></span></label>
+      <label class="pm"><input type="radio" name="pm" value="card">
+        <span class="pm-ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/></svg></span>
+        <span><b>Credit or debit card</b><small>Visa or Mastercard.</small></span></label>
+    </fieldset>
+
+    <div class="pay-panel" id="panCliq" hidden>
+      <p>Send <b id="cliqAmt"></b> to CliQ alias <b id="cliqAlias"></b> with reference <b id="cliqRef"></b>.</p>
+      <label class="chk"><input type="checkbox" id="cliqDone"> I have sent the transfer</label>
+    </div>
+
+    <div class="pay-panel" id="panCard" hidden>
+      <label for="cName">Name on card</label>
+      <input id="cName" autocomplete="cc-name" placeholder="Full name">
+      <label for="cNum">Card number</label>
+      <input id="cNum" inputmode="numeric" autocomplete="cc-number" maxlength="23" placeholder="1234 5678 9012 3456">
+      <div class="two">
+        <div><label for="cExp">Expiry</label><input id="cExp" inputmode="numeric" autocomplete="cc-exp" maxlength="5" placeholder="MM/YY"></div>
+        <div><label for="cCvc">CVC</label><input id="cCvc" inputmode="numeric" autocomplete="cc-csc" maxlength="4" placeholder="123"></div>
+      </div>
+      <p class="fee">Card details are checked in your browser and are never saved.</p>
+    </div>
+
+    <div class="pay-total"><span>Total</span><b id="payTotal"></b></div>
+    <p class="msg" id="payMsg" role="alert"></p>
+    <div class="dl-row"><button class="btn dialog-primary" id="payGo" type="button">Confirm order</button><button class="btn out" id="payCancel" type="button">Cancel</button></div>
+  </dialog>
+
+  <!-- Passport dialog -->
+  <dialog id="pass">
+    <div id="passBody"></div>
+    <div class="noprint dl-row"><button class="btn dialog-primary" id="printPass" type="button">Print certificate</button><button class="btn out" id="closePass" type="button">Close</button></div>
+  </dialog>
+
+  <!-- Report dialog -->
+  <dialog id="rep">
+    <form id="repForm" method="dialog">
+      <div class="dialog-heading"><h2>Report listing</h2></div>
+      <label for="repReason">Reason</label>
+      <select id="repReason"><option>Price looks unrealistic</option><option>Device is not as described</option><option>Suspicious or stolen item</option><option>Prohibited content</option></select>
+      <div class="dl-row"><button class="btn dialog-primary" type="submit">Send report</button><button class="btn out" id="repCancel" type="button">Cancel</button></div>
+    </form>
+  </dialog>
+
+  <footer>
+    <div class="wrap f-top">
+      <div class="f-brand">
+        <a class="logo" href="../index.html">
+          <svg class="logo-mark" viewBox="0 0 48 48" aria-hidden="true">
+            <path class="arc" d="M28.4 7.6A17 17 0 0 1 39.97 29.8"/><polygon class="head" points="38.3,34.5 43.26,31 36.68,28.6"/>
+            <path class="arc" d="M33.75 37.9A17 17 0 0 1 10.98 34.93"/><polygon class="head" points="7.77,31.1 8.3,37.18 13.66,32.68"/>
+            <path class="arc" d="M7.26 26.95A17 17 0 0 1 19.6 7.58"/><polygon class="head" points="24.43,6.28 18.69,4.2 20.5,10.96"/>
+            <rect class="chip" x="17" y="17" width="14" height="14" rx="4"/><circle cx="24" cy="24" r="2.6" fill="#fff"/>
+          </svg>
+          <span class="logo-text">CircuTech <i>Jo</i></span>
+        </a>
+        <p>Making electronics reuse easier in Jordan.</p>
+      </div>
+      <nav class="f-col" aria-label="Footer pages">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="../aboutpage/about.html">About Us</a></li>
+          <li><a href="../servicespage/services.html">Services</a></li>
+          <li><a href="../businesspage/business.html">Business</a></li>
+          <li><a href="market.html">Marketplace</a></li>
+        </ul>
+      </nav>
+      <div class="f-col">
+        <h4>Contact</h4>
+        <ul>
+          <li>Amman, Jordan</li>
+          <li><a href="mailto:hello@circutech.example">hello@circutech.example</a></li>
+          <li><a href="../contactpage/contact.html">Contact us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="wrap f-bottom">
+      <p>&copy; <span id="year">2026</span> CircuTech Jo. All rights reserved.</p>
+      <div class="f-legal"><a href="#">Privacy</a><a href="#">Terms</a></div>
+    </div>
+  </footer>
+
+  <a class="to-top" id="toTop" href="#top" aria-label="Back to top"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></a>
+
+  <script src="../LandingPage/script.js"></script>
+  <script src="../LandingPage/fx.js"></script>
+  <script src="store.js"></script>
+  <script src="market.js"></script>
+  <script src="pay.js"></script>
+  <script>
+    // Category chips drive the (hidden) category select that market.js already reads.
+    (function () {
+      var chips = document.querySelectorAll('#cats button'), sel = document.getElementById('cat');
+      chips.forEach(function (b) {
+        b.addEventListener('click', function () {
+          chips.forEach(function (c) { c.setAttribute('aria-pressed', c === b ? 'true' : 'false'); });
+          sel.value = b.getAttribute('data-c');
+          sel.dispatchEvent(new Event('input', { bubbles: true }));
+          document.getElementById('products').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Enterprise Solutions &amp; ITAD | CircuTech Jo</title>
+  <meta name="description" content="Next-generation institutional electronic asset management, NIST-compliant ITAD, and corporate sustainability frameworks in Jordan.">
+  <meta name="theme-color" content="#0d3b2e">
+  <link rel="icon" href="../assets/circutech-jo-concept-02.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../LandingPage/style.css">
+
+  <style>
+    /* Only what's needed to put an image on top of a card */
+    .biz-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 22px; }
+    .biz-grid .card { grid-column: span 2; padding: 14px; }
+    .biz-grid .card.w3 { grid-column: span 3; }
+    .biz-grid .pic { height: 190px; border-radius: 14px; overflow: hidden; background: var(--soft); }
+    .biz-grid .pic img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .biz-grid .body { padding: 6px 10px 10px; }
+    .biz-grid .body h3 { margin-top: 8px; }
+    .biz-grid .body p { margin-bottom: 0; }
+    /* Rounded green header box */
+    .biz-top { padding: 32px 0 0; }
+    .biz-hero-box {
+      background: var(--g); color: #fff; border-radius: 40px; padding: 85px 60px;
+      border: 1px solid rgba(0,230,153,.3); box-shadow: 0 40px 90px rgba(13,59,46,.28);
+    }
+    .biz-hero-box .pill { background: rgba(0,230,153,.18); color: var(--mint); }
+    .biz-hero-box h1 { font-size: clamp(2.6rem, 5.2vw, 4.4rem); font-weight: 900; letter-spacing: -.04em; line-height: 1.1; margin: 16px 0 22px; max-width: 18ch; }
+    .biz-hero-box p { color: #b5d5ca; font-size: 1.22rem; line-height: 1.9; max-width: 70ch; }
+    @media (max-width: 960px) { .biz-hero-box { padding: 50px 25px; border-radius: 28px; } }
+
+    /* Simple motion */
+    .biz-grid .pic img { transition: transform .6s ease; }
+    .biz-grid .card:hover .pic img { transform: scale(1.06); }
+    .biz-grid .card:nth-child(3n+2) { transition-delay: .08s; }
+    .biz-grid .card:nth-child(3n) { transition-delay: .16s; }
+    .biz-grid .card.seen:hover { transition-delay: 0s; }
+    @media (prefers-reduced-motion: reduce) {
+      .biz-grid .pic img, .biz-grid .card { transition: none; }
+      .biz-grid .card:hover .pic img { transform: none; }
+    }
+    @media (max-width: 960px) { .biz-grid .card, .biz-grid .card.w3 { grid-column: span 3; } }
+    @media (max-width: 640px) { .biz-grid .card, .biz-grid .card.w3 { grid-column: 1 / -1; } }
+  </style>
+</head>
+
+<body>
+<div class="prog" id="prog"></div>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" id="top">
+  <div class="wrap">
+    <a class="logo" href="../index.html" aria-label="CircuTech Jo home">
+      <svg class="logo-mark" viewBox="0 0 48 48" aria-hidden="true">
+        <path class="arc" d="M28.4 7.6A17 17 0 0 1 39.97 29.8"/>
+        <polygon class="head" points="38.3,34.5 43.26,31 36.68,28.6"/>
+        <path class="arc" d="M33.75 37.9A17 17 0 0 1 10.98 34.93"/>
+        <polygon class="head" points="7.77,31.1 8.3,37.18 13.66,32.68"/>
+        <path class="arc" d="M7.26 26.95A17 17 0 0 1 19.6 7.58"/>
+        <polygon class="head" points="24.43,6.28 18.69,4.2 20.5,10.96"/>
+        <rect class="chip" x="17" y="17" width="14" height="14" rx="4"/>
+        <circle cx="24" cy="24" r="2.6" fill="#fff"/>
+      </svg>
+      <span class="logo-text">CircuTech <i>Jo</i></span>
+    </a>
+
+    <ul id="menu">
+      <li><a href="../index.html">Home</a></li>
+
+      <li><a href="../servicespage/services.html">Services</a></li>
+      <li><a href="business.html" class="active" aria-current="page">Business</a></li>
+      <li><a href="../newspage/news.html">News</a></li>
+      <li><a href="../contactpage/contact.html">Contact</a></li>
+      <li><a href="../marketpage/market.html">Marketplace</a></li>
+    </ul>
+
+    <div class="actions">
+      <button class="btn-sm" type="button" id="theme" aria-label="Toggle dark mode">
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      </button>
+      <a class="btn-sm login" href="../loginpage/login.html">Login</a>
+      <button class="menu-btn" type="button" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="biz-top">
+    <div class="wrap">
+      <div class="biz-hero-box">
+        <span class="pill fade">Institutional Infrastructure &amp; ITAD</span>
+        <h1 class="fade" style="--d:.1">Enterprise E-Waste Solutions &amp; Governance</h1>
+        <p class="fade" style="--d:.2">We help banks, corporations, and telecom operators across Jordan retire old hardware securely, with NIST-compliant data destruction and verified carbon reporting.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap">
+      <div class="biz-grid">
+
+        <article class="card sr">
+          <div class="pic"><img loading="lazy" src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=800&q=80" alt="Modern executive office"></div>
+          <div class="body">
+            <h3>Corporate fleet collection</h3>
+            <p>We securely collect office PCs, servers, and enterprise hardware from your headquarters anywhere in Jordan, with full chain-of-custody tracking.</p>
+          </div>
+        </article>
+
+        <article class="card sr">
+          <div class="pic"><img loading="lazy" src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80" alt="Secure server room"></div>
+          <div class="body">
+            <h3>NIST 800-88 data sanitization</h3>
+            <p>Drive shredding and cryptographic wiping remove the risk of data leaks. Every job comes with a tamper-proof compliance certificate.</p>
+          </div>
+        </article>
+
+        <article class="card sr">
+          <div class="pic"><img loading="lazy" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" alt="ESG analytics dashboard"></div>
+          <div class="body">
+            <h3>ESG and carbon accounting</h3>
+            <p>Audit-ready reporting and carbon offset tracking, with verified Scope 3 emissions data for your sustainability targets.</p>
+          </div>
+        </article>
+
+        <article class="card w3 sr">
+          <div class="pic"><img loading="lazy" src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80" alt="Corporate strategy meeting"></div>
+          <div class="body">
+            <h3>Surplus asset remarketing</h3>
+            <p>Get value back from working hardware you no longer need. We securely sell eligible equipment through verified B2B channels.</p>
+          </div>
+        </article>
+
+        <article class="card w3 sr">
+          <div class="pic"><img loading="lazy" src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" alt="Corporate team collaboration"></div>
+          <div class="body">
+            <h3>Custom recovery program</h3>
+            <p>Work with our environmental engineers to design an end-to-end asset recovery program that fits your size, regulations, and governance requirements.</p>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <h2>Ready to modernize your corporate electronic asset management?</h2>
+      <p>Talk to our sustainability advisory team to set up a secure, compliant asset retirement pipeline.</p>
+      <div class="cta">
+        <a class="btn" href="../contactpage/contact.html">Request a corporate proposal</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap f-top">
+    <div class="f-brand">
+      <a class="logo" href="../index.html">
+        <svg class="logo-mark" viewBox="0 0 48 48" aria-hidden="true">
+          <path class="arc" d="M28.4 7.6A17 17 0 0 1 39.97 29.8"/>
+          <polygon class="head" points="38.3,34.5 43.26,31 36.68,28.6"/>
+          <path class="arc" d="M33.75 37.9A17 17 0 0 1 10.98 34.93"/>
+          <polygon class="head" points="7.77,31.1 8.3,37.18 13.66,32.68"/>
+          <path class="arc" d="M7.26 26.95A17 17 0 0 1 19.6 7.58"/>
+          <polygon class="head" points="24.43,6.28 18.69,4.2 20.5,10.96"/>
+          <rect class="chip" x="17" y="17" width="14" height="14" rx="4"/>
+          <circle cx="24" cy="24" r="2.6" fill="#fff"/>
+        </svg>
+        <span class="logo-text">CircuTech <i>Jo</i></span>
+      </a>
+      <p>Giving electronics a second life in Jordan.</p>
+    </div>
+    <nav class="f-col" aria-label="Pages">
+      <h4>Explore</h4>
+      <ul>
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../aboutpage/about.html">About Us</a></li>
+        <li><a href="../servicespage/services.html">Services</a></li>
+        <li><a href="business.html">Business</a></li>
+        <li><a href="../newspage/news.html">News</a></li>
+        <li><a href="../marketpage/market.html">Marketplace</a></li>
+      </ul>
+    </nav>
+    <div class="f-col">
+      <h4>Contact</h4>
+      <ul>
+        <li>Amman, Jordan</li>
+        <li><a href="mailto:hello@circutech.example">hello@circutech.example</a></li>
+        <li><a href="../contactpage/contact.html">Contact us</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap f-bottom">
+    <p>&copy; <span id="year">2026</span> CircuTech Jo. All rights reserved.</p>
+    <div class="f-legal"><a href="#">Privacy</a><a href="#">Terms</a></div>
+  </div>
+</footer>
+
+<a class="to-top" id="toTop" href="#top" aria-label="Back to top">
+  <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+</a>
+
+<script src="../LandingPage/script.js"></script>
+<script src="../LandingPage/fx.js"></script>
+</body>
+</html>

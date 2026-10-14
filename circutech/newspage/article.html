@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Article | CircuTech Jo</title>
+    <meta name="description" content="Insights on e-waste, recycling and sustainability.">
+    <meta name="theme-color" content="#0d3b2e">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../LandingPage/style.css">
+    <style>
+        /* Editorial journal layout */
+        .cv { border-radius: 28px; overflow: hidden; background: var(--soft); }
+        .cv svg { width: 100%; height: 100%; display: block; transition: transform .7s cubic-bezier(.16,1,.3,1); }
+        .jr-tag { font-weight: 800; font-size: .9rem; color: var(--coral-d); }
+        .jr-date { color: var(--mut); font-size: .9rem; font-weight: 600; }
+        .jr-art { padding: 56px 0 36px; }
+        .jr-art .back { display: inline-flex; gap: 8px; font-weight: 700; color: var(--mut); margin-bottom: 26px; }
+        .jr-art .back:hover { color: var(--coral-d); }
+        .jr-art h1 { font-size: clamp(2.4rem, 5.4vw, 4.4rem); font-weight: 900; letter-spacing: -.04em; line-height: 1.05; max-width: 20ch; margin: 14px 0 20px; }
+        .jr-art .lead { max-width: 58ch; line-height: 1.8; }
+        .jr-cover { aspect-ratio: 21 / 8; margin-bottom: 48px; }
+        .jr-cover svg { transition: none; }
+        .art-hero-empty { padding: 60px 0; text-align: center; }
+        .art-cta { background: var(--g); color: #fff; border-color: var(--g); }
+        .art-cta p { color: #b5d5ca; margin: 6px 0 14px; font-size: .95rem; }
+        @media (max-width: 700px) { .jr-cover { aspect-ratio: 4 / 3; border-radius: 20px; } }
+    </style>
+</head>
+
+<body>
+
+    <a class="skip" href="#main">Skip to content</a>
+
+    <header class="nav" id="top">
+        <div class="wrap">
+            <a class="logo" href="../index.html" aria-label="CircuTech Jo home">
+                <svg class="logo-mark" viewBox="0 0 48 48" aria-hidden="true">
+                    <path class="arc" d="M28.4 7.6A17 17 0 0 1 39.97 29.8"/>
+                    <polygon class="head" points="38.3,34.5 43.26,31 36.68,28.6"/>
+                    <path class="arc" d="M33.75 37.9A17 17 0 0 1 10.98 34.93"/>
+                    <polygon class="head" points="7.77,31.1 8.3,37.18 13.66,32.68"/>
+                    <path class="arc" d="M7.26 26.95A17 17 0 0 1 19.6 7.58"/>
+                    <polygon class="head" points="24.43,6.28 18.69,4.2 20.5,10.96"/>
+                    <rect class="chip" x="17" y="17" width="14" height="14" rx="4"/>
+                    <circle cx="24" cy="24" r="2.6" fill="#fff"/>
+                </svg>
+                <span class="logo-text">CircuTech <i>Jo</i></span>
+            </a>
+            <ul id="menu">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../aboutpage/about.html">About Us</a></li>
+                <li><a href="../servicespage/services.html">Services</a></li>
+                <li><a href="../businesspage/business.html">Business</a></li>
+                <li><a href="../newspage/news.html" class="active" aria-current="page">News</a></li>
+                <li><a href="../contactpage/contact.html">Contact</a></li>
+                <li><a href="../marketpage/market.html">Marketplace</a></li>
+            </ul>
+            <div class="actions">
+                <button class="btn-sm" type="button">العربية</button>
+                <button class="btn-sm" type="button" id="theme" aria-label="Toggle dark mode">
+                    <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+                </button>
+                <a class="btn-sm login" href="../loginpage/login.html">Login</a>
+                <button class="menu-btn" type="button" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main id="main">
+
+        <section class="jr-art">
+            <div class="wrap">
+                <a class="back" href="news.html">← Back to news</a>
+                <div><span class="jr-tag" id="aCat"></span> <span class="jr-date" id="aMeta"></span></div>
+                <h1 class="fade" id="aTitle">Loading…</h1>
+                <p class="lead fade" style="--d:.1" id="aLead"></p>
+            </div>
+        </section>
+
+        <section class="page-body" style="padding-top:0">
+            <div class="wrap">
+                <div class="cv jr-cover" id="aCover"></div>
+
+                <div class="art-layout" id="layout">
+                    <article>
+                        <div class="art-body" id="aBody"></div>
+                        <div class="art-nav" id="aNav"></div>
+                    </article>
+                    <aside class="art-side">
+                        <div class="panel rel" id="aRel"><h4>More to read</h4></div>
+                        <div class="panel">
+                            <h4>Share</h4>
+                            <div class="share" style="margin-top:10px">
+                                <button class="btn line sm" type="button" id="copyBtn">Copy link</button>
+                                <a class="btn line sm" id="mailBtn" href="#">Email</a>
+                            </div>
+                        </div>
+                        <div class="panel art-cta">
+                            <h4>Got devices to recycle?</h4>
+                            <p>Trade in or resell your electronics and earn green points.</p>
+                            <a class="btn sm" href="../marketpage/market.html">Explore Marketplace</a>
+                        </div>
+                    </aside>
+                </div>
+
+                <div class="art-hero-empty" id="aEmpty" hidden>
+                    <h2>Article not found</h2>
+                    <p class="lead" style="margin:10px 0 22px">This article may have moved or been removed.</p>
+                    <a class="btn" href="news.html">Back to news</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="wrap f-top">
+            <div class="f-brand">
+                <a class="logo" href="../index.html">
+                    <svg class="logo-mark" viewBox="0 0 48 48" aria-hidden="true">
+                        <path class="arc" d="M28.4 7.6A17 17 0 0 1 39.97 29.8"/>
+                        <polygon class="head" points="38.3,34.5 43.26,31 36.68,28.6"/>
+                        <path class="arc" d="M33.75 37.9A17 17 0 0 1 10.98 34.93"/>
+                        <polygon class="head" points="7.77,31.1 8.3,37.18 13.66,32.68"/>
+                        <path class="arc" d="M7.26 26.95A17 17 0 0 1 19.6 7.58"/>
+                        <polygon class="head" points="24.43,6.28 18.69,4.2 20.5,10.96"/>
+                        <rect class="chip" x="17" y="17" width="14" height="14" rx="4"/>
+                        <circle cx="24" cy="24" r="2.6" fill="#fff"/>
+                    </svg>
+                    <span class="logo-text">CircuTech <i>Jo</i></span>
+                </a>
+                <p>Jordan's platform for e-waste trade-in, resale and ESG reporting.</p>
+            </div>
+            <nav class="f-col" aria-label="Pages">
+                <h4>Pages</h4>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../aboutpage/about.html">About Us</a></li>
+                    <li><a href="../servicespage/services.html">Services</a></li>
+                    <li><a href="../businesspage/business.html">Business</a></li>
+                    <li><a href="../newspage/news.html">News</a></li>
+                    <li><a href="../contactpage/contact.html">Contact</a></li>
+                    <li><a href="../marketpage/market.html">Marketplace</a></li>
+                    <li><a href="../loginpage/login.html">Login</a></li>
+                </ul>
+            </nav>
+            <div class="f-col">
+                <h4>Contact</h4>
+                <ul>
+                    <li>Amman, Jordan</li>
+                    <li><a href="mailto:hello@circutech.example">hello@circutech.example</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="wrap f-bottom">
+            <p>© <span id="year">2026</span> CircuTech Jo. All rights reserved.</p>
+            <div class="f-legal"><a href="#">Privacy</a><a href="#">Terms</a></div>
+        </div>
+    </footer>
+
+    <a class="to-top" id="toTop" href="#top" aria-label="Back to top">
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+    </a>
+
+    <script src="../LandingPage/script.js"></script>
+    <script src="../LandingPage/fx.js"></script>
+    <script src="articles.js"></script>
+    <script src="covers.js"></script>
+    <script>
+        (function () {
+            var list = window.ARTICLES || [];
+            var id = new URLSearchParams(location.search).get('id');
+            var idx = list.findIndex(function (a) { return a.id === id; });
+            var $ = function (s) { return document.getElementById(s); };
+            if (idx < 0) {
+                $('layout').hidden = true; $('aCover').hidden = true; $('aEmpty').hidden = false;
+                $('aTitle').textContent = 'Article not found';
+                return;
+            }
+            var a = list[idx];
+            document.title = a.title + ' | CircuTech Jo';
+            $('aCat').textContent = a.cat.charAt(0) + a.cat.slice(1).toLowerCase();
+            $('aMeta').textContent = '· ' + new Date(a.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) + ' · ' + a.read + ' min read';
+            $('aTitle').textContent = a.title;
+            $('aLead').textContent = a.lead;
+            $('aBody').innerHTML = a.body;
+            if (window.COVERS && window.COVERS[a.id]) $('aCover').innerHTML = window.COVERS[a.id]; else $('aCover').hidden = true;
+
+            var rel = $('aRel');
+            list.forEach(function (o) {
+                if (o.id === a.id) return;
+                var l = document.createElement('a');
+                l.href = 'article.html?id=' + encodeURIComponent(o.id);
+                l.textContent = o.title;
+                var s = document.createElement('small');
+                s.textContent = o.cat + ' · ' + o.read + ' min read';
+                l.appendChild(s); rel.appendChild(l);
+            });
+            var nav = $('aNav');
+            [[idx + 1, '← Older'], [idx - 1, 'Newer →']].forEach(function (p) {
+                var o = list[p[0]];
+                if (!o) { nav.appendChild(document.createElement('span')); return; }
+                var l = document.createElement('a');
+                l.className = 'btn soft sm';
+                l.href = 'article.html?id=' + encodeURIComponent(o.id);
+                l.textContent = p[1]; nav.appendChild(l);
+            });
+            $('mailBtn').href = 'mailto:?subject=' + encodeURIComponent(a.title) + '&body=' + encodeURIComponent(location.href);
+            $('copyBtn').addEventListener('click', function () {
+                var b = this;
+                (navigator.clipboard ? navigator.clipboard.writeText(location.href) : Promise.reject()).then(function () { b.textContent = 'Link copied'; }, function () { b.textContent = 'Copy failed'; });
+                setTimeout(function () { b.textContent = 'Copy link'; }, 2000);
+            });
+        })();
+    </script>
+
+</body>
+</html>

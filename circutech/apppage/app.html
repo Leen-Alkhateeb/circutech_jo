@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>My CircuTech | CircuTech Jo</title>
+<meta name="theme-color" content="#08301d">
+<link rel="icon" href="../assets/circutech-jo-concept-02.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>[data-logo]{display:block;width:40px;height:40px}</style>
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="app-extra.css">
+</head>
+<body>
+
+<div class="welcome" id="welcome" hidden>
+  <div class="w-grid" aria-hidden="true"></div>
+  <div class="w-in">
+    <div class="w-mark"><div class="rings" aria-hidden="true"><i></i><i></i><i></i></div><span class="w-logo" data-logo></span></div>
+    <p class="w-hi" id="wHi"></p>
+    <h2 class="w-name" id="wName"></h2>
+    <p class="w-fact" id="wFact"></p>
+    <div class="w-stats" id="wStats"></div>
+    <div class="w-prog"><div class="w-bar"><i></i></div><span id="wPct">0%</span></div>
+  </div>
+  <button class="w-skip" id="wSkip" type="button">Skip</button>
+</div>
+
+<aside class="side">
+  <a class="brand" href="#scanner"><span data-logo></span><b>CircuTech <em>Jo</em></b></a>
+  <nav id="nav" aria-label="App sections"></nav>
+  <div class="me card">
+    <span class="avatar" id="avatar">U</span>
+    <div><b id="userName">User</b><small id="lvName">Standard</small></div>
+    <div class="lv-bar"><i id="lvBar"></i></div>
+  </div>
+</aside>
+
+<div class="shell">
+  <header class="top">
+    <span class="brand-m" data-logo></span>
+    <div class="t-txt"><small id="greet"></small><h1 id="pageTitle">AI Scanner</h1></div>
+    <div class="t-act">
+      <a class="ib" href="../index.html" title="Public site" aria-label="Public site"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.2 3 14.8 0 18M12 3c-3 3.2-3 14.8 0 18"/></svg></a>
+      <button class="ib" id="theme" type="button" aria-label="Toggle theme"><svg viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></button>
+      <button class="ib" id="logout" type="button" aria-label="Log out" title="Log out"><svg viewBox="0 0 24 24"><path d="M10 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h4M15 8l4 4-4 4M19 12H9"/></svg></button>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="ann" id="ann" hidden role="status"></div>
+
+    <div class="hero-ban" id="heroBan">
+      <div class="hb-in"><small id="hbHi"></small><h2 id="hbTitle"></h2><p id="hbSub"></p><div class="hb-stats" id="hbStats"></div></div>
+      <div class="hb-art" aria-hidden="true"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" stroke-dasharray="3 7"/><circle cx="60" cy="60" r="36"/><circle cx="60" cy="8" r="4" fill="currentColor"/><circle cx="96" cy="60" r="3" fill="currentColor"/><rect x="48" y="48" width="24" height="24" rx="7"/></svg></div>
+    </div>
+
+    <!-- SCANNER -->
+    <section class="view" id="scanner" hidden>
+      <div class="grid2">
+        <div class="card pad rv">
+          <div class="vf" id="drop" tabindex="0" role="button" aria-label="Add a photo of your device">
+            <img id="preview" alt="Selected device">
+            <span class="laser"></span>
+            <div class="vf-hint">
+              <span class="vf-ic"><svg viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
+              <b>Add a photo of your device</b>
+              <small>Optional. The photo is kept on your device for your records.</small>
+            </div>
+          </div>
+          <input type="file" id="file" accept="image/*" hidden>
+
+          <p class="lbl">Device type</p>
+          <div class="chips" id="typeChips">
+            <button type="button" class="chip on" data-v="smartphone">Phone</button>
+            <button type="button" class="chip" data-v="laptop">Laptop</button>
+            <button type="button" class="chip" data-v="tablet">Tablet</button>
+            <button type="button" class="chip" data-v="watch">Watch</button>
+            <button type="button" class="chip" data-v="router">Router</button>
+            <button type="button" class="chip" data-v="tv">TV</button>
+            <button type="button" class="chip" data-v="console">Console</button>
+            <button type="button" class="chip" data-v="appliance">Appliance</button>
+          </div>
+
+          <p class="lbl">Condition</p>
+          <div class="chips" id="condChips">
+            <button type="button" class="chip on" data-v="Working">Working</button>
+            <button type="button" class="chip" data-v="Damaged screen">Damaged screen</button>
+            <button type="button" class="chip" data-v="No power">No power</button>
+            <button type="button" class="chip" data-v="Water damage">Water damage</button>
+          </div>
+
+          <p class="lbl">Model <span class="opt">optional</span></p>
+          <input class="fld" id="modelHint" placeholder="e.g. iPhone 13, Galaxy A54, ThinkPad T480" maxlength="50">
+
+          <div class="two">
+            <div><p class="lbl">Device age</p><select class="fld" id="ageSel"><option value="1">Under 1 year</option><option value="2">1 to 2 years</option><option value="3" selected>3 years</option><option value="5">4 to 5 years</option><option value="7">6 to 8 years</option><option value="10">Over 8 years</option></select></div>
+            <div><p class="lbl">Segment</p><select class="fld" id="segSel"><option value="budget">Budget</option><option value="mid-range" selected>Mid-range</option><option value="high-end">High-end</option><option value="premium">Premium</option></select></div>
+          </div>
+
+          <div class="row">
+            <button class="btn" type="button" id="analyse">Get my estimate</button>
+            <button class="btn ghost" type="button" id="reset">Reset</button>
+          </div>
+        </div>
+        <div class="card pad res rv" id="result" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- DASHBOARD -->
+    <section class="view" id="dashboard" hidden>
+      <div class="bar-row rv"><div><h3>Overview</h3><small class="mut">Your recycling activity and environmental impact</small></div><button class="btn ghost" type="button" id="exportCsv">Export CSV report</button></div>
+      <div class="bento">
+        <div class="card pad hero-k rv">
+          <div class="pring"><svg viewBox="0 0 120 120"><circle class="pb" cx="60" cy="60" r="52"/><circle class="pf" id="pf" cx="60" cy="60" r="52"/></svg><div><b id="kPoints">0</b><small>lifetime points</small></div></div>
+          <div class="hk-t"><small class="mut">Membership tier</small><h3 id="lvTitle">Standard</h3><p class="mut" id="lvNext"></p><div class="lv-bar big"><i id="lvBar2"></i></div></div>
+        </div>
+        <div class="card pad kpi rv"><span class="ki"><svg viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></span><span>Devices scanned</span><b id="kDevices">0</b></div>
+        <div class="card pad kpi rv"><span class="ki"><svg viewBox="0 0 24 24"><path d="M3 12l9-9h8v8l-9 9z"/><circle cx="15.5" cy="8.5" r="1.2"/></svg></span><span>Estimated value (JOD)</span><b id="kValue">0</b></div>
+        <div class="card pad kpi rv"><span class="ki"><svg viewBox="0 0 24 24"><path d="M5 19c0-8 5-14 15-14 0 10-6 15-14 15M5 19c3-4 6-6 10-8"/></svg></span><span>kg CO₂ avoided</span><b id="kCo2">0</b><small id="kTrees"></small></div>
+        <div class="card pad span2 rv"><h3>Estimated value per scan (JOD)</h3><div class="bars" id="bars"></div></div>
+      </div>
+      <h3 class="sec rv">Recent scans</h3>
+      <div class="list" id="recent"></div>
+    </section>
+
+    <!-- DROP-OFF -->
+    <section class="view" id="dropoff" hidden>
+      <div class="do-grid">
+        <div>
+          <div class="chips rv" id="doFilter"><button type="button" class="chip on" data-v="all">All locations</button><button type="button" class="chip" data-v="open">Open now</button></div>
+          <div class="list" id="points"></div>
+        </div>
+        <div class="card map rv"><iframe id="mapFrame" title="Map of the selected collection point" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+      </div>
+    </section>
+
+    <!-- REWARDS -->
+    <section class="view" id="rewards" hidden>
+      <div class="card pad hero-k rv">
+        <div class="pring"><svg viewBox="0 0 120 120"><circle class="pb" cx="60" cy="60" r="52"/><circle class="pf" id="rf" cx="60" cy="60" r="52"/></svg><div><b id="rPoints">0</b><small>available points</small></div></div>
+        <div class="hk-t"><h3>Turn points into vouchers</h3><p class="mut">Every scan you save brings the next reward closer.</p><p class="mut" id="rNext"></p></div>
+      </div>
+      <h3 class="sec rv">Available vouchers</h3>
+      <div class="tickets" id="tiers"></div>
+      <h3 class="sec rv">My vouchers</h3>
+      <div class="list" id="myV"></div>
+    </section>
+
+    <!-- ECOBOT -->
+    <section class="view" id="ecobot" hidden>
+      <div class="card chat rv">
+        <div class="chat-head">
+          <span class="bav big"><svg viewBox="0 0 24 24"><rect x="5" y="8" width="14" height="11" rx="3"/><path d="M12 4v4M9 13h.01M15 13h.01"/></svg></span>
+          <div><b>EcoBot</b><small><i class="live"></i>Online · e-waste assistant</small></div>
+          <button class="ib sm" type="button" id="clearChat" title="New conversation" aria-label="New conversation"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 3-6.2M4 4v4h4"/></svg></button>
+        </div>
+        <div class="msgs" id="msgs" aria-live="polite"></div>
+        <div class="sug" id="sug"></div>
+        <form class="cform" id="chatForm">
+          <input class="fld" id="chatInput" placeholder="Ask EcoBot anything about e-waste…" autocomplete="off" required>
+          <button class="btn" type="submit" id="sendBtn">Send</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- BUSINESS -->
+    <section class="view" id="business" hidden>
+      <div class="biz-intro" id="bizSetup">
+        <div class="card pad rv">
+          <h3>Create your business workspace</h3>
+          <p class="mut small0">Run a trade-in programme for your team and get audit-ready ESG numbers.</p>
+          <div class="biz-form">
+            <div class="full"><p class="lbl">Company name</p><input class="fld" id="bzName" placeholder="e.g. Orange Jordan" maxlength="60"></div>
+            <div><p class="lbl">Industry</p><select class="fld" id="bzInd"><option>Technology</option><option>Banking and finance</option><option>Education</option><option>Retail</option><option>Healthcare</option><option>Government</option><option>Other</option></select></div>
+            <div><p class="lbl">Employees</p><input class="fld" id="bzStaff" type="number" min="1" value="50"></div>
+            <div class="full row"><button class="btn" type="button" id="bzCreate">Create workspace</button></div>
+          </div>
+        </div>
+        <div class="card pad rv"><h3>What your company gets</h3><ul class="perks" style="margin-top:14px">
+          <li><span><svg viewBox="0 0 24 24"><path d="M5 19c0-8 5-14 15-14 0 10-6 15-14 15M5 19c3-4 6-6 10-8"/></svg></span><div><b>Verified carbon savings</b>Every device recovered is logged with the CO₂ it avoided.</div></li>
+          <li><span><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg></span><div><b>ESG score and report</b>Quarterly figures ready for your sustainability report.</div></li>
+          <li><span><svg viewBox="0 0 24 24"><path d="M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2a2 2 0 0 0 0-4z"/></svg></span><div><b>Employee programme</b>A team leaderboard and vouchers keep staff engaged.</div></li>
+          <li><span><svg viewBox="0 0 24 24"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/></svg></span><div><b>Bulk pick-up</b>Request a collection for 10 or more devices at your office.</div></li>
+        </ul></div>
+      </div>
+      <div id="bizSpace" hidden>
+        <div class="bar-row rv"><div><h3 id="bzTitle"></h3><small class="mut" id="bzMeta"></small></div><div class="row"><button class="btn ghost" type="button" id="bzCsv">Export ESG CSV</button><button class="btn" type="button" id="bzCert">Impact certificate</button></div></div>
+        <div class="bento">
+          <div class="card pad hero-k rv"><div class="pring"><svg viewBox="0 0 120 120"><circle class="pb" cx="60" cy="60" r="52"/><circle class="pf" id="bf" cx="60" cy="60" r="52"/></svg><div><b id="bScore">0</b><small>ESG score</small></div></div>
+            <div class="hk-t"><small>Company ESG performance</small><h3 id="bGrade">Getting started</h3><p class="mut" id="bHint"></p></div></div>
+          <div class="card pad kpi rv"><span class="ki"><svg viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></span><span>Devices recovered</span><b id="bDev">0</b></div>
+          <div class="card pad kpi rv"><span class="ki"><svg viewBox="0 0 24 24"><path d="M5 19c0-8 5-14 15-14 0 10-6 15-14 15M5 19c3-4 6-6 10-8"/></svg></span><span>kg CO₂ avoided</span><b id="bCo2">0</b><small id="bTrees"></small></div>
+          <div class="card pad kpi rv"><span class="ki"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg></span><span>Employees engaged</span><b id="bEmp">0</b><small id="bEmpOf"></small></div>
+        </div>
+        <div class="grid2" style="margin-top:20px">
+          <div class="card pad rv"><h3>Team leaderboard</h3><small class="mut">Team figures are demo data until employees join with your company code.</small><p class="lbl">Company code</p><div class="li" style="cursor:default"><div class="tx"><b id="bzCode"></b><small>Share it so employees link their account</small></div><button class="cp" type="button" id="bzCopy">Copy</button></div><div class="list" id="bzBoard" style="margin-top:14px"></div></div>
+          <div class="card pad rv"><h3>Request a bulk pick-up</h3><small class="mut">Free for 10 or more devices. We confirm the slot within one working day.</small>
+            <div class="biz-form"><div><p class="lbl">Devices</p><input class="fld" id="pkN" type="number" min="1" value="10"></div><div><p class="lbl">Main type</p><select class="fld" id="pkT"><option>Laptops</option><option>Phones</option><option>Monitors and TVs</option><option>Mixed equipment</option></select></div><div><p class="lbl">Preferred date</p><input class="fld" id="pkD" type="date"></div><div><p class="lbl">Area</p><input class="fld" id="pkA" placeholder="e.g. Abdali, Amman" maxlength="60"></div><div class="full row"><button class="btn" type="button" id="pkGo">Request pick-up</button></div></div>
+            <p class="lbl">Your requests</p><div class="list" id="pkList"></div></div>
+        </div>
+        <div class="card pad plan-strip rv"><div><h3>Business ESG plan <span class="pill-s">Free trial</span></h3><p>Branded programme, ESG dashboard, bulk pick-up and quarterly certificate. JOD 150 per month after the trial (sample price).</p></div><a class="btn ghost" href="../contactpage/contact.html">Talk to sales</a></div>
+      </div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section class="view" id="settings" hidden>
+      <div class="set-grid">
+        <div class="set-col">
+          <div class="card pad set rv">
+            <div class="prof"><span class="avatar big" id="pfAv">U</span><div><h3 id="pfName">-</h3><small class="mut" id="pfMail">-</small><div class="tags"><span class="pill-s" id="pfTier">Standard</span><span class="pill-s" id="pfSince">Member</span></div></div></div>
+            <label for="setName">Display name</label>
+            <input class="fld" id="setName" maxlength="40" autocomplete="name">
+            <div class="row"><button class="btn" type="button" id="saveName">Save name</button></div>
+          </div>
+          <div class="card pad set rv">
+            <h3>Security</h3>
+            <label for="pwOld">Current password</label>
+            <input class="fld" id="pwOld" type="password" autocomplete="current-password">
+            <label for="pwNew">New password <span class="mut">8+ characters, letters and numbers</span></label>
+            <input class="fld" id="pwNew" type="password" autocomplete="new-password">
+            <div class="row"><button class="btn" type="button" id="savePw">Update password</button></div>
+          </div>
+        </div>
+        <div class="set-col">
+          <div class="card pad rv"><h3>Appearance</h3><div class="chips seg" id="themeSeg"><button type="button" class="chip" data-v="light">Light</button><button type="button" class="chip" data-v="dark">Dark</button></div></div>
+          <div class="card pad rv"><h3>Your data</h3><p class="mut small0">Scans and vouchers are stored in this browser only. Download a copy any time.</p>
+            <div class="row"><button class="btn ghost" type="button" id="exportData">Download my data</button><button class="btn ghost" type="button" id="clearData">Clear scans and vouchers</button></div></div>
+          <div class="card pad rv danger"><h3>Delete account</h3><p class="mut small0">Removes your account and all your data from this browser. This cannot be undone.</p>
+            <div class="row"><button class="btn danger-b" type="button" id="delAcc">Delete my account</button></div></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<nav class="dock" id="dock" aria-label="App sections"></nav>
+<div class="toast" id="toast" role="status"></div>
+<script src="app.js"></script>
+</body>
+</html>

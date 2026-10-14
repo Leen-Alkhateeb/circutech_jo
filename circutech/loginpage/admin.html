@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin | CircuTech Jo</title>
+<style>
+:root{--g:#0d3b2e;--t:#0f766e;--bg:#f4f9f5;--line:#dbe7e0;--mut:#5b6b63;--soft:#eef5f0;--warn:#b42318}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;background:var(--bg);color:#06251a;display:flex;min-height:100vh}
+aside{width:230px;background:linear-gradient(180deg,#0f4636,#061f18);color:#fff;padding:20px 12px;display:flex;flex-direction:column;gap:18px;position:sticky;top:0;height:100vh}
+aside>b{padding:0 10px;font-size:16px}aside em{font-style:normal;background:#a8e6c0;color:#08301d;font-size:9px;padding:2px 6px;border-radius:4px;margin-left:4px}
+nav{display:grid;gap:3px}nav a{padding:11px 14px;border-radius:10px;color:#ffffffb8;font-size:13px;font-weight:500;cursor:pointer}
+nav a.on,nav a:hover{background:#ffffff1f;color:#fff}
+#out{margin-top:auto;padding:10px;border:1px solid #ffffff40;border-radius:10px;background:none;color:#fff;cursor:pointer}
+main{flex:1;padding:28px 34px;min-width:0}h1{font-size:26px;margin-bottom:20px}h3{font-size:15px;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:20px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:16px}
+.k small{color:var(--mut);font-size:12px}.k b{display:block;font-size:28px;color:var(--t);margin-top:4px}
+table{width:100%;border-collapse:collapse;font-size:13px}th{text-align:left;color:var(--mut);font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+th,td{padding:10px 8px;border-bottom:1px solid var(--line)}.wrap{overflow-x:auto}
+input,select{padding:10px 12px;border:1px solid var(--line);border-radius:10px;font:inherit;font-size:13px}
+.frm{display:flex;flex-wrap:wrap;gap:10px;align-items:end}.frm label{font-size:11px;font-weight:600;color:var(--mut);display:grid;gap:4px}
+button.b{padding:10px 18px;border:0;border-radius:99px;background:#ff5a38;color:#fff;font-weight:600;cursor:pointer}
+button.b.g{background:#fff;color:#06251a;border:1px solid var(--line)}button.d{background:none;border:0;color:var(--warn);cursor:pointer;font-weight:600}
+.bar{display:grid;grid-template-columns:110px 1fr 36px;gap:10px;align-items:center;font-size:12px;margin:7px 0}
+.bar i{display:block;height:10px;border-radius:6px;background:linear-gradient(90deg,#0d3b2e,#1b9a6c)}
+.tag{padding:3px 9px;border-radius:99px;background:var(--soft);font-size:11px;font-weight:700;color:var(--t)}.tag.w{background:#fef3c7;color:#92400e}
+.note{font-size:12px;color:var(--mut);margin-top:10px}
+@media(max-width:800px){body{flex-direction:column}aside{width:auto;height:auto;position:static}nav{display:flex;overflow-x:auto}main{padding:18px}}
+</style></head><body>
+<aside><b>CircuTech Jo <em>Admin</em></b><nav id="nav"></nav><button id="out">Log out</button></aside>
+<main><h1 id="t"></h1><div id="v"></div></main>
+<script>
+const L = localStorage, S = sessionStorage, LOGIN = '../loginpage/login.html';
+const J = (s, k, f) => { try { return JSON.parse(s.getItem(k)) ?? f; } catch { return f; } };
+const W = (k, v) => L.setItem(k, JSON.stringify(v));
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const me = J(S, 'circutech_session', null);
+if (!me || me.role !== 'admin') location.replace(LOGIN);
+
+/* ---- data ---- */
+const DEF_PLACES = [
+  { name: 'Abdali Collection Point', area: 'Amman · Abdali', hours: 'Sun to Thu 9:00 to 18:00', days: [0,1,2,3,4], open: 9, close: 18, q: 'Abdali, Amman, Jordan' },
+  { name: 'Sweifieh Collection Point', area: 'Amman · Sweifieh', hours: 'Daily 10:00 to 20:00', days: [0,1,2,3,4,5,6], open: 10, close: 20, q: 'Sweifieh, Amman, Jordan' },
+  { name: 'Irbid City Center', area: 'Irbid · City Center', hours: 'Sun to Thu 9:00 to 17:00', days: [0,1,2,3,4], open: 9, close: 17, q: 'Irbid City Center, Jordan' },
+  { name: 'Aqaba Collection Point', area: 'Aqaba · Downtown', hours: 'Sun to Thu 9:00 to 16:00', days: [0,1,2,3,4], open: 9, close: 16, q: 'Aqaba, Jordan' }];
+const DEF_TIERS = [[500, 5, 'Grocery voucher'], [1500, 15, 'Electronics voucher'], [3000, 30, 'Shopping voucher']];
+const users = () => J(L, 'circutech_users', []);
+const places = () => J(L, 'circutech_places', null) || DEF_PLACES;
+const tiers = () => J(L, 'circutech_tiers', null) || DEF_TIERS;
+const keys = p => Object.keys(L).filter(k => k.startsWith(p));
+const mail = k => k.slice(k.indexOf(':') + 1);
+const scansOf = e => J(L, 'circutech_scans:' + e, []);
+const allScans = () => keys('circutech_scans:').flatMap(k => scansOf(mail(k)).map(s => ({ ...s, email: mail(k) }))).sort((a, b) => b.date - a.date);
+const allVouchers = () => keys('circutech_vouchers:').flatMap(k => J(L, k, []).map(v => ({ ...v, email: mail(k) })));
+const bizList = () => keys('circutech_biz:').map(k => ({ key: k, email: mail(k), ...J(L, k, {}) }));
+const sum = (a, f) => a.reduce((x, y) => x + (+f(y) || 0), 0);
+const d = t => new Date(t).toLocaleDateString();
+
+/* ---- tabs ---- */
+const TABS = {
+  overview() {
+    const s = allScans(), u = users().filter(x => x.role !== 'admin'), b = bizList();
+    const pend = sum(b, x => (x.pickups || []).filter(p => !p.status).length);
+    const k = (l, v) => `<div class="card k"><small>${l}</small><b>${v}</b></div>`;
+    const byType = {}; s.forEach(x => byType[x.device] = (byType[x.device] || 0) + 1);
+    const max = Math.max(1, ...Object.values(byType));
+    return `<div class="grid">${k('Users', u.length)}${k('Devices scanned', s.length)}${k('Estimated value (JOD)', Math.round(sum(s, x => x.mid)))}
+      ${k('kg CO₂ avoided', Math.round(sum(s, x => x.co2)))}${k('Points earned', Math.round(sum(s, x => x.points)))}${k('Vouchers redeemed', allVouchers().length)}
+      ${k('Businesses', b.length)}${k('Pending pick-ups', pend)}</div>
+      <div class="card"><h3>Devices by type</h3>${Object.entries(byType).map(([n, c]) => `<div class="bar"><span>${esc(n)}</span><div><i style="width:${c / max * 100}%"></i></div><b>${c}</b></div>`).join('') || '<p class="note">No scans yet.</p>'}</div>
+      <p class="note">Demo mode: data comes from this browser's storage. Move it to a real database before launch.</p>`;
+  },
+  users() {
+    const u = users().filter(x => x.role !== 'admin');
+    return `<div class="card wrap"><table><tr><th>Name</th><th>Email</th><th>Joined</th><th>Scans</th><th>Points</th><th></th></tr>
+      ${u.map(x => { const s = scansOf(x.email); return `<tr><td>${esc(x.name)}</td><td>${esc(x.email)}</td><td>${d(x.created)}</td><td>${s.length}</td><td>${Math.round(sum(s, y => y.points))}</td><td><button class="d" data-act="delUser" data-id="${esc(x.email)}">Delete</button></td></tr>`; }).join('') || '<tr><td colspan="6">No users yet.</td></tr>'}</table></div>`;
+  },
+  scans() {
+    const s = allScans();
+    return `<div class="row" style="margin-bottom:12px"><button class="b g" data-act="csv">Export CSV</button></div><div class="card wrap"><table><tr><th>Date</th><th>User</th><th>Device</th><th>Brand</th><th>Condition</th><th>Grade</th><th>Value (JOD)</th><th>CO₂</th><th>Points</th></tr>
+      ${s.map(x => `<tr><td>${d(x.date)}</td><td>${esc(x.email)}</td><td>${esc(x.device)}</td><td>${esc(x.brand)}</td><td>${esc(x.cond)}</td><td>${esc(x.grade)}</td><td>${x.lo}–${x.hi}</td><td>${x.co2}</td><td>${x.points}</td></tr>`).join('') || '<tr><td colspan="9">No scans yet.</td></tr>'}</table></div>`;
+  },
+  places() {
+    return `<div class="card"><h3>Add a collection point</h3><div class="frm">
+      <label>Name<input id="pN" placeholder="Zarqa Collection Point"></label><label>Area<input id="pA" placeholder="Zarqa · Downtown"></label>
+      <label>Opens<input id="pO" type="number" min="0" max="23" value="9" style="width:80px"></label><label>Closes<input id="pC" type="number" min="1" max="24" value="17" style="width:80px"></label>
+      <label>Days<select id="pD"><option value="w">Sun to Thu</option><option value="a">Daily</option></select></label><button class="b" data-act="addPlace">Add</button></div></div>
+      <div class="card wrap"><table><tr><th>Name</th><th>Area</th><th>Hours</th><th></th></tr>${places().map((p, i) => `<tr><td>${esc(p.name)}</td><td>${esc(p.area)}</td><td>${esc(p.hours)}</td><td><button class="d" data-act="delPlace" data-id="${i}">Delete</button></td></tr>`).join('')}</table></div>`;
+  },
+  rewards() {
+    const v = allVouchers();
+    return `<div class="card"><h3>Add a voucher tier</h3><div class="frm"><label>Points needed<input id="rP" type="number" min="1" value="1000"></label><label>Value (JOD)<input id="rJ" type="number" min="1" value="10"></label><label>Name<input id="rN" placeholder="Fuel voucher"></label><button class="b" data-act="addTier">Add</button></div></div>
+      <div class="card wrap"><h3>Voucher tiers</h3><table><tr><th>Name</th><th>Points</th><th>Value</th><th></th></tr>${tiers().map((t, i) => `<tr><td>${esc(t[2])}</td><td>${t[0]}</td><td>JOD ${t[1]}</td><td><button class="d" data-act="delTier" data-id="${i}">Delete</button></td></tr>`).join('')}</table></div>
+      <div class="card wrap"><h3>Redeemed vouchers (${v.length})</h3><table><tr><th>Date</th><th>User</th><th>Voucher</th><th>Code</th></tr>${v.map(x => `<tr><td>${d(x.date)}</td><td>${esc(x.email)}</td><td>${esc(x.name)} · JOD ${x.jod}</td><td>${esc(x.code)}</td></tr>`).join('') || '<tr><td colspan="4">None yet.</td></tr>'}</table></div>`;
+  },
+  business() {
+    const rows = bizList().flatMap(b => (b.pickups || []).map((p, i) => ({ b, p, i })));
+    return `<div class="card wrap"><h3>Businesses (${bizList().length})</h3><table><tr><th>Company</th><th>Industry</th><th>Employees</th><th>Owner</th></tr>${bizList().map(b => `<tr><td>${esc(b.company)}</td><td>${esc(b.industry)}</td><td>${b.staff}</td><td>${esc(b.email)}</td></tr>`).join('') || '<tr><td colspan="4">None yet.</td></tr>'}</table></div>
+      <div class="card wrap"><h3>Pick-up requests</h3><table><tr><th>Company</th><th>Devices</th><th>Type</th><th>Date</th><th>Area</th><th>Status</th><th></th></tr>
+      ${rows.map(({ b, p, i }) => `<tr><td>${esc(b.company)}</td><td>${p.n}</td><td>${esc(p.type)}</td><td>${esc(p.date || '-')}</td><td>${esc(p.area)}</td><td><span class="tag ${p.status ? '' : 'w'}">${p.status || 'Requested'}</span></td><td>${p.status ? '' : `<button class="d" style="color:var(--t)" data-act="confirm" data-id="${esc(b.key)}|${i}">Confirm</button>`}</td></tr>`).join('') || '<tr><td colspan="7">No requests.</td></tr>'}</table></div>`;
+  }
+};
+const TITLES = { overview: 'Overview', users: 'Users', scans: 'All scans', places: 'Collection points', rewards: 'Rewards', business: 'Businesses & pick-ups' };
+
+function go() {
+  const id = TABS[location.hash.slice(1)] ? location.hash.slice(1) : 'overview';
+  document.getElementById('nav').innerHTML = Object.keys(TABS).map(k => `<a href="#${k}" class="${k === id ? 'on' : ''}">${TITLES[k]}</a>`).join('');
+  document.getElementById('t').textContent = TITLES[id];
+  document.getElementById('v').innerHTML = TABS[id]();
+}
+addEventListener('hashchange', go);
+
+/* ---- actions ---- */
+const $ = id => document.getElementById(id);
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-act]'); if (!b) return;
+  const a = b.dataset.act, id = b.dataset.id;
+  if (a === 'delUser') {
+    if (!confirm('Delete this user and all their data?')) return;
+    W('circutech_users', users().filter(x => x.email !== id));
+    ['scans', 'spent', 'vouchers', 'biz'].forEach(k => L.removeItem('circutech_' + k + ':' + id));
+  }
+  if (a === 'addPlace') {
+    const name = $('pN').value.trim(), area = $('pA').value.trim(), o = +$('pO').value, c = +$('pC').value, all = $('pD').value === 'a';
+    if (!name || !area || c <= o) return alert('Fill the name, area and valid hours.');
+    W('circutech_places', [...places(), { name, area, open: o, close: c, days: all ? [0,1,2,3,4,5,6] : [0,1,2,3,4], hours: `${all ? 'Daily' : 'Sun to Thu'} ${o}:00 to ${c}:00`, q: area.replace('·', ',') + ', Jordan' }]);
+  }
+  if (a === 'delPlace') W('circutech_places', places().filter((_, i) => i !== +id));
+  if (a === 'addTier') {
+    const p = +$('rP').value, j = +$('rJ').value, n = $('rN').value.trim();
+    if (!p || !j || !n) return alert('Fill all fields.');
+    W('circutech_tiers', [...tiers(), [p, j, n]].sort((x, y) => x[0] - y[0]));
+  }
+  if (a === 'delTier') W('circutech_tiers', tiers().filter((_, i) => i !== +id));
+  if (a === 'confirm') { const [k, i] = id.split('|'); const biz = J(L, k, {}); biz.pickups[+i].status = 'Confirmed'; W(k, biz); }
+  if (a === 'csv') {
+    const rows = [['Date', 'User', 'Device', 'Brand', 'Condition', 'Grade', 'Min', 'Max', 'CO2', 'Points'], ...allScans().map(x => [new Date(x.date).toISOString().slice(0, 10), x.email, x.device, x.brand, x.cond, x.grade, x.lo, x.hi, x.co2, x.points])];
+    const l = document.createElement('a');
+    l.href = URL.createObjectURL(new Blob(['\ufeff' + rows.map(r => r.map(v => '"' + String(v).replace(/"/g, '""') + '"').join(',')).join('\n')], { type: 'text/csv' }));
+    l.download = 'circutech-all-scans.csv'; l.click(); return;
+  }
+  go();
+});
+$('out').onclick = () => { S.removeItem('circutech_session'); location.href = LOGIN; };
+go();
+</script></body></html>
