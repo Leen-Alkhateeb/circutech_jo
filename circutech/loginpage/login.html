@@ -116,15 +116,22 @@ async function check(u, pass) {                      // يدعم الحسابا�
 
 /* ---- default demo admin; password is stored as a salted PBKDF2 hash ---- */
 const ADMIN_EMAIL = 'admin@circutech.com';
-const ADMIN_SALT = 'IW/cKjjwdeAfJkirX8weiw==';
-const ADMIN_HASH = 'wYIvT746Nr9pPA9ID6cRvX2B0h8z1D7VKo/QuaC/1/w=';
+const ADMIN_SALT = 'cAHDZdoubcEaGZJK1TBUZg==';
+const ADMIN_HASH = '0ofssjNbotWOwih/5kR42SOk0Yw2NT0uzxPJAbLKyzw=';
 const LEGACY_ADMIN_EMAIL = 'admin@circutech.jo';
+const PREVIOUS_DEMO_ADMIN_SALT = 'IW/cKjjwdeAfJkirX8weiw==';
 const ready = (async () => {
   const list = rd('circutech_users', []);
   if (!Array.isArray(list)) return;
   let changed = false;
   const canonical = list.find(user => String(user.email).toLowerCase() === ADMIN_EMAIL);
   const legacyIndex = list.findIndex(user => String(user.email).toLowerCase() === LEGACY_ADMIN_EMAIL && user.role === 'admin');
+  if (canonical && canonical.role === 'admin' && canonical.salt === PREVIOUS_DEMO_ADMIN_SALT) {
+    canonical.salt = ADMIN_SALT;
+    canonical.hash = ADMIN_HASH;
+    delete canonical.pass;
+    changed = true;
+  }
   if (!canonical && legacyIndex >= 0) {
     const legacy = list[legacyIndex];
     legacy.name = 'CircuTech Admin';
